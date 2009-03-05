@@ -22,4 +22,5 @@ production:
   database: radiant_live
   username: root
   password:
-  socket: /tmp/mysql.sock
+  host: localhost
+  encoding: utf8
