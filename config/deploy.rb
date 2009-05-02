@@ -38,7 +38,7 @@ task :after_update_code, :roles => :app do
   
   # Populate production element
   buffer['production']['adapter'] = "mysql"
-  buffer['production']['database'] = "48bottles"
+  buffer['production']['database'] = "four8bottles"
   buffer['production']['username'] = "tgl"
   buffer['production']['password'] = production_database_password
   buffer['production']['host'] = "localhost"
