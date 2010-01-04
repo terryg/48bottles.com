@@ -70,7 +70,7 @@ set :user, "tgl"
 namespace :deploy do
   desc "The restart webserver"
   task :restart, :roles => :app do
-    run "cd /users/home/tgl; ./etc/rc.d/48bottles.sh"
+    run "cd /users/home/tgl; ./etc/rc.d/48bottles-fcgi.sh"
   end
 end
 
