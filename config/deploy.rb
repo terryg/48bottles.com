@@ -88,7 +88,7 @@ duction database remote Password : ") }
   
   # Populate production element
   buffer['production']['adapter'] = "mysql"
-  buffer['production']['database'] = "48bottles"
+  buffer['production']['database'] = "fortyeightbottles_production"
   buffer['production']['username'] = "tgl"
   buffer['production']['password'] = production_database_password
   buffer['production']['host'] = "localhost"
