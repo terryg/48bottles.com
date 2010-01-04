@@ -78,8 +78,7 @@ end
 desc "After updating code we need to populate a new database.yml"
 task :after_update_code, :roles => :app do
   require "yaml"
-  set :production_database_password, proc { Capistrano::CLI.password_prompt("Pro
-duction database remote Password : ") }
+  set :production_database_password, proc { Capistrano::CLI.password_prompt("Production database remote Password : ") }
   
   buffer = YAML::load_file('config/database.example.yml')
   # get ride of uneeded configurations
