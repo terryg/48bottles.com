@@ -26,10 +26,12 @@ files:
 - lib/sham.rb
 has_rdoc: false
 homepage: http://github.com/notahat/machinist
+licenses: 
 post_install_message: 
 rdoc_options: []
 
 require_paths: 
+- bin
 - lib
 required_ruby_version: !ruby/object:Gem::Requirement 
   requirements: 
@@ -46,7 +48,7 @@ required_rubygems_version: !ruby/object:Gem::Requirement
 requirements: []
 
 rubyforge_project: 
-rubygems_version: 1.3.1
+rubygems_version: 1.3.5
 signing_key: 
 specification_version: 2
 summary: Fixtures aren't fun. Machinist is.
