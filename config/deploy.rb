@@ -10,8 +10,8 @@
 # correspond to. The deploy_to path must be the path on each machine that will
 # form the root of the application path.
 
-set :application, "mephisto"
-set :repository, "http://svn.techno-weenie.net/projects/mephisto"
+set :application, "48bottles.com"
+set :repository, "http://tgl.textdriven.com/svn/#{application}/trunk"
 
 # =============================================================================
 # RAILS VERSION
@@ -19,10 +19,10 @@ set :repository, "http://svn.techno-weenie.net/projects/mephisto"
 # Use this to freeze your deployment to a specific rails version.  Uses the rake
 # init task run in after_symlink below.
 
-set :rails_version, 4928
+# set :rails_version, 4928
 
 # TODO: test this works and I can remove the restart task and use the cleanup task
-# set :use_sudo, false
+set :use_sudo, false
 
 # =============================================================================
 # ROLES
@@ -33,10 +33,9 @@ set :rails_version, 4928
 # be used to single out a specific subset of boxes in a particular role, like
 # :primary => true.
 
-role :web, "www01.example.com", "www02.example.com"
-role :app, "app01.example.com", "app02.example.com", "app03.example.com"
-role :db,  "db01.example.com", :primary => true
-role :db,  "db02.example.com", "db03.example.com"
+role :web, "tgl.textdriven.com"
+role :app, "tgl.textdriven.com"
+role :db,  "tgl.textdriven.com", :primary => true
 
 # =============================================================================
 # OPTIONAL VARIABLES
@@ -48,6 +47,9 @@ role :db,  "db02.example.com", "db03.example.com"
 # set :darcs, "/path/to/darcs"   # defaults to searching the PATH
 # set :cvs, "/path/to/cvs"       # defaults to searching the PATH
 # set :gateway, "gate.host.com"  # default to no gateway
+
+set :deploy_to, "/users/home/tgl/domains/#{application}/web"
+set :user, "tgl"
 
 # =============================================================================
 # SSH OPTIONS
@@ -64,15 +66,33 @@ role :db,  "db02.example.com", "db03.example.com"
 # must match the options given for the servers to select (like :primary => true)
 
 # no sudo access on txd :)
-desc "Restart the FCGI processes on the app server."
-task :restart, :roles => :app do
-  run "ruby #{current_path}/script/process/reaper -d #{deploy_to}/current/public/dispatch.fcgi"
+
+namespace :deploy do
+  desc "The restart webserver"
+  task :restart, :roles => :app do
+    run "cd /users/home/tgl; ./etc/rc.d/48bottles.sh"
+  end
 end
 
-desc "Checks out rails rev ##{rails_version}"
-task :after_symlink do
-  run <<-CMD
-    cd #{current_release} &&
-    rake init REVISION=#{rails_version} RAILS_PATH=/home/technoweenie/projects/rails
-  CMD
+
+desc "After updating code we need to populate a new database.yml"
+task :after_update_code, :roles => :app do
+  require "yaml"
+  set :production_database_password, proc { Capistrano::CLI.password_prompt("Pro
+duction database remote Password : ") }
+  
+  buffer = YAML::load_file('config/database.example.yml')
+  # get ride of uneeded configurations
+  buffer.delete('test')
+  buffer.delete('development')
+  
+  # Populate production element
+  buffer['production']['adapter'] = "mysql"
+  buffer['production']['database'] = "48bottles"
+  buffer['production']['username'] = "tgl"
+  buffer['production']['password'] = production_database_password
+  buffer['production']['host'] = "localhost"
+              
+  put YAML::dump(buffer), "#{release_path}/config/database.yml", :mode => 0664
 end
+
