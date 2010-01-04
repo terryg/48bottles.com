@@ -92,6 +92,7 @@ rdoc_options:
 - -t CodeRay Documentation
 require_paths: 
 - bin
+- bin
 - lib
 required_ruby_version: !ruby/object:Gem::Requirement 
   requirements: 
