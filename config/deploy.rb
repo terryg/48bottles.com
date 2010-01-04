@@ -95,3 +95,9 @@ task :after_update_code, :roles => :app do
   put YAML::dump(buffer), "#{release_path}/config/database.yml", :mode => 0664
 end
 
+desc "After symlink, switch to shared themes directory"
+task :after_symlink, :roles => :app do
+  run "mv #{release_path}/app/themes #{release_path}/app/themes.local"
+  run "ln -s #{shared_path}/themes #{release_path}/app/themes"
+end
+
