@@ -1,84 +1,115 @@
 require 'digest/sha1'
-
 class User < ActiveRecord::Base
+  @@admin_scope = {:find => { :conditions => ['admin = ?', true] } }
+  @@membership_options = {:select => 'distinct users.*, memberships.admin as site_admin', :order => 'users.login',
+    :joins => 'left outer join memberships on users.id = memberships.user_id'}
+
+  # Virtual attribute for the unencrypted password
+  attr_accessor :password
   
-  # Default Order
-  order_by 'name'
+  #Only these can be modified through bulk-setters like update_attributes, new, create
+  attr_accessible :login, :email, :password, :password_confirmation, :filter
   
-  # Associations
-  belongs_to :created_by, :class_name => 'User'
-  belongs_to :updated_by, :class_name => 'User'
-  
-  # Validations
-  validates_uniqueness_of :login, :message => 'login already in use'
-  
-  validates_confirmation_of :password, :message => 'must match confirmation', :if => :confirm_password?
-  
-  validates_presence_of :name, :login, :message => 'required'
-  validates_presence_of :password, :password_confirmation, :message => 'required', :if => :new_record?
-  
-  validates_format_of :email, :message => 'invalid e-mail address', :allow_nil => true, :with => /^$|^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-  
-  validates_length_of :name, :maximum => 100, :allow_nil => true, :message => '%d-character limit'
-  validates_length_of :login, :within => 3..40, :allow_nil => true, :too_long => '%d-character limit', :too_short => '%d-character minimum'
-  validates_length_of :password, :within => 5..40, :allow_nil => true, :too_long => '%d-character limit', :too_short => '%d-character minimum', :if => :validate_length_of_password?
-  validates_length_of :email, :maximum => 255, :allow_nil => true, :message => '%d-character limit'
-  
-  validates_numericality_of :id, :only_integer => true, :allow_nil => true, :message => 'must be a number'
-    
-  attr_writer :confirm_password
-  
-  def sha1(phrase)
-    Digest::SHA1.hexdigest("--#{salt}--#{phrase}--")
+  validates_presence_of     :login, :email
+  validates_format_of       :email, :with => Format::EMAIL
+  validates_presence_of     :password,                   :if => :password_required?
+  validates_presence_of     :password_confirmation,      :if => :password_required?
+  validates_length_of       :password, :within => 5..40, :if => :password_required?
+  validates_confirmation_of :password,                   :if => :password_required?
+  validates_length_of       :login,    :within => 3..40
+  validates_uniqueness_of   :login, :email, :case_sensitve => false
+  before_save :encrypt_password
+
+  has_many :articles
+  acts_as_paranoid
+
+  has_many :memberships, :dependent => :destroy
+  has_many :sites, :through => :memberships, :order => 'title, host'
+
+  def self.find_admins(*args)
+    with_scope(@@admin_scope) { find *args }
+  end
+
+  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
+  def self.authenticate_for(site, login, password)
+    return nil if site.nil? || login.nil? || login.blank? || password.nil? || password.blank?
+    u = find(:first, @@membership_options.merge(
+      :conditions => ['users.login = ? and (memberships.site_id = ? or users.admin = ?)', login, site.id, true]))
+    u && u.authenticated?(password) ? u : nil
+  end
+
+  def self.find_by_site(site, id)
+    with_deleted_scope { find_by_site_with_deleted(site, id) }
+  end
+
+  def self.find_by_site_with_deleted(site, id)
+    find_with_deleted(:first, @@membership_options.merge(
+      :conditions => ['users.id = ? and (memberships.site_id = ? or users.admin = ?)', id, site.id, true]))
+  end
+
+  def self.find_all_by_site(site, options = {})
+    with_deleted_scope { find_all_by_site_with_deleted(site, options) }
+  end
+
+  def self.find_all_by_site_with_deleted(site, options = {})
+    find_with_deleted(:all, @@membership_options.merge(options.reverse_merge(:conditions => ['memberships.site_id = ? or users.admin = ?', site.id, true]))).uniq
+  end
+
+  def self.find_by_token(site, token)
+    return nil if site.nil? || token.nil? || token.blank?
+    find(:first, @@membership_options.merge(:conditions => ['token = ? and token_expires_at > ? and (memberships.site_id = ? or users.admin = ?)', token, Time.now.utc, site.id, true]))
   end
   
-  def self.authenticate(login, password)
-    user = find_by_login(login)
-    user if user && user.authenticated?(password)
+  def self.find_by_email(site, email)
+    find(:first, @@membership_options.merge(:conditions => ['email = ? and (memberships.site_id = ? or users.admin = ?)', email, site.id, true]))
   end
-  
+
+  # Encrypts some data with the salt.
+  def self.encrypt(password, salt)
+    Digest::SHA1.hexdigest("--#{salt}--#{password}--")
+  end
+
+  # Encrypts the password with the user salt
+  def encrypt(password)
+    self.class.encrypt(password, salt)
+  end
+
   def authenticated?(password)
-    self.password == sha1(password)
-  end
-  
-  def after_initialize
-    @confirm_password = true
-  end
-  
-  def confirm_password?
-    @confirm_password
+    crypted_password == encrypt(password)
   end
 
-  def remember_me
-    update_attribute(:session_token, sha1(Time.now + Radiant::Config['session_timeout'].to_i)) unless self.session_token?
+  def token?
+    token_expires_at && Time.now.utc < token_expires_at 
   end
 
-  def forget_me
-    update_attribute(:session_token, nil)
+  # The site admin property is brought in from memberships.admin, when joined with the sites table.
+  def site_admin?
+    ActiveRecord::ConnectionAdapters::Column.value_to_boolean read_attribute(:site_admin)
   end
 
-  private
-  
-    def validate_length_of_password?
-      new_record? or not password.to_s.empty?
+  def reset_token!
+    returning self.token = rand_key do |t|
+      self.token_expires_at = 2.weeks.from_now.utc
+      save!
     end
-  
-    before_create :encrypt_password
+  end
+
+  def to_liquid
+    UserDrop.new self
+  end
+
+  protected
     def encrypt_password
-      self.salt = Digest::SHA1.hexdigest("--#{Time.now}--#{login}--sweet harmonious biscuits--")
-      self.password = sha1(password)
+      return if password.blank?
+      self.salt = rand_key if new_record?
+      self.crypted_password = encrypt(password)
     end
-  
-    before_update :encrypt_password_unless_empty_or_unchanged
-    def encrypt_password_unless_empty_or_unchanged
-      user = self.class.find(self.id)
-      case password
-      when ''
-        self.password = user.password
-      when user.password  
-      else
-        encrypt_password
-      end
+    
+    def password_required?
+      crypted_password.nil? || !password.blank?
     end
-
+    
+    def rand_key
+      Digest::SHA1.hexdigest("--#{Time.now.to_s.split(//).sort_by {rand}.join}--#{login}--")
+    end
 end
