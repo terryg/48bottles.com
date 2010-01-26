@@ -1,0 +1,8 @@
+<%= start_form_tag({}, {:id=>'activate'}) %>
+<div class="little-box">
+  <dl>
+    <dt><%= label_tag "activation_code", "Activation Code" %></dt>
+    <dd><%= text_field_tag(:activation_code, params[:activation_code], :class=>'big', :size=>50 ) %></dd>
+  </dl>
+  <p class="btns"><%= submit_tag 'Activate' %></p>
+<%= end_form_tag %>

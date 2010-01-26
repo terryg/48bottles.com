@@ -1,0 +1,28 @@
+<div class="little-box">
+<%= start_form_tag({:controller=>:account, :action=>:login}, { :id => 'login_form' }) %>
+<%= hidden_field_tag "referrer", @referrer %>
+  <dl>
+    <dt><%= label_tag 'login', 'Login' %></dt>
+    <dd><%= text_field_tag 'login', @login, :class => 'big' %></dd>
+    <dt><%= label_tag 'password', 'Password' %></dt>
+    <dd><%= password_field_tag 'password', {}, :class => 'big' %></dd>
+    <dt></dt>
+    <dd>
+      <%= check_box_tag 'remember_me' %> 
+      <label for="remember_me">Remember Me</label>
+    </dd>
+  </dl>
+  <p class="btns"><%= submit_tag 'Sign in' %></p>
+<%= end_form_tag %>
+</div>
+
+<br />
+<% if user=flash[:user_to_activate] -%>
+<div class="little-box">
+<%= start_form_tag({:controller=>:account, :action=>:send_activation_code}, { :id => 'send_activation_code_form' }) %>
+  <p>Click the button below to send another activation code to <%=user.email%>.</p>
+  <%= hidden_field_tag 'id', user.id %>
+  <p class="btns"><%= submit_tag 'Resend code' %></p>
+<%= end_form_tag %>
+</div>
+<% end -%>

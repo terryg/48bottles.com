@@ -1,0 +1,115 @@
+require(File.join(File.dirname(__FILE__), '..','..','..','config','boot'))
+require(File.join(RAILS_ROOT, 'config', 'environment'))
+
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+
+RAILS_PATH = Pathname.new(File.expand_path(RAILS_ROOT))
+PLUGIN_PATH = Pathname.new(File.dirname(__FILE__))
+
+desc 'Default: run unit tests.'
+task :default => :test
+
+desc 'Test the mephisto_threaded_comments plugin.'
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end
+
+desc 'Generate documentation for the mephisto_threaded_comments plugin.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'Mephisto Threaded Comments'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+desc 'Install plugin'
+task :install => ['install:copy_migrations', 'install:copy_theme', 'install:copy_views']
+
+namespace :install do
+  desc "Copy migrations for table updates"
+  task :copy_migrations do
+    plugin_migrations_dir = PLUGIN_PATH.join('db','migrate')
+    if plugin_migrations_dir.exist?
+      rails_migrations_dir = RAILS_PATH.join('db','migrate')
+
+      def get_migrations(dir)
+        Dir.entries(dir).find_all{|f| f =~ /[\d]+_[\w\s]+\.rb$/}
+      end
+      
+      migrations = get_migrations(rails_migrations_dir)
+      max_migration = (migrations.collect{|f| f.split('_',2)[0].to_i}).max
+      for f in get_migrations(plugin_migrations_dir).sort
+        root = f.split('_',2)[1]
+        if m = migrations.find {|m| m.split('_',2)[-1] == root}
+          puts "Migration #{m} already exists"
+        else
+          max_migration += 1
+          puts "Copying #{plugin_migrations_dir + f} to #{rails_migrations_dir}/#{'%03d'%max_migration}_#{root}"
+          File.syscopy(plugin_migrations_dir + f, "#{rails_migrations_dir}/#{'%03d'%max_migration}_#{root}")
+          puts "Be sure to run 'rake migrate' on your database"
+        end
+      end
+    end
+  end
+
+  desc "Copy themes"
+  task :copy_theme do
+    site_id = ENV['SITE_ID'] || '1'
+    for dir in ['templates'] do
+      plugin_dir = PLUGIN_PATH.join('themes', dir)
+      if plugin_dir.exist?
+        mephisto_dir = RAILS_PATH.join('themes', 'site-'+site_id, dir)
+        FileUtils.mkdir mephisto_dir if not mephisto_dir.exist? # make dir if necessary
+        mephisto_files = mephisto_dir.children
+        
+        for f in plugin_dir.children.find_all {|f| f =~ /\.liquid$/}
+          full_filename = plugin_dir + f
+          if mephisto_files.include?(f)
+            # create a backup unless one already exists
+            if mephisto_files.include?(f+'.bak')
+              puts "Skipping #{f}"
+              next
+            else
+              # creating backup
+              puts "Backing up #{f} to #{f}.bak"
+              File.syscopy(mephisto_dir + f, ((mephisto_dir + f).to_s) + '.bak')
+            end
+          end
+          puts "Copying #{f} to #{mephisto_dir}"
+          File.syscopy(full_filename, mephisto_dir)
+        end
+      end
+    end
+  end
+
+  desc "Copy views"
+  task :copy_views do
+    plugin_views = PLUGIN_PATH + 'views'
+    mephisto_views = RAILS_PATH.join('app', 'views')
+    for view_dir in plugin_views.children.select(&:directory?)
+      mephisto_dir = mephisto_views.join(view_dir.relative_path_from(plugin_views))
+      FileUtils.mkdir mephisto_dir if not mephisto_dir.exist?
+      for file in view_dir.children
+        mfile = mephisto_dir.join(file.relative_path_from(view_dir))
+        if mfile.exist?
+          backup = Pathname.new(mephisto_dir.join(file.relative_path_from(view_dir)).to_s+'.bak')
+          if backup.exist?
+            puts "Skipping #{file.relative_path_from(plugin_views)} (backup already exists)"
+            next
+          else
+            puts "backing up #{mfile.relative_path_from(mephisto_views)}"
+            File.syscopy(mfile, backup)
+          end
+        end
+        puts "copying #{file.relative_path_from(plugin_views)}"
+        File.syscopy(file, mfile)
+      end
+    end
+  end
+
+end
