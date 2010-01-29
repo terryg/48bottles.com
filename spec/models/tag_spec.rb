@@ -1,63 +1,65 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Tag, "#parse" do
-  before :each do
-    Tag.destroy_all
-    @ruby_tag = Tag.make(:name => 'ruby')
-    %w(rails mongrel plugin).each {|t| Tag.make(:name => t) }
+describe 'Given loaded fixtures' do
+  it 'we can Tag.get by name' do
+    Tag.get('foo').should == tags(:foo)
   end
 
-  describe "#parse" do
-    it "parses comma separated tags" do
-      Tag.parse('a,b,c').should  == %w(a b c)
-      Tag.parse('a, b c').should == %w(a b\ c)
-    end
-    
-    it "parses simple tags" do
-      Tag.parse('"a" "b" "c"').should == %w(a b c)
-    end
-    
-    it "parses space delimited tags" do
-      Tag.parse('a b c').should == %w(a b c)
-    end
-    
-    it "parses tags with double quotes" do
-      Tag.parse('tagging, it"s, weirdness').should == %w(tagging it"s weirdness)
-    end
-    
-    it "parses tags with single quotes" do
-      Tag.parse('"tagging" "it\'s" "weirdness"').should == %w(tagging it's weirdness)
-    end
-    
-    it "parses tags with quotes and spaces" do
-      Tag.parse('"tagging" "it\'s weirdness"').should == %w(tagging it's\ weirdness)
-    end
-    
-    it "returns tag array" do
-      Tag.parse(%w(a b c)).should == %w(a b c)
-    end
-    
-    it "returns unique tags" do
-      ["a, b, b", %("a" "b" " b ")].each do |input|
-        Tag.parse(input).should == %w(a b)
-      end
-    end
+  it 'tags are unique' do
+    lambda {Tag.create!(:name => 'test')}.should_not raise_error
+
+    test_tag = Tag.new(:name => 'test')
+    test_tag.should_not be_valid
+    test_tag.errors.on(:name).should == 'has already been taken'
   end
 
-  it "finds or creates tags" do
-    lambda { Tag.find_or_create %w(ruby rails foo) }.should change { Tag.count }.by(1)
+  it 'display names with spaces can be found by joinedupname' do
+    Tag.find(:first, :conditions => {:name => 'Monty Python'}).should be_nil
+    tag = Tag.create(:name => 'Monty Python')
+
+    tag.should be_valid
+    tag.name.should == 'montypython'
+    tag.display_name.should == 'Monty Python'
+
+    tag.should == Tag.get('montypython')
+    tag.should == Tag.get('Monty Python')
+  end
+
+  it 'articles can be tagged' do
+    a = Article.create(:title => 'an article')
+    a.tags << tags(:foo)
+    a.tags << tags(:bar)
+
+    a.reload
+    a.tags.size.should == 2
+    a.tags.sort_by(&:id).should == [tags(:foo), tags(:bar)].sort_by(&:id)
+  end
+
+  it 'find_all_with_article_counters finds 2 tags' do
+    tags = Tag.find_all_with_article_counters
+    tags.should have(2).entries
+
+    tags.first.name.should == "foo"
+    tags.first.article_counter.should == 3
+
+    tags.last.name.should == 'bar'
+    tags.last.article_counter.should == 2
+  end
+
+  it 'permalink_url should be of form /tag/<name>' do
+    Tag.get('foo').permalink_url.should == 'http://myblog.net/tag/foo'
   end
   
-  it "creates tags from comma separated list" do
-    lambda { Tag.parse_to_tags 'ruby, a, b, rails, c' }.should change { Tag.count }.by(3)
+  it "find_with_char('f') should be return foo" do
+    Tag.find_with_char('f').should == [tags(:foo)]
   end
   
-  it "equals tags of the same name" do
-    @ruby_tag.should == 'ruby'
-    @ruby_tag.should == Tag.new(:name => "ruby")
+  it "find_with_char('v') should return empty data" do
+    Tag.find_with_char('v').should == []
   end
   
-  it "selects tags by name" do
-    Tag[:ruby].should == @ruby_tag
+  it "find_with_char('ba') should return tag bar and bazz" do
+    Tag.find_with_char('ba').sort_by(&:id).should == [tags(:bar), tags(:bazz)].sort_by(&:id)
   end
+  
 end

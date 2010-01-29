@@ -1,95 +1,120 @@
-# Be sure to restart your web server when you modify this file.
+# Be sure to restart your webserver when you modify this file.
 
-# Uncomment below to force Rails into production mode when 
-# you don't control web/app server and can't set it the proper way
-# ENV['RAILS_ENV'] ||= 'production'
+# Uncomment below to force Rails into production mode
+# (Use only when you can't set environment variables through your web/app server)
+# ENV['RAILS_ENV'] = 'production'
 
-#require 'rubygems'
-#require 'ruby-debug'
-#Debugger.start
-
-# Mephisto now requires Rails 2.2
-# RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
-require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
-require File.join(File.dirname(__FILE__), '../lib/mephisto/plugin')
-
-# Don't load the application when running rake db:* tasks, because doing so
-# will try to access database tables before they exist.  See
-# http://rails.lighthouseapp.com/projects/8994/tickets/63, which allegedly
-# fixes this problem.  Here's where I got the idea:
-# http://justbarebones.blogspot.com/2008/05/rails-202-restful-authentication-and.html
-def safe_to_load_application?
-  File.basename($0) != "rake" || !ARGV.any? {|a| a =~ /^(db|gems):/ }
-end
-
-# Make sure we a site-specific secret key file.
-unless File.exists?(File.join(File.dirname(__FILE__),
-                              'initializers/session_store.rb'))
-  raise <<EOD
-You need to run 'rake config/initializers/session_store.rb' to create a
-secret key for encrypting session cookies.
-EOD
-end
 
 Rails::Initializer.run do |config|
-  # Settings in config/environments/* take precedence those specified here
-  
   # Skip frameworks you're not going to use
   config.frameworks -= [ :active_resource ]
 
-  config.load_paths += %W( #{RAILS_ROOT}/app/cachers #{RAILS_ROOT}/app/drops #{RAILS_ROOT}/app/filters )
+  # Add additional load paths for your own custom dirs
+  # config.load_paths += %W( #{RAILS_ROOT}/app/services )
 
-  # This gem is a lightly-patched, in-tree version of rubypants.  The
-  # upstream gem was last released in 2004, and needs to be repackaged
-  # before we can treat it like a normal gem.
-  config.load_paths += %W( #{RAILS_ROOT}/vendor/rubypants-0.2.0/lib )
+  # I need the localization plugin to load first
+  # Otherwise, I can't localize plugins <= localization
+  # Forcing manually the load of the textfilters plugins fixes the bugs with apache in production.
+  config.plugins = [ :localization, :all ]
   
-  # NFI why this is here.  find and eradicate the bug.
-  config.load_paths += %W( #{RAILS_ROOT}/vendor/rails/actionwebservice/lib )
+  config.load_paths += %W(
+    vendor/rubypants
+    vendor/akismet
+    vendor/flickr
+    vendor/uuidtools/lib
+    vendor/rails/railties
+    vendor/rails/railties/lib
+    vendor/rails/actionpack/lib
+    vendor/rails/activesupport/lib
+    vendor/rails/activerecord/lib
+    vendor/rails/actionmailer/lib
+    app/apis
+  ).map {|dir| "#{RAILS_ROOT}/#{dir}"}.select { |dir| File.directory?(dir) }
 
-  # Force all environments to use the same logger level 
-  # (by default production uses :info, the others :debug)
-  # config.log_level = :debug
-
-  # Make Active Record use UTC-base instead of local time
-  config.active_record.default_timezone = :utc
+  # Declare the gems in vendor/gems, so that we can easily freeze and/or
+  # install them.
+  config.gem 'htmlentities'
+  config.gem 'json'
+  config.gem 'calendar_date_select'
+  config.gem 'bluecloth', :version => '~> 2.0.5'
+  config.gem 'coderay', :version => '~> 0.8'
+  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
+          :source => 'http://gems.github.com'
+  config.gem 'RedCloth', :version => '~> 4.2.2'
+  config.gem 'panztel-actionwebservice', :version => '2.3.5', :lib => 'actionwebservice'
+  config.gem 'addressable', :version => '~> 2.1.0', :lib => 'addressable/uri'
+  config.gem 'mini_magick', :version => '~> 1.2.5', :lib => 'mini_magick'
   
-  # Use Active Record's schema dumper instead of SQL when creating the test database
-  # (enables use of different database adapters for development and test environments)
-  config.active_record.schema_format = :ruby
+  # Use the database for sessions instead of the file system
+  # (create the session table with 'rake create_sessions_table')
+  config.action_controller.session_store = :active_record_store
 
-  # Register our observers.
-  if safe_to_load_application?
-    config.active_record.observers = [:article_observer, :comment_observer]
-  end
+  # Disable use of the Accept header, since it causes bad results with our
+  # static caching (e.g., caching an atom feed as index.html).
+  config.action_controller.use_accept_header = false
 
-  # Allow table tags in untrusted HTML, but block img tags to prevent
-  # SRC attributes from being used in CSRF attacks.
-  config.action_view.sanitized_allowed_tags = ['table', 'tr', 'td']
-  config.after_initialize do
-    ActionView::Base.sanitized_allowed_tags.delete 'img'
-    ActionView::Base.sanitized_allowed_attributes.delete 'src'
-  end
-
-  # We're slowly moving the contents of vendor and vender/plugins into
-  # vendor/gems by adding config.gem declarations.
-  config.gem 'RedCloth', :version => '3.0.4', :lib => 'redcloth'
-  config.gem 'BlueCloth', :lib => 'bluecloth'
-  config.gem 'faker'
-  config.gem 'notahat-machinist', :lib => 'machinist',
-             :source => 'http://gems.github.com'
-  config.gem 'rubyzip', :lib => 'zip/zipfilesystem'
-  config.gem 'liquid'
-  config.gem 'will_paginate'
-  config.gem 'mocha'
-  config.gem 'coderay'
-  config.gem 'tzinfo', :version => '>= 0.3.12'
-  config.gem 'emk-safe_erb', :version => '>= 0.1.2', :lib => 'safe_erb',
-             :source => 'http://gems.github.com'
+  # Activate observers that should always be running
+  # config.active_record.observers = :cacher, :garbage_collector
+  config.active_record.observers = :email_notifier, :web_notifier
 end
 
-# Don't update this file, make custom tweaks in config/initializers/custom.rb, 
-# or create your own file in config/initializers
+# Load included libraries.
+require 'rubypants'
+require 'uuidtools'
+
+require 'migrator'
+require 'rails_patch/active_record'
+require 'login_system'
+require 'typo_version'
+$KCODE = 'u'
+require 'jcode'
+require 'transforms'
+
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+  :long_weekday => '%a %B %e, %Y %H:%M'
+)
+
+ActionMailer::Base.default_charset = 'utf-8'
+
+# I wanted to put this as a "setup" page, but it seems I can't catch the 
+# exception fast enough and get a 500 error
+#if RAILS_ENV != 'test'
+#  begin
+#    ActiveRecord::Base.connection.select_all("select * from sessions")
+#  rescue
+#    begin
+#      ActiveRecord::Base.connection.current_database
+#      Migrator.migrate
+#    rescue
+#      # if there are no database, migrator doesn't no start
+      # use case : rake db:create in rails tasks
+#    end
+#  end
+#end
+
+# Work around interpolation deprecation problem: %d is replaced by
+# {{count}}, even when we don't want them to.
+# FIXME: We should probably fully convert to standard Rails I18n.
+class I18n::Backend::Simple
+  def interpolate(locale, string, values = {})
+    interpolate_without_deprecated_syntax(locale, string, values)
+  end
+end
+
+if RAILS_ENV != 'test'
+  begin
+    mail_settings = YAML.load(File.read("#{RAILS_ROOT}/config/mail.yml"))
+
+    ActionMailer::Base.delivery_method = mail_settings['method']
+    ActionMailer::Base.server_settings = mail_settings['settings']
+  rescue
+    # Fall back to using sendmail by default
+    ActionMailer::Base.delivery_method = :sendmail
+  end
+end
+
+FLICKR_KEY='84f652422f05b96b29b9a960e0081c50'

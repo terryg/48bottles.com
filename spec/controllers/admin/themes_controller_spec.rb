@@ -1,14 +1,30 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
+require 'admin/themes_controller'
 
-describe Admin::ThemesController do
-  controller_name "admin/themes"
+# Re-raise errors caught by the controller.
+class Admin::ThemesController; def rescue_action(e) raise e end; end
+
+describe Admin::ThemesController, 'ported from the tests' do
   integrate_views
 
-  it "should route /admin/themes/change_to/simpla to the change_to action" do
-    params = { :controller => "admin/themes", :action => "change_to", :id => "simpla" }
-    path = "/admin/themes/change_to/simpla"
-    params_from(:post, path).should == params
-    route_for(params).should == path
+  before do
+    request.session = { :user => users(:tobi).id }
   end
-    
+
+  # Replace this with your real tests.
+  it "test_index" do
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:themes)
+  end
+
+  it "test_switchto" do
+    get :switchto, :theme => 'typographic'
+    assert_response :redirect, :action => 'index'
+  end
+
+  it "test_preview" do
+    get :preview, :theme => 'typographic'
+    assert_response :success
+  end
 end

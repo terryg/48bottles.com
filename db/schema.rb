@@ -9,205 +9,242 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081219130711) do
+ActiveRecord::Schema.define(:version => 86) do
 
-  create_table "assets", :force => true do |t|
-    t.string   "content_type"
-    t.string   "filename"
-    t.integer  "size"
-    t.integer  "parent_id"
-    t.string   "thumbnail"
-    t.integer  "width"
-    t.integer  "height"
-    t.integer  "site_id"
-    t.datetime "created_at"
-    t.string   "title"
-    t.integer  "thumbnails_count", :default => 0
-    t.integer  "user_id"
-  end
-
-  create_table "assigned_assets", :force => true do |t|
-    t.integer  "article_id"
-    t.integer  "asset_id"
-    t.integer  "position"
-    t.string   "label"
-    t.datetime "created_at"
-    t.boolean  "active"
-  end
-
-  create_table "assigned_sections", :force => true do |t|
+  create_table "articles_tags", :id => false, :force => true do |t|
     t.integer "article_id"
-    t.integer "section_id"
-    t.integer "position",   :default => 1
+    t.integer "tag_id"
   end
 
-  add_index "assigned_sections", ["article_id", "section_id"], :name => "idx_a_sections_article_section"
-
-  create_table "cached_pages", :force => true do |t|
-    t.string   "url"
-    t.text     "references"
-    t.datetime "updated_at"
-    t.integer  "site_id"
-    t.datetime "cleared_at"
+  create_table "blacklist_patterns", :force => true do |t|
+    t.string "type"
+    t.string "pattern"
   end
 
-  create_table "content_versions", :force => true do |t|
-    t.integer  "content_id"
-    t.integer  "version"
-    t.integer  "article_id"
-    t.integer  "user_id"
-    t.string   "title"
-    t.string   "permalink"
-    t.text     "excerpt"
-    t.text     "body"
-    t.text     "excerpt_html"
-    t.text     "body_html"
+  add_index "blacklist_patterns", ["pattern"], :name => "index_blacklist_patterns_on_pattern"
+
+  create_table "blogs", :force => true do |t|
+    t.text   "settings"
+    t.string "base_url"
+  end
+
+  create_table "cache_informations", :force => true do |t|
+    t.string   "path"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "published_at"
-    t.string   "author",         :limit => 100
-    t.string   "author_url"
-    t.string   "author_email"
-    t.string   "author_ip",      :limit => 100
-    t.integer  "comments_count",                :default => 0
-    t.integer  "updater_id"
-    t.string   "versioned_type", :limit => 20
-    t.integer  "site_id"
-    t.boolean  "approved",                      :default => false
-    t.integer  "comment_age",                   :default => 0
-    t.string   "filter"
-    t.string   "user_agent"
-    t.string   "referrer"
-    t.integer  "assets_count",                  :default => 0
+  end
+
+  add_index "cache_informations", ["path"], :name => "index_cache_informations_on_path"
+
+  create_table "categories", :force => true do |t|
+    t.string  "name"
+    t.integer "position"
+    t.string  "permalink"
+    t.text    "keywords"
+    t.text    "description"
+    t.integer "parent_id"
+  end
+
+  add_index "categories", ["permalink"], :name => "index_categories_on_permalink"
+
+  create_table "categorizations", :force => true do |t|
+    t.integer "article_id"
+    t.integer "category_id"
+    t.boolean "is_primary"
   end
 
   create_table "contents", :force => true do |t|
-    t.integer  "article_id"
-    t.integer  "user_id"
+    t.string   "type"
     t.string   "title"
-    t.string   "permalink"
-    t.text     "excerpt"
+    t.string   "author"
     t.text     "body"
-    t.text     "excerpt_html"
-    t.text     "body_html"
+    t.text     "extended"
+    t.text     "excerpt"
+    t.string   "keywords"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "published_at"
-    t.string   "type",           :limit => 20
-    t.string   "author",         :limit => 100
-    t.string   "author_url"
-    t.string   "author_email"
-    t.string   "author_ip",      :limit => 100
-    t.integer  "comments_count",                :default => 0
-    t.integer  "updater_id"
-    t.integer  "version"
-    t.integer  "site_id"
-    t.boolean  "approved",                      :default => false
-    t.integer  "comment_age",                   :default => 0
-    t.string   "filter"
-    t.string   "user_agent"
-    t.string   "referrer"
-    t.integer  "assets_count",                  :default => 0
-  end
-
-  add_index "contents", ["article_id", "approved", "type"], :name => "idx_comments"
-  add_index "contents", ["published_at"], :name => "idx_articles_published"
-
-  create_table "events", :force => true do |t|
-    t.string   "mode"
     t.integer  "user_id"
-    t.integer  "article_id"
-    t.text     "title"
-    t.text     "body"
-    t.datetime "created_at"
-    t.string   "author",     :limit => 100
-    t.integer  "comment_id"
-    t.integer  "site_id"
-  end
-
-  create_table "feedbacks", :force => true do |t|
-    t.integer  "site_id"
+    t.string   "permalink"
+    t.string   "guid"
+    t.integer  "text_filter_id"
+    t.text     "whiteboard"
     t.string   "name"
-    t.string   "email"
-    t.text     "body"
-    t.string   "key"
-    t.datetime "created_at"
+    t.boolean  "published",      :default => false
+    t.boolean  "allow_pings"
+    t.boolean  "allow_comments"
+    t.datetime "published_at"
+    t.string   "state"
+    t.integer  "parent_id"
   end
 
-  create_table "memberships", :force => true do |t|
-    t.integer  "site_id"
+  add_index "contents", ["published"], :name => "index_contents_on_published"
+  add_index "contents", ["text_filter_id"], :name => "index_contents_on_text_filter_id"
+
+  create_table "feedback", :force => true do |t|
+    t.string   "type"
+    t.string   "title"
+    t.string   "author"
+    t.text     "body"
+    t.text     "excerpt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "guid"
+    t.integer  "text_filter_id"
+    t.text     "whiteboard"
+    t.integer  "article_id"
+    t.string   "email"
+    t.string   "url"
+    t.string   "ip",               :limit => 40
+    t.string   "blog_name"
+    t.boolean  "published",                      :default => false
+    t.datetime "published_at"
+    t.string   "state"
+    t.boolean  "status_confirmed"
+  end
+
+  add_index "feedback", ["article_id"], :name => "index_feedback_on_article_id"
+  add_index "feedback", ["text_filter_id"], :name => "index_feedback_on_text_filter_id"
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "content_id"
     t.integer  "user_id"
     t.datetime "created_at"
-    t.boolean  "admin",      :default => false
+    t.datetime "updated_at"
   end
 
-  create_table "mephisto_plugins", :force => true do |t|
+  create_table "page_caches", :force => true do |t|
     t.string "name"
-    t.text   "options"
-    t.string "type"
   end
 
-  create_table "sections", :force => true do |t|
-    t.string  "name"
-    t.boolean "show_paged_articles", :default => false
-    t.integer "articles_per_page",   :default => 15
-    t.string  "layout"
-    t.string  "template"
-    t.integer "site_id"
-    t.string  "path"
-    t.integer "articles_count",      :default => 0
-    t.string  "archive_path"
-    t.string  "archive_template"
-    t.integer "position",            :default => 1
+  add_index "page_caches", ["name"], :name => "index_page_caches_on_name"
+
+  create_table "pings", :force => true do |t|
+    t.integer  "article_id"
+    t.string   "url"
+    t.datetime "created_at"
   end
 
-  create_table "sites", :force => true do |t|
-    t.string  "title"
-    t.string  "subtitle"
-    t.string  "email"
-    t.text    "ping_urls"
-    t.integer "articles_per_page",                 :default => 15
-    t.string  "host"
-    t.boolean "approve_comments"
-    t.integer "comment_age"
-    t.string  "timezone"
-    t.string  "filter"
-    t.string  "permalink_style"
-    t.string  "search_path"
-    t.string  "tag_path"
-    t.string  "tag_layout"
-    t.string  "current_theme_path"
-    t.string  "akismet_key",        :limit => 100
-    t.string  "akismet_url"
-    t.string  "lang",                              :default => "en-US", :null => false
+  add_index "pings", ["article_id"], :name => "index_pings_on_article_id"
+
+  create_table "profiles", :force => true do |t|
+    t.string "label"
+    t.string "nicename"
+    t.text   "modules"
   end
 
-  add_index "sites", ["host"], :name => "index_sites_on_host"
+  create_table "profiles_rights", :force => true do |t|
+    t.integer "profile_id"
+    t.integer "right_id"
+  end
 
-  create_table "taggings", :force => true do |t|
-    t.integer "tag_id"
-    t.integer "taggable_id"
-    t.string  "taggable_type"
+  create_table "redirects", :force => true do |t|
+    t.string "from_path"
+    t.string "to_path"
+  end
+
+  create_table "resources", :force => true do |t|
+    t.integer  "size"
+    t.string   "filename"
+    t.string   "mime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "article_id"
+    t.boolean  "itunes_metadata"
+    t.string   "itunes_author"
+    t.string   "itunes_subtitle"
+    t.integer  "itunes_duration"
+    t.text     "itunes_summary"
+    t.string   "itunes_keywords"
+    t.string   "itunes_category"
+    t.boolean  "itunes_explicit"
+  end
+
+  create_table "rights", :force => true do |t|
+    t.string "name"
+    t.string "description"
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.string   "sessid"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["sessid"], :name => "index_sessions_on_sessid"
+
+  create_table "sidebars", :force => true do |t|
+    t.integer "active_position"
+    t.text    "config"
+    t.integer "staged_position"
+    t.string  "type"
+  end
+
+  create_table "sitealizer", :force => true do |t|
+    t.string   "path"
+    t.string   "ip"
+    t.string   "referer"
+    t.string   "language"
+    t.string   "user_agent"
+    t.datetime "created_at"
+    t.date     "created_on"
   end
 
   create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "display_name"
+  end
+
+  create_table "text_filters", :force => true do |t|
     t.string "name"
+    t.string "description"
+    t.string "markup"
+    t.text   "filters"
+    t.text   "params"
+  end
+
+  create_table "triggers", :force => true do |t|
+    t.integer  "pending_item_id"
+    t.string   "pending_item_type"
+    t.datetime "due_at"
+    t.string   "trigger_method"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "login",            :limit => 40
-    t.string   "email",            :limit => 100
-    t.string   "crypted_password", :limit => 40
-    t.string   "salt",             :limit => 40
-    t.string   "activation_code",  :limit => 40
-    t.datetime "activated_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "deleted_at"
-    t.string   "token"
-    t.datetime "token_expires_at"
-    t.string   "filter"
-    t.boolean  "admin",                           :default => false
+    t.string   "login"
+    t.string   "password"
+    t.text     "email"
+    t.text     "name"
+    t.boolean  "notify_via_email"
+    t.boolean  "notify_on_new_articles"
+    t.boolean  "notify_on_comments"
+    t.boolean  "notify_watch_my_articles"
+    t.string   "jabber"
+    t.integer  "profile_id"
+    t.string   "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.string   "text_filter_id",            :default => "1"
+    t.string   "editor",                    :default => "simple"
+    t.string   "state",                     :default => "active"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "nickname"
+    t.string   "url"
+    t.string   "msn"
+    t.string   "aim"
+    t.string   "yahoo"
+    t.string   "twitter"
+    t.text     "description"
+    t.boolean  "show_url"
+    t.boolean  "show_msn"
+    t.boolean  "show_aim"
+    t.boolean  "show_yahoo"
+    t.boolean  "show_twitter"
+    t.boolean  "show_jabber"
+    t.datetime "last_connection"
   end
 
 end

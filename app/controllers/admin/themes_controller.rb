@@ -1,89 +1,121 @@
 class Admin::ThemesController < Admin::BaseController
-  @@theme_export_path   = RAILS_PATH + 'tmp/export'
-  @@theme_content_types = %w(application/zip multipart/x-zip application/x-zip-compressed)
-  cattr_accessor :theme_export_path, :theme_content_types
-  before_filter :protect_action, :only => [:export, :change_to, :rollback]
-  before_filter :find_theme, :only => [:preview_for, :export, :change_to, :show, :destroy]
+  require 'open-uri'
+  require 'time'
+  require 'rexml/document'
 
-  def preview_for
-    send_file((@theme.preview.exist? ? @theme.preview : RAILS_PATH + 'public/images/mephisto/preview.png').to_s, :type => 'image/png', :disposition => 'inline')
-  end
+  cache_sweeper :blog_sweeper
 
-  def export
-    theme_site_path = temp_theme_path_for(params[:id])
-    theme_zip_path  = theme_site_path   + "#{params[:id]}.zip"
-    theme_zip_path.unlink if theme_zip_path.exist?
-    @theme.export_as_zip params[:id], :to => theme_site_path
-    theme_zip_path.exist? ? send_file(theme_zip_path.to_s, :stream => false) : raise("Error sending #{theme_zip_path.to_s} file")
-  ensure
-    theme_site_path.rmtree
-  end
-  
-  def change_to
-    site.change_theme_to @theme
-    flash[:notice] = "Your theme has now been changed to '#{params[:id]}'"
-    sweep_cache
-    redirect_to :controller => 'design', :action => 'index'
-  end
-
-  def rollback
-    site.rollback
-    flash[:notice] = "Your theme has been rolled back"
-    sweep_cache
-    redirect_to :controller => 'design', :action => 'index'
-  end
-
-  def import
-    return unless request.post? # If this is a GET, just render form.
-    unless params[:theme] && params[:theme].size > 0 && theme_content_types.include?(params[:theme].content_type.strip)
-      flash.now[:error] = "Invalid theme uploaded."
-      return
+  def index
+    @themes = Theme.find_all
+    @themes.each do |theme|
+      theme.description_html = TextFilter.filter_text(this_blog, theme.description, nil, [:markdown,:smartypants])
     end
-    filename = params[:theme].original_filename
-    filename.gsub!(/(^.*(\\|\/))|(\.zip$)/, '')
-    filename.gsub!(/[^\w\.\-]/, '_')
-    begin
-      theme_site_path = temp_theme_path_for(filename)
-      zip_file        = theme_site_path + "temp.zip"
-      File.open(zip_file, 'wb') { |f| f << params[:theme].read }
-      site.import_theme zip_file, filename
-      flash[:notice] = "The '#{filename}' theme has been imported."
-      redirect_to :action => 'index'
-    rescue
-      flash.now[:error] = "Invalid theme uploaded: [#{$!.class.name}] #{$!}"
-    ensure
-      theme_site_path.rmtree
-    end
+    @active = this_blog.current_theme
   end
 
-  def destroy
-    if @theme.current?
-      flash[:error] = "Cannot delete the current theme"
-    else
-      @index = site.themes.index(@theme)
-      @theme.path.rmtree
-      flash[:notice] = "The '#{params[:id]}' theme was deleted."
-    end
-    respond_to do |format|
-      format.html { redirect_to :action => 'index' }
-      format.js
-    end
+  def preview
+    send_file "#{Theme.themes_root}/#{params[:theme]}/preview.png", :type => 'image/png', :disposition => 'inline', :stream => false
   end
 
-  protected
-    def find_theme
-      show_404 unless @theme = params[:id] == 'current' ? site.theme : site.themes[params[:id]]
-    end
+  def switchto
+    this_blog.theme = params[:theme]
+    this_blog.save
+    zap_theme_caches
+    this_blog.current_theme(:reload)
+    flash[:notice] = _("Theme changed successfully")
+    require "#{this_blog.current_theme.path}/helpers/theme_helper.rb" if File.exists? "#{this_blog.current_theme.path}/helpers/theme_helper.rb"
+    redirect_to :action => 'index'
+  end
 
-    def temp_theme_path_for(prefix)
-      returning theme_export_path + "site-#{site.id}/#{prefix}#{Time.now.utc.to_i.to_s.split('').sort_by { rand }}" do |path|
-        FileUtils.mkdir_p path unless path.exist?
+  def editor
+    case params[:type].to_s
+    when "stylesheet"
+      path = this_blog.current_theme.path + "/stylesheets/"
+      if params[:file] =~ /css$/
+        filename = params[:file]
+      else
+        flash[:error] = _("You are not authorized to open this file")
+        return
+      end
+    when "layout"
+      path = this_blog.current_theme.path + "/layouts/"
+      if params[:file] =~ /rhtml$|erb$/
+        filename = params[:file]
+      else
+        flash[:error] = _("You are not authorized to open this file")
+        return
       end
     end
 
-    def sweep_cache
-      site.expire_cached_pages self, "Expired all referenced pages"
+    if path and filename
+      if File.exists? path + filename
+        if File.writable? path + filename
+          case request.method
+          when :post
+            theme = File.new(path + filename, "r+")
+            theme.write(params[:theme_body])
+            theme.close
+            flash[:notice] = _("File saved successfully")
+            zap_theme_caches
+          end
+        else
+          flash[:notice] = _("Unable to write file")
+        end
+        @file = ""
+        file = File.readlines(path + filename, "r")
+        file.each do |line|
+          @file << line
+        end
+      end
     end
+  end
 
-    alias authorized? admin?
+  def catalogue
+    # Data get by this URI is a JSON formatted
+    # The return is a list. All element represent a item
+    # Each item is a hash with this key :
+    #  * uid
+    #  * download_uri
+    #  * name
+    #  * author
+    #  * description
+    #  * tags
+    #  * screenshot_uri
+    url = "http://www.dev411.com/typo/themes_2-1.txt"
+    open(url) do |http|
+      @themes = parse_catalogue_by_json(http.read)
+    end
+  rescue OpenURI::HTTPError
+    @themes = []
+    @error = true
+  end
+
+  protected
+
+  def zap_theme_caches
+    FileUtils.rm_rf(%w{stylesheets javascript images}.collect{|v| page_cache_directory + "/#{v}/theme"})
+  end
+
+  private
+  
+  class ThemeItem < Struct.new(:image, :name, :url, :author, :description)
+    def to_s; name; end
+  end
+
+  def parse_catalogue_by_json(body)
+    items_json = JSON.parse(body)
+    items = []
+    items_json.each do |elem|
+      next unless elem['download_uri'] # No display theme without download URI
+      item = ThemeItem.new
+      item.image = elem['screenshot_uri']
+      item.url = elem['download_uri']
+      item.name = elem['name']
+      item.author = elem['author']
+      item.description = elem['description']
+      items << item
+    end
+    items
+    items.sort_by { |item| item.name }
+  end
 end

@@ -1,65 +1,47 @@
 class Admin::UsersController < Admin::BaseController
-  member_actions << 'show' << 'update'
-  before_filter :find_all_users, :only => [:index, :show, :new]
-  before_filter :find_user,      :only => [:show, :update, :enable, :admin, :destroy]
+
+  cache_sweeper :blog_sweeper
 
   def index
-    @enabled, @disabled = @users.partition { |u| u.deleted_at.nil? }
-    @users = @enabled + @disabled
+    @users = User.paginate :page => params[:page], :order => 'login asc', :per_page => this_blog.admin_display_elements
   end
-  
+
   def new
-    @user  = User.new
+    @user = User.new(params[:user])
+    @user.text_filter = TextFilter.find_by_name(this_blog.text_filter)
+    setup_profiles
+    @user.name = @user.login
+    if request.post? and @user.save
+      flash[:notice] = _('User was successfully created.')
+      redirect_to :action => 'index'
+    end
   end
 
-  def create
-    @user = User.new params[:user]
-    @user.save!
-    @user.sites << site
-    flash[:notice] = "User created."
-    redirect_to :action => 'index'
-  rescue ActiveRecord::RecordInvalid
-    flash[:error] = "Save failed."
-    render :action => 'new'
-  end
+  def edit
+    @user = params[:id] ? User.find_by_id(params[:id]) : current_user
 
-  def update
-    render :update do |page|
-      if @user.update_attributes(params[:user])
-        page.call 'Flash.notice', 'Profile updated.'
-      else
-        page.call 'Flash.errors', "Save failed: #{@user.errors.full_messages.to_sentence}"
+    setup_profiles
+    @user.attributes = params[:user]
+    if request.post? and @user.save
+      if @user.id = current_user.id
+        current_user = @user
       end
+      flash[:notice] = _('User was successfully updated.')
+      redirect_to :action => 'index'
     end
   end
 
   def destroy
-    if @user == current_user then return @error = "Cannot delete yourself." end
-    if @user.admin?          then return @error = "Cannot delete a Mephisto administrator." end
-    @allowed = @user.update_attribute :deleted_at, Time.now.utc
+    @user = User.find(params[:id])
+    if request.post?
+      @user.destroy if User.count > 1
+      redirect_to :action => 'index'
+    end
   end
 
-  def enable
-    @allowed = @user.update_attribute :deleted_at, nil
+  private
+
+  def setup_profiles
+    @profiles = Profile.find(:all, :order => 'id')
   end
-  
-  def admin
-    if @user == current_user then return @error = "Cannot toggle admin permissions for yourself." end
-    if @user.admin?          then return @error = "Cannot toggle admin permissions for a Mephisto administrator." end
-    @membership = Membership.find_or_initialize_by_site_id_and_user_id(site.id, @user.id)
-    @allowed    = @membership.update_attribute :admin, !@membership.admin?
-  end
-  
-  protected
-    def find_all_users
-      @users = site.users_with_deleted
-    end
-    
-    def find_user
-      @user = site.user_with_deleted(params[:id])
-    end
-    
-    def authorized?
-      logged_in? && (admin? || (current_user.id.to_s == params[:id] && member_actions.include?(action_name)))
-    end
 end

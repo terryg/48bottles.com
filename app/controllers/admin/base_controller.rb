@@ -1,32 +1,18 @@
 class Admin::BaseController < ApplicationController
-  class_inheritable_reader :member_actions
-  write_inheritable_attribute :member_actions, []
-  include AuthenticatedSystem
-  before_filter :protect_action, :only => [:create, :update, :destroy]
-  before_filter { |c| UserMailer.default_url_options[:host] = c.request.host_with_port }
-  before_filter :login_from_cookie
-  before_filter :login_required, :except => :feed
+  cattr_accessor :look_for_migrations
+  @@look_for_migrations = true
+  layout 'administration'
+  before_filter :login_required, :except => [ :login, :signup ]
+  before_filter :look_for_needed_db_updates, :except => [:login, :signup, :update_database, :migrate]
 
-  # See ActionController::RequestForgeryProtection for details.
-  protect_from_forgery
-  
-  protected
-    # standard authorization method.  allow logged in users that are admins, or members in certain actions
-    def authorized?
-      logged_in? && (admin? || member_actions.include?(action_name) || allow_member?)
+  private
+  def look_for_needed_db_updates
+    if Migrator.offer_migration_when_available
+      redirect_to :controller => '/admin/settings', :action => 'update_database' if Migrator.current_schema_version != Migrator.max_schema_version
     end
+  end
 
-    # further customize the authorization process, for those special methods that require extra validation
-    def allow_member?
-      true
-    end
-
-    def find_and_sort_templates
-      @layouts, @templates = site.templates.partition { |t| t.dirname.to_s =~ /layouts\z/ }
-    end
-    
-    def self.clear_empty_templates_for(model, *attributes)
-      options = attributes.last.is_a?(Hash) ? attributes.pop : {}
-      before_filter(options) { |c| attributes.each { |attr| c.params[model][attr] = nil if c.params[model][attr] == '-' } }
-    end
+  def sweep_cache
+    PageCache.sweep_all  
+  end
 end

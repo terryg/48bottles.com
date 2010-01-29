@@ -1,6 +1,19 @@
 module Format
-  # yes this is valid ruby, even if textmate's highlighter can't grok it
-  DOMAIN = /\A([a-z0-9]([-a-z0-9]*[a-z0-9])?\.)+((a[cdefgilmnoqrstuwxz]|aero|arpa)|(b[abdefghijmnorstvwyz]|biz)|(c[acdfghiklmnorsuvxyz]|cat|com|coop)|d[ejkmoz]|(e[ceghrstu]|edu)|f[ijkmor]|(g[abdefghilmnpqrstuwy]|gov)|(h[kmnrtu]#{RAILS_ENV=='test'?'|host':''})|(i[delmnoqrst]|info|int)|(j[emop]|jobs)|k[eghimnprwyz]|l[abcikrstuvy]|(m[acdghklmnopqrstuvwxyz]|mil|mobi|museum)|(n[acefgilopruz]|name|net)|(om|org)|(p[aefghklmnrstwy]|pro)|qa|r[eouw]|s[abcdeghijklmnortvyz]|(t[cdfghjklmnoprtvwz]|travel)|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw])\z/ unless const_defined?(:DOMAIN)
-  STRING = /\A[a-z0-9-]+\z/
-  EMAIL  = /(\A(\s*)\Z)|(\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z)/i
+
+  EMAIL = /^[_a-z0-9\+\.\-]+\@[_a-z0-9\-]+\.[_a-z0-9\.\-]+$/i
+  PASSWORD = /^[\_a-zA-Z0-9\.\-]+$/
+
+
+  # matches everything to the last \ or / in a string.
+  # can chop of path of a filename like this : '/tobi/home/tobi.jpg'.sub(/^.*[\\\/]/,'') => tobi.jpg
+  FILENAME = /^.*[\\\/]/
+
+  # good for replacing all special chars with something else, like an underscore
+  FILENORMAL = /[^a-zA-Z0-9.]/
+
+  # Laxly matches an IP Address , would also pass numbers > 255 though
+  IP_ADDRESS = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/
+
+  # Laxly matches an HTTP(S) URI
+  HTTP_URI = /^https?:\/\/\S+$/
 end

@@ -1,8 +1,6 @@
-# Settings specified here will take precedence over those in config/environment.rb
-
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
-config.cache_classes = safe_to_load_application? ? true : false
+config.cache_classes = true
 
 # Use a different logger for distributed setups
 # config.logger        = SyslogLogger.new
@@ -17,3 +15,5 @@ config.action_controller.perform_caching             = true
 
 # Disable delivery errors if you bad email addresses should just be ignored
 # config.action_mailer.raise_delivery_errors = false
+
+Migrator.offer_migration_when_available            = true

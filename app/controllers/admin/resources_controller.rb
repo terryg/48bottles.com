@@ -1,63 +1,110 @@
-class Admin::ResourcesController < Admin::DesignController
-  verify :params => :filename, :only => [:edit, :update],
-         :add_flash   => { :error => 'Resource required' },
-         :redirect_to => { :controller => 'design', :action => 'index' }
-  verify :method => :post, :params => :data, :only => :update,
-         :add_flash   => { :error => 'Resource required' },
-         :redirect_to => { :action => 'edit' }
-  verify :method => :post, :params => :resource, :only => :upload,
-         :add_flash   => { :error => 'Resource required' },
-         :redirect_to => { :controller => 'design', :action => 'index' }
+class Admin::ResourcesController < Admin::BaseController
+  upload_status_for :file_upload, :status => :upload_status
 
-  def index
-    redirect_to :controller => 'design'
+  cache_sweeper :blog_sweeper
+  
+  def upload
+    begin
+      case request.method
+        when :post
+          file = params[:upload][:filename]
+          unless file.content_type
+            mime = 'text/plain'
+          else
+            mime = file.content_type.chomp
+          end
+          @up = Resource.create(:filename => file.original_filename, :mime => mime, :created_at => Time.now)
+
+          @up.write_to_disk(file)
+          @up.create_thumbnail
+          
+          @message = _('File uploaded: ')+ file.size.to_s
+          finish_upload_status "'#{@message}'"
+      end
+    rescue
+      @message = "'" + _('Unable to upload') + " #{file.original_filename}'"
+      @up.destroy unless @up.nil?
+      raise
+    end
   end
 
-  def edit
-    @resource = @theme.resources[params[:filename]]
+  def remove_itunes_metadata
+    @resource = Resource.find(params[:id])
+    @resource.itunes_metadata = false
+    @resource.save(false)
+    flash[:notice] = _('Metadata was successfully removed.')
+    redirect_to :action => 'index'
   end
 
   def update
-    @theme.resources.write params[:filename], params[:data]
-    expire_resource(params[:filename])
-    render :update do |page|
-      page.call 'Flash.notice', 'Resource updated successfully'
+    @resource = Resource.find(params[:resource][:id])
+    @resource.attributes = params[:resource]
+
+    unless params[:itunes_category].nil?
+      itunes_categories = params[:itunes_category]
+      itunes_category_pre = Hash.new {|h, k| h[k] = [] }
+      itunes_categories.each do |cat|
+        cat_split = cat.split('-')
+        itunes_category_pre[cat_split[0]] << cat_split[1] unless
+        itunes_category_pre[cat_split[0]].include?(cat_split[0])
+      end
+      @resource.itunes_category = itunes_category_pre
     end
+    if request.post? and @resource.save
+      flash[:notice] = _('Metadata was successfully updated.')
+    else
+      flash[:error] = _('Not all metadata was defined correctly.')
+      @resource.errors.each do |meta_key,val|
+        flash[:error] << "<br />" + val
+      end
+    end
+    redirect_to :action => 'index'
   end
 
-  def upload
-    if request.get?
-      redirect_to :controller => 'design', :action => 'index'
-      return
-    end
-    if params[:resource] && Asset.image?(params[:resource].content_type.strip) && (1..1.megabyte).include?(params[:resource].size)
-      @resource = @theme.resources.write File.basename(params[:resource].original_filename), params[:resource].read
-      expire_resource(@resource.basename)
-      flash[:notice] = "'#{@resource.basename}' was uploaded successfully."
+  def set_mime
+    @resource = Resource.find(params[:resource][:id])
+    @resource.mime = params[:resource][:mime] unless params[:resource][:mime].empty?
+    if request.post? and @resource.save
+      flash[:notice] = _('Content Type was successfully updated.')
     else
-      flash[:error]  = "A bad or nonexistant image was uploaded."
+      flash[:error] = _("Error occurred while updating Content Type.")
     end
-    redirect_to url_for_theme(:controller => 'design', :action => 'index')
+    redirect_to :action => "index"
+  end
+
+  def upload_status
+    render :inline => "<%= upload_progress.completed_percent rescue 0 %> % " + _("complete"), :layout => false
+  end
+
+  def index
+    @r = Resource.new
+    @itunes_category_list = @r.get_itunes_categories
+    @resources = Resource.paginate :page => params[:page], :conditions => "mime NOT LIKE '%image%'", :order => 'created_at DESC', :per_page => this_blog.admin_display_elements
   end
   
-  def remove
-    if request.get?
-      redirect_to :action => 'edit' 
-      return
-    end
-    @resource = @theme.resources[params[:filename]]
-    expire_resource(@resource.basename)
-    render :update do |page|
-      @resource.unlink if @resource.file?
-      page.visual_effect :fade, params[:context], :duration => 0.3
-    end
+  def images
+    @resources = Resource.paginate :page => params[:page], :conditions => "mime LIKE '%image%'", :order => 'created_at DESC', :per_page => this_blog.admin_display_elements
   end
-
-  protected
-
-  def expire_resource(filename)
-    if current_theme?
-      self.class.expire_page('/' << @theme.resources[filename].relative_path_from(site.attachment_path).to_s)
+  
+  def get_thumbnails
+    position = params[:position].to_i
+    
+    @resources = Resource.find(:all, :conditions => "mime LIKE '%image%'", :order => 'created_at DESC', :limit => "#{position}, 10")
+    
+    render 'get_thumbnails', :layout => false
+    
+  end
+  
+  def destroy
+    begin
+      @file = Resource.find(params[:id])
+      case request.method
+        when :post
+          @file.destroy
+          redirect_to :action => 'index'
+      end
+    rescue
+      raise
     end
   end
 end
