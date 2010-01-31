@@ -35,7 +35,8 @@ end
 namespace :forT8bottles do
   namespace :symlink do
     task :application, :except => { :no_release => true } do
-
+      run "mv #{release_path}/wp-content/blogs.dir/1/files #{release_path}/wp-content/blogs.dir/1/files.local"
+      run "ln -s #{shared_path}/wp-content/blogs.dir/1/files #{release_path}/wp-content/blogs.dir/1/files"
     end
   end
 
