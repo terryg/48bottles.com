@@ -10,13 +10,13 @@ set :deploy_to, "/home/tgl/domains/48bottles.com/web"
 
 set :checkout, "export"
 set :use_sudo, false
-set :user, tgl
+set :user, "tgl"
 
-after 'deploy:setup', '48bottles:setup'
+after 'deploy:setup', 'forT8bottles:setup'
 
-before 'deploy:restart', '48bottles:permissions:fix', '48bottles:symlink:application'
+before 'deploy:restart', 'forT8bottles:permissions:fix', 'forT8bottles:symlink:application'
 
-namespace :48bottles do
+namespace :forT8bottles do
   task :setup, :exception => { :no_release => true } do
     run "chown -R #{user}:#{user} #{deploy_to}"
   end
@@ -32,7 +32,7 @@ namespace :deploy do
   end
 end
 
-namespace :48bottles do
+namespace :forT8bottles do
   namespace :symlink do
     task :application, :except => { :no_release => true } do
 
