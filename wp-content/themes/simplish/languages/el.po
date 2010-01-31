@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Simplish\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-29 03:06-0700\n"
+"PO-Revision-Date: 2009-4-30 11:06-0000\n"
+"Last-Translator: Demetris Kikizas <op111.net@gmail.com>\n"
+"Language-Team: op111.net <op111.net@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: 404.php:4
+msgid "Error 404 &ndash; Not Found"
+msgstr "Σφάλμα 404: H σελίδα δεν βρέθηκε!"
+
+#: archive.php:7
+msgid "Day:"
+msgstr "Ημέρα:"
+
+#: archive.php:7
+msgid "l, F j\\, Y"
+msgstr "l j F Y"
+
+#: archive.php:9
+msgid "Month:"
+msgstr "Μήνας:"
+
+#: archive.php:9
+msgid "F Y"
+msgstr "F Y"
+
+#: archive.php:11
+msgid "Year:"
+msgstr "Έτος:"
+
+#: archive.php:11
+msgid "Y"
+msgstr "Y"
+
+#: archive.php:13
+msgid "Author:"
+msgstr "Συντάκτης:"
+
+#: archive.php:17
+#: hentrymeta.php:3
+msgid "Category:"
+msgstr "Κατηγορία:"
+
+#: archive.php:19
+msgid "Tag:"
+msgstr "Ετικέτα:"
+
+#: archive.php:21
+#: sidebar.php:28
+msgid "Archives"
+msgstr "Αρχείο"
+
+#: archive.php:21
+#, php-format
+msgid "%1$s Archives"
+msgstr "Αρχείο %1$s"
+
+#: archive.php:32
+#: index.php:12
+msgid "More&hellip;"
+msgstr "Συνέχεια&hellip;"
+
+#: archive.php:43
+#: index.php:23
+msgid "Not Found"
+msgstr "Δεν βρέθηκε!"
+
+#: comments.php:3
+msgid "Not labeled for individual sale."
+msgstr "Δεν πωλείται!"
+
+#: comments.php:12
+#: hentrymeta.php:8
+msgid "0 Comments"
+msgstr "0 σχόλια"
+
+#: comments.php:12
+#: hentrymeta.php:8
+msgid "1 Comment"
+msgstr "1 σχόλιο"
+
+#: comments.php:12
+#: hentrymeta.php:8
+msgid "% Comments"
+msgstr "% σχόλια"
+
+#: comments.php:12
+msgid "on"
+msgstr "στο"
+
+#: comments.php:15
+msgid "Log in"
+msgstr "Σύνδεση"
+
+#: comments.php:15
+msgid "to respond"
+msgstr "για να απαντήσετε"
+
+#: comments.php:17
+#: comments.php:23
+msgid "Trackback"
+msgstr "Παράθεση"
+
+#: comments.php:21
+#: comments.php:49
+msgid "Respond"
+msgstr "Απάντηση"
+
+#: comments.php:29
+msgid "Closed"
+msgstr "Κλειστό"
+
+#: comments.php:37
+msgid "&laquo; Older Comments"
+msgstr "« Προηγούμενα σχόλια"
+
+#: comments.php:38
+msgid "Newer Comments &raquo;"
+msgstr "Επόμενα σχόλια »"
+
+#: comments.php:49
+#, php-format
+msgid "Respond to %s"
+msgstr "Απάντηση στο %s"
+
+#: comments.php:58
+#: comments.php:92
+msgid "Comments"
+msgstr "Σχόλια"
+
+#: comments.php:62
+msgid "Logged in as"
+msgstr "Έχετε συνδεθεί ως"
+
+#: comments.php:63
+msgid "Log out of this account"
+msgstr "Αποσυνδεθείτε από τον λογαριασμό"
+
+#: comments.php:63
+msgid "Log out"
+msgstr "Αποσύνδεση"
+
+#: comments.php:69
+msgid "Name:"
+msgstr "Όνομα:"
+
+#: comments.php:69
+#: comments.php:75
+msgid "(required)"
+msgstr "(υποχρεωτικό)"
+
+#: comments.php:75
+msgid "Email:"
+msgstr "E-mail:"
+
+#: comments.php:77
+msgid "(will not be published)"
+msgstr "(δεν δημοσιεύεται)"
+
+#: comments.php:82
+msgid "URL:"
+msgstr "URL:"
+
+#: comments.php:89
+msgid "You can use these tags:"
+msgstr "Επιτρέπονται οι εξής ετικέτες:"
+
+#: comments.php:95
+msgid "Submit"
+msgstr "Υποβολή"
+
+#: footer.php:8
+msgid "WordPress Engine"
+msgstr "Μηχανή WordPress"
+
+#: footer.php:10
+msgid "Simplish Style"
+msgstr "Θέμα Simplish"
+
+#: footer.php:11
+msgid "from"
+msgstr "από"
+
+#: functions.php:50
+msgid "More posts by"
+msgstr "Περισσότερα άρθρα της/του"
+
+#: functions.php:77
+msgid "home page"
+msgstr "Αρχική σελίδα"
+
+#: header.php:6
+msgid "Error 404 - Not Found"
+msgstr "Σφάλμα 404:  Η σελίδα δεν βρέθηκε."
+
+#: header.php:6
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: hentryhead.php:9
+#: image.php:11
+msgid "Posted by"
+msgstr "Συντάκτης:"
+
+#: hentrymeta.php:6
+msgid "Tags: "
+msgstr "Ετικέτες: "
+
+#: hentrymeta.php:8
+msgid "Feed"
+msgstr "Κανάλι σχολίων"
+
+#: image.php:35
+msgid "Sorry, no attachments matched your criteria."
+msgstr "Δεν βρέθηκαν συνημμένα με τους όρους αυτούς."
+
+#: page.php:11
+#: single.php:12
+#: tplpgcomm.php:17
+msgid "Pages:"
+msgstr "Σελίδες:"
+
+#: page.php:17
+#: single.php:14
+#: tplarchives.php:31
+#: tpllinks.php:17
+#: tplpgcomm.php:23
+msgid "Edit&hellip;"
+msgstr "Επεξεργασία&hellip;"
+
+#: prevnextnav.php:2
+msgid "&laquo; Previous"
+msgstr "« Προηγούμενα"
+
+#: prevnextnav.php:3
+msgid "Next &raquo;"
+msgstr "Επόμενα »"
+
+#: search.php:7
+msgid "Results for"
+msgstr "Αποτελέσματα για"
+
+#: search.php:28
+msgid "No results for"
+msgstr "Δεν βρέθηκαν συνημμένα με τους όρους που θέσατε."
+
+#: sidebar.php:8
+msgid "Pages"
+msgstr "Σελίδες"
+
+#: sidebar.php:22
+msgid "Categories"
+msgstr "Κατηγορίες"
+
+#: sidebar.php:36
+msgid "Syndicate"
+msgstr "RSS"
+
+#: sidebar.php:39
+msgid "Articles RSS"
+msgstr "– Όλα τα άρθρα μέσω RSS"
+
+#: sidebar.php:39
+msgid "Articles Feed"
+msgstr "Κανάλι άρθρων"
+
+#: sidebar.php:41
+msgid "Comments RSS"
+msgstr "– Όλα τα σχόλια μέσω RSS"
+
+#: sidebar.php:41
+msgid "Comments Feed"
+msgstr "Κανάλι σχολίων"
+
+#: sidebar.php:45
+msgid "Meta"
+msgstr "Μεταστοιχεία"
+
+#: tplarchives.php:14
+#: tplsitemap.php:52
+msgid "Archives by Category"
+msgstr "Αρχείο κατά κατηγορία"
+
+#: tplarchives.php:20
+#: tplsitemap.php:46
+msgid "Archives by Month"
+msgstr "Αρχείο κατά μήνα"
+
+#: tplarchives.php:26
+#: tplsitemap.php:58
+msgid "Archives by Tag"
+msgstr "Αρχείο κατά ετικέτα"
+
+#: tplsitemap.php:19
+msgid "All Pages"
+msgstr "Όλες οι σελίδες"
+
+#: tplsitemap.php:35
+msgid "All Posts"
+msgstr "Όλα τα άρθρα"
+
+#: tplsitemap.php:40
+#, php-format
+msgid "Permalink to %s"
+msgstr "Μόνιμος σύνδεσμος του %s"
+
+#: tplsitemap.php:63
+msgid "Pages: "
+msgstr "Σελίδες: "
+
+#~ msgid "<small>(required)</small>"
+#~ msgstr "<small>(υποχρεωτικό)</small>"
+

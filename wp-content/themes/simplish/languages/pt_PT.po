@@ -1,0 +1,319 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Simplish\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-09-29 03:06-0000\n"
+"PO-Revision-Date: 2009-10-15 21:06-0800\n"
+"Last-Translator: ttynixer <ttynixer@gmail.com>\n"
+"Language-Team: Utopian.net Laboratories <josh@labs.utopian.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: PORTUGAL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: 404.php:4
+msgid "Error 404 &ndash; Not Found"
+msgstr "Erro 404 &ndash; Não encontrado"
+
+#: archive.php:7
+msgid "Day:"
+msgstr "Dia:"
+
+#: archive.php:7
+msgid "l, F j\\, Y"
+msgstr "l, F j\\, Y"
+
+#: archive.php:9
+msgid "Month:"
+msgstr "Mês:"
+
+#: archive.php:9
+msgid "F Y"
+msgstr "F Y"
+
+#: archive.php:11
+msgid "Year:"
+msgstr "Ano:"
+
+#: archive.php:11
+msgid "Y"
+msgstr "Y"
+
+#: archive.php:13
+msgid "Author:"
+msgstr "Autor:"
+
+#: archive.php:17
+#: hentrymeta.php:3
+msgid "Category:"
+msgstr "Categoria:"
+
+#: archive.php:19
+msgid "Tag:"
+msgstr "Etiqueta:"
+
+#: archive.php:21
+#: sidebar.php:28
+msgid "Archives"
+msgstr "Arquivos"
+
+#: archive.php:21
+#, php-format
+msgid "%1$s Archives"
+msgstr "%1$s Arquivos"
+
+#: archive.php:32
+#: index.php:12
+msgid "More&hellip;"
+msgstr "Mais&hellip;"
+
+#: archive.php:43
+#: index.php:23
+msgid "Not Found"
+msgstr "Não encontrado"
+
+#: comments.php:3
+msgid "Not labeled for individual sale."
+msgstr "Não permitida a venda particular."
+
+#: comments.php:12
+#: hentrymeta.php:8
+msgid "0 Comments"
+msgstr "0 Comentários"
+
+#: comments.php:12
+#: hentrymeta.php:8
+msgid "1 Comment"
+msgstr "1 Comentário"
+
+#: comments.php:12
+#: hentrymeta.php:8
+msgid "% Comments"
+msgstr "% Comentários"
+
+#: comments.php:12
+msgid "on"
+msgstr "em"
+
+#: comments.php:15
+msgid "Log in"
+msgstr "Iniciar Sessão"
+
+#: comments.php:15
+msgid "to respond"
+msgstr "para responder"
+
+#: comments.php:17
+#: comments.php:23
+msgid "Trackback"
+msgstr "Trackback"
+
+#: comments.php:21
+#: comments.php:49
+msgid "Respond"
+msgstr "Responder"
+
+#: comments.php:29
+msgid "Closed"
+msgstr "Fechado"
+
+#: comments.php:37
+msgid "&laquo; Older Comments"
+msgstr "&laquo; Comentários antigos"
+
+#: comments.php:38
+msgid "Newer Comments &raquo;"
+msgstr "Comentários recentes &raquo;"
+
+#: comments.php:49
+#, php-format
+msgid "Respond to %s"
+msgstr "Responder a %s"
+
+#: comments.php:58
+#: comments.php:92
+msgid "Comments"
+msgstr "Comentários"
+
+#: comments.php:62
+msgid "Logged in as"
+msgstr "Ligado como"
+
+#: comments.php:63
+msgid "Log out of this account"
+msgstr "Encerrar esta sessão"
+
+#: comments.php:63
+msgid "Log out"
+msgstr "Encerrar sessão"
+
+#: comments.php:69
+msgid "Name:"
+msgstr "Nome:"
+
+#: comments.php:69
+#: comments.php:75
+msgid "(required)"
+msgstr "(obrigatório)"
+
+#: comments.php:75
+msgid "Email:"
+msgstr "Email:"
+
+#: comments.php:77
+msgid "(will not be published)"
+msgstr "(não será divulgado)"
+
+#: comments.php:82
+msgid "URL:"
+msgstr "Site:"
+
+#: comments.php:89
+msgid "You can use these tags:"
+msgstr "Pode usar as seguintes etiquetas:"
+
+#: comments.php:95
+msgid "Submit"
+msgstr "Submeter"
+
+#: footer.php:8
+msgid "WordPress Engine"
+msgstr "Motor WordPress"
+
+#: footer.php:10
+msgid "Simplish Style"
+msgstr "Estilo Simplish"
+
+#: footer.php:11
+msgid "from"
+msgstr "de"
+
+#: functions.php:50
+msgid "More posts by"
+msgstr "Mais artigos por"
+
+#: functions.php:77
+msgid "home page"
+msgstr "página inicial"
+
+#: header.php:6
+msgid "Error 404 - Not Found"
+msgstr "Erro 404 - Não encontrado"
+
+#: header.php:6
+msgid "Search"
+msgstr "Pesquisar"
+
+#: hentryhead.php:9
+#: image.php:11
+msgid "Posted by"
+msgstr "Publicado por"
+
+#: hentrymeta.php:6
+msgid "Tags: "
+msgstr "Etiquetas:"
+
+#: hentrymeta.php:8
+msgid "Feed"
+msgstr "Feed"
+
+#: image.php:35
+msgid "Sorry, no attachments matched your criteria."
+msgstr "Lamentamos, mas a sua pesquisa não obteve resultados"
+
+#: page.php:11
+#: single.php:12
+#: tplpgcomm.php:17
+msgid "Pages:"
+msgstr "Páginas:"
+
+#: page.php:17
+#: single.php:14
+#: tplarchives.php:31
+#: tpllinks.php:17
+#: tplpgcomm.php:23
+msgid "Edit&hellip;"
+msgstr "Editar&hellip;"
+
+#: prevnextnav.php:2
+msgid "&laquo; Previous"
+msgstr "&laquo; Anterior"
+
+#: prevnextnav.php:3
+msgid "Next &raquo;"
+msgstr "Seguinte &raquo;"
+
+#: search.php:7
+msgid "Results for"
+msgstr "Resultados para"
+
+#: search.php:28
+msgid "No results for"
+msgstr "Nenhum resultado para"
+
+#: sidebar.php:8
+msgid "Pages"
+msgstr "Páginas"
+
+#: sidebar.php:22
+msgid "Categories"
+msgstr "Categorias"
+
+#: sidebar.php:36
+msgid "Syndicate"
+msgstr "Sindicação"
+
+#: sidebar.php:39
+msgid "Articles RSS"
+msgstr "Artigos por RSS"
+
+#: sidebar.php:39
+msgid "Articles Feed"
+msgstr "Feeds de artigos"
+
+#: sidebar.php:41
+msgid "Comments RSS"
+msgstr "Comentários por RSS"
+
+#: sidebar.php:41
+msgid "Comments Feed"
+msgstr "Feeds de comentários"
+
+#: sidebar.php:45
+msgid "Meta"
+msgstr "Meta"
+
+#: tplarchives.php:14
+#: tplsitemap.php:52
+msgid "Archives by Category"
+msgstr "Arquivos por categoria"
+
+#: tplarchives.php:20
+#: tplsitemap.php:46
+msgid "Archives by Month"
+msgstr "Arquivos por mês"
+
+#: tplarchives.php:26
+#: tplsitemap.php:58
+msgid "Archives by Tag"
+msgstr "Arquivos por etiqueta"
+
+#: tplsitemap.php:19
+msgid "All Pages"
+msgstr "Todas as páginas"
+
+#: tplsitemap.php:35
+msgid "All Posts"
+msgstr "Todos os artigos"
+
+#: tplsitemap.php:40
+#, php-format
+msgid "Permalink to %s"
+msgstr "Link permanente para %s"
+
+#: tplsitemap.php:63
+msgid "Pages: "
+msgstr "Páginas:"
+
