@@ -22,7 +22,7 @@ Template Name: ABV Form - POST
   if ($_POST["OGScale"] == "sg") {
     $scale = "Specific Gravity";
   } else {
-    $scale = "Plato";
+    $scale = "Degrees Plato";
 
     $og_uncorrected = round(($og_uncorrected/(258.6-(($og_uncorrected/258.2)*227.1))+1), 3);
     $fg_uncorrected = round(($fg_uncorrected/(258.6-(($fg_uncorrected/258.2)*227.1))+1), 3);
@@ -34,7 +34,7 @@ Template Name: ABV Form - POST
   $abv = round(($sog - $sfg)/7.46 + 0.5, 2);
   $abw = round(($sog - $sfg) / 1000 * 105, 2);
 
-  if ($scale == "Plato") {
+  if ($scale == "Degrees Plato") {
     $sog = round(1000 * ($sog/1000 - 1) / 4, 0);
     $sfg = round(1000 * ($sfg/1000 - 1) / 4, 0);
   } else {
@@ -43,13 +43,17 @@ Template Name: ABV Form - POST
   }
 ?>
 
+<fieldset>
  <table>
+    <thead>
     <tr>
-      <td>&nbsp;</td>
-      <td><strong>Temp. corrected</strong></td>
-      <td><strong>Scale</strong></td>
-      <td><strong>Uncorrected</strong></td>
+      <th>&nbsp;</th>
+      <th>Corrected</th>
+      <th>System</th>
+      <th>Uncorrected</th>
     </tr>
+    </thead>
+    <tbody>
     <tr>
       <td><strong>Original:</strong></td>
       <td><?php echo htmlspecialchars($sog) ?></td>
@@ -74,8 +78,10 @@ Template Name: ABV Form - POST
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
+    </tbody>
   </table>
 
 <form>
   <input name="button" type="button" onclick="history.back()" value="Back" />
 </form>
+</fieldset>

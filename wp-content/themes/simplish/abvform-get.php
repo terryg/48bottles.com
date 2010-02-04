@@ -9,6 +9,16 @@ Template Name: ABV Form - GET
 
 <form action="/abv/" method="post" name="form1" id="form1">
 <table>
+  <thead>
+  <tr>
+    <th></th>
+    <th>Gravity Reading</th>
+    <th></th>
+    <th>Temperature Reading</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
   <tr>
     <td><strong>Original</strong></td>
     <td><input name="OG" type="text" id="OG" value="1.050" size="6" maxlength="6" />
@@ -35,6 +45,7 @@ Template Name: ABV Form - GET
     </td>
     <td>&nbsp; </td>
   </tr>
+  </tbody>
 </table>
 <input type="submit" name="Submit" value="Submit" />
 <input type="reset" name="Reset" value="Reset" />
