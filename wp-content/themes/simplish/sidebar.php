@@ -10,6 +10,7 @@ google_ad_height = 200;
 <script type="text/javascript"
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
+  <div>&nbsp;</div>
 			<ul>
 			<?php if ( function_exists('dynamic_sidebar') && dynamic_sidebar(1) ) : else : ?>
 				<li id="search" class="search">
