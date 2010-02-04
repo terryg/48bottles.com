@@ -1,4 +1,15 @@
 		<div id="sidebar">
+<script type="text/javascript"><!--
+google_ad_client = "pub-7789131984925279";
+/* 200x200, created 2/3/10 */
+google_ad_slot = "9264205972";
+google_ad_width = 200;
+google_ad_height = 200;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 			<ul>
 			<?php if ( function_exists('dynamic_sidebar') && dynamic_sidebar(1) ) : else : ?>
 				<li id="search" class="search">
