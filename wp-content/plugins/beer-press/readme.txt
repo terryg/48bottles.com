@@ -1,6 +1,5 @@
-=== Recipe Press ===
-Contributors: GrandSlambert
-Donate link: http://wordpress.grandslambert.com/plugins/recipe-press/donate.html
+=== Beer Press ===
+Contributors: TerryLorber
 Tags: recipes, cooking, food, recipe share
 Requires at least: 2.8
 Tested up to: 2.9.1

@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Recipe Press
-Plugin URI: http://recipepress.net
-Description: Turn your Wordpress site into a full fledged recipe sharing system. Allow users to submit recipes, organize recipes in hierarchal categories, make comments, and embed recipes in posts and pages.
-Author: GrandSlambert
-Version: 0.9.8
-Author: GrandSlambert
-Author URI: http://wordpress.grandslambert.com/
+Plugin Name: Beer Press
+Plugin URI: http://48bottles.com/beer-press
+Description: Turn your Wordpress site into a full fledged homebrew recipe sharing system.
+Author: TerryLorber
+Version: 0.0.1
+Author URI: http://www.rideside.net/~tgl
+Acknowledgements: Based on Recipe Press 0.9.8 by GrandSlambert
 
 **************************************************************************
 
@@ -30,28 +30,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* Load the classes */
-require_once ('classes/rp_Base.class.php');
-require_once ('classes/rp_Recipe_Base.class.php');
-require_once ('classes/rp_Recipes.class.php');
-require_once ('classes/rp_Categories.class.php');
-require_once ('classes/rp_Ingredients.class.php');
-require_once ('classes/rp_Tags.class.php');
-require_once ('classes/rp_Comments.class.php');
-require_once ('classes/rp_Settings.class.php');
-require_once ('classes/rp_Add_Recipe.class.php');
-require_once ('classes/rp_Overview.class.php');
-require_once ('classes/rp_Contributors.class.php');
-require_once ('classes/rp_Activate.class.php');
-require_once ('classes/rp_Deactivate.class.php');
+require_once ('classes/bp_Base.class.php');
+require_once ('classes/bp_Recipe_Base.class.php');
+require_once ('classes/bp_Recipes.class.php');
+require_once ('classes/bp_Categories.class.php');
+require_once ('classes/bp_Fermentables.class.php');
+require_once ('classes/bp_Hops.class.php');
+require_once ('classes/bp_Yeasts.class.php');
+require_once ('classes/bp_Miscs.class.php');
+require_once ('classes/bp_Tags.class.php');
+require_once ('classes/bp_Comments.class.php');
+require_once ('classes/bp_Settings.class.php');
+require_once ('classes/bp_Add_Recipe.class.php');
+require_once ('classes/bp_Overview.class.php');
+require_once ('classes/bp_Contributors.class.php');
+require_once ('classes/bp_Activate.class.php');
+require_once ('classes/bp_Deactivate.class.php');
 
 /* Load the helpers */
-require_once ('helpers/rp_inflector.php');
-require_once ('helpers/rp_importers.php');
-require_once ('helpers/rp_pagination.php');
+require_once ('helpers/bp_inflector.php');
+require_once ('helpers/bp_importers.php');
+require_once ('helpers/bp_pagination.php');
 
 /* Class Declaration */
-class recipePress extends rp_Base {
-    const menuName = 'recipe-press-overview';
+class beerPress extends bp_Base {
+    const menuName = 'beer-press-overview';
 
     /**
      * Class Constructor Method
@@ -61,32 +64,31 @@ class recipePress extends rp_Base {
 
         /* Load Langague Files */
         $langDir = dirname( plugin_basename(__FILE__) ) . '/lang';
-        load_plugin_textdomain( 'recipe-press', false, $langDir, $langDir );
+        load_plugin_textdomain( 'beer-press', false, $langDir, $langDir );
 
         /* Add Options Pages and Links */
         add_action('admin_menu', array(&$this, 'addAdminPages'));
         add_filter('plugin_action_links', array(&$this, 'addConfigureLink'), 10, 2);
 
         /* Add short codes. */
-        add_shortcode('recipe-list', array(new rp_Recipe_Base, 'listShortcode') );
-        add_shortcode('recipe-show', array(new rp_Recipe_Base, 'showRecipeShortcode') );
-        add_shortcode('recipe-form', array(new rp_Recipe_Base, 'formShortcode') );
-        add_shortcode('recipe-cats', array(new rp_Categories, 'shortcode') );
-        add_shortcode('recipe-ingredients', array(new rp_Recipe_Base, 'ingredientsShortcode') );
+        add_shortcode('recipe-list', array(new bp_Recipe_Base, 'listShortcode') );
+        add_shortcode('recipe-show', array(new bp_Recipe_Base, 'showRecipeShortcode') );
+        add_shortcode('recipe-form', array(new bp_Recipe_Base, 'formShortcode') );
+        add_shortcode('recipe-cats', array(new bp_Categories, 'shortcode') );
+        add_shortcode('recipe-fermentables', array(new bp_Recipe_Base, 'fermentablesShortcode') );
 
         /* Add filters and hooks. */
         add_action('wp_head', array($this, 'addHeader') );
-        /* add_action('init', array($this, 'recipe_press_addbuttons') ); */
         add_action('admin_head', array($this, 'adminHeader') );
-        add_action('wp_ajax_recipe_press_recipe_title', array($this, 'ajaxLookupRecipeTitle'));
-        add_action('wp_ajax_recipe_press_recipe_slug', array($this, 'ajaxLookupRecipeslug'));
-        add_action('wp_ajax_recipe_press_comment_action', array(new rp_Comments, 'ajaxCommentAction'));
-        add_filter('the_content', array(new rp_Add_Recipe, 'addSubmitForm') );
-        add_filter('preprocess_comment', array(new rp_Comments, 'commentPostFilter'));
-        add_action('delete_attachment', array(new rp_Base, 'onDeleteAttachment'));
+        add_action('wp_ajax_beer_press_recipe_title', array($this, 'ajaxLookupRecipeTitle'));
+        add_action('wp_ajax_beer_press_recipe_slug', array($this, 'ajaxLookupRecipeslug'));
+        add_action('wp_ajax_beer_press_comment_action', array(new bp_Comments, 'ajaxCommentAction'));
+        add_filter('the_content', array(new bp_Add_Recipe, 'addSubmitForm') );
+        add_filter('preprocess_comment', array(new bp_Comments, 'commentPostFilter'));
+        add_action('delete_attachment', array(new bp_Base, 'onDeleteAttachment'));
         
         /* Watch for form submit */
-        add_action('wp', array(new rp_Add_Recipe, 'submitFormCheck'));
+        add_action('wp', array(new bp_Add_Recipe, 'submitFormCheck'));
 
 
         /* Set up the Rewrite Rules */
@@ -153,7 +155,7 @@ class recipePress extends rp_Base {
             $newrules['(' . $pageLink . ')/(.*)/(.*)$'] = 'index.php?pagename=' . $pageLink . '&category=$matches[2]&recipe=$matches[3]';
         }
 
-        //rp_Base::debug($newrules);
+        //bp_Base::debug($newrules);
 
         return $newrules + $rules;
     }
@@ -192,20 +194,20 @@ class recipePress extends rp_Base {
         global $wp_version;
 
         if (function_exists('add_object_page')) {
-            add_object_page($this->pluginName, $this->pluginName, array_search($this->options['overview-role'], $this->roles), recipePress::menuName, array(new rp_Overview, 'subPanel'), $this->pluginDir . '/icons/small_icon.gif' );
+            add_object_page($this->pluginName, $this->pluginName, array_search($this->options['overview-role'], $this->roles), recipePress::menuName, array(new bp_Overview, 'subPanel'), $this->pluginDir . '/icons/small_icon.gif' );
         }
         else {
-            add_menu_page($this->pluginName, $this->pluginName, array_search($this->options['overview-role'], $this->roles), recipePress::menuName, array(new rp_Overview, 'subPanel'), $this->pluginDir . '/icons/menu_icon.gif' );
+            add_menu_page($this->pluginName, $this->pluginName, array_search($this->options['overview-role'], $this->roles), recipePress::menuName, array(new bp_Overview, 'subPanel'), $this->pluginDir . '/icons/menu_icon.gif' );
         }
 
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Recipes', 'Recipes ' . $this->showPending('recipes'), array_search($this->options['recipes-role'], $this->roles), rp_Recipes::menuName, array(new rp_Recipes, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Add Recipe', 'Add Recipe', array_search($this->options['add-recipe-role'], $this->roles), rp_Add_Recipe::menuName, array(new rp_Add_Recipe, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Ingredients', 'Ingredients', array_search($this->options['ingredients-role'], $this->roles), rp_Ingredients::menuName, array(new rp_Ingredients, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Comments', 'Comments' . $this->showPending('comments'), array_search($this->options['comments-role'], $this->roles), rp_Comments::menuName, array(new rp_Comments, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Categories', 'Categories', array_search($this->options['categories-role'], $this->roles), rp_Categories::menuName, array(new rp_Categories, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Tags', 'Tags', array_search($this->options['tags-role'], $this->roles), rp_Tags::menuName, array(new rp_Tags, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Settings', 'Settings', 8, rp_Settings::menuName, array(new rp_Settings, 'subPanel'));
-        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Contributors', 'Contributors', array_search($this->options['overview-role'], $this->roles), rp_Contributors::menuName, array(new rp_Contributors, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Recipes', 'Recipes ' . $this->showPending('recipes'), array_search($this->options['recipes-role'], $this->roles), bp_Recipes::menuName, array(new bp_Recipes, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Add Recipe', 'Add Recipe', array_search($this->options['add-recipe-role'], $this->roles), bp_Add_Recipe::menuName, array(new bp_Add_Recipe, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Ingredients', 'Ingredients', array_search($this->options['ingredients-role'], $this->roles), bp_Ingredients::menuName, array(new bp_Ingredients, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Comments', 'Comments' . $this->showPending('comments'), array_search($this->options['comments-role'], $this->roles), bp_Comments::menuName, array(new bp_Comments, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Categories', 'Categories', array_search($this->options['categories-role'], $this->roles), bp_Categories::menuName, array(new bp_Categories, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Tags', 'Tags', array_search($this->options['tags-role'], $this->roles), bp_Tags::menuName, array(new bp_Tags, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Settings', 'Settings', 8, bp_Settings::menuName, array(new bp_Settings, 'subPanel'));
+        add_submenu_page(recipePress::menuName, $this->pluginName . ' &raquo; Contributors', 'Contributors', array_search($this->options['overview-role'], $this->roles), bp_Contributors::menuName, array(new bp_Contributors, 'subPanel'));
 
         /* Use the bundled jquery library if we are running WP 2.5 or above */
         if (version_compare($wp_version, '2.5', '>=')) {
@@ -244,9 +246,9 @@ class recipePress extends rp_Base {
         }
 
         if ($file == $this_plugin) {
-            $settings_link = '<a href="' . $this->getAdminURL(rp_Settings::menuName) . '">' . __('Settings', 'recipe-press') . '</a>';
+            $settings_link = '<a href="' . $this->getAdminURL(bp_Settings::menuName) . '">' . __('Settings', 'recipe-press') . '</a>';
             array_unshift($links, $settings_link);
-            $overview_link = '<a href="' . $this->getAdminURL(rp_Overview::menuName) . '">' . __('Overview', 'recipe-press') . '</a>';
+            $overview_link = '<a href="' . $this->getAdminURL(bp_Overview::menuName) . '">' . __('Overview', 'recipe-press') . '</a>';
             array_unshift($links, $overview_link);
         }
 
@@ -284,23 +286,23 @@ class recipePress extends rp_Base {
      *
      * Not functional in this verison.
      */
-    public function recipe_press_addbuttons() {
+    public function beer_press_addbuttons() {
     /* Don't bother doing this stuff if the current user lacks permissions */
         if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
             return;
 
         /* Add only in Rich Editor mode */
         if ( get_user_option('rich_editing') == 'true') {
-            add_filter("mce_external_plugins", array($this, "add_recipe_press_tinymce_plugin") );
-            add_filter('mce_buttons', array($this, 'register_recipe_press_button') );
+            add_filter("mce_external_plugins", array($this, "add_beer_press_tinymce_plugin") );
+            add_filter('mce_buttons', array($this, 'register_beer_press_button') );
         }
     }
 
     /**
      * Register a new button for the editor.
      */
-    public function register_recipe_press_button($buttons) {
-        array_push($buttons, "separator", "recipepress");
+    public function register_beer_press_button($buttons) {
+        array_push($buttons, "separator", "beerpress");
         return $buttons;
     }
 
@@ -309,9 +311,9 @@ class recipePress extends rp_Base {
      * @param array $plugin_array
      * @return array
      */
-    public function add_recipe_press_tinymce_plugin($plugin_array) {
+    public function add_beer_press_tinymce_plugin($plugin_array) {
         print "Adding plugin";
-        $plugin_array['recipe_press'] = $this->pluginPath.'/js/editor_plugin.js';
+        $plugin_array['beer_press'] = $this->pluginPath.'/js/editor_plugin.js';
         return $plugin_array;
     }
 } /* End Class Definition */
@@ -323,12 +325,12 @@ if ( !defined('WP_CONTENT_DIR') )
 /* Instantiate the Plugin */
 $RECIPEPRESSOBJ = new recipePress;
 
-register_activation_hook(__FILE__, array(new rp_Activate, 'activate') );
-register_deactivation_hook(__FILE__, array(new rp_Deactivate, 'deactivate') );
+register_activation_hook(__FILE__, array(new bp_Activate, 'activate') );
+register_deactivation_hook(__FILE__, array(new bp_Deactivate, 'deactivate') );
 
 /* Login Requirement Check */
 if ($RECIPEPRESSOBJ->options['require-login']) {
-    add_action('wp', array(new rp_Settings, 'requireLoginCheck'));
+    add_action('wp', array(new bp_Settings, 'requireLoginCheck'));
 }
 
 /* Include Widgets */
