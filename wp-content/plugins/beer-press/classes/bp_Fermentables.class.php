@@ -29,7 +29,7 @@ class bp_Fermentables extends bp_Base {
                 $fermentable = $this->getOneRecord('fermentables', $_GET['id']);
                 /* translators: Message when fermentable is deleted - argument is the fermentable name. */
                 $this->message = sprintf(__('"%s" fermentable successfully deleted.', 'beer-press'), $fermentable->name);
-                $wpdb->update($this->tables['fermentables'], yarray('status'=>'trash'), array('id'=>$fermentable->id));
+                $wpdb->update($this->tables['fermentables'], array('status'=>'trash'), array('id'=>$fermentable->id));
                 break;
             case 'activate':
                 $fermentable = $this->getOneRecord('fermentables', $_GET['id']);

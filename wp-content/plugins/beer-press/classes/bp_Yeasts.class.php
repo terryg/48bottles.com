@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * bp_Fermentables.classes.php - Class for fermentable management
+ * bp_Yeasts.classes.php - Class for yeast management
  *
  * @package Beer Press
  * @subpackage classes
@@ -10,10 +10,10 @@
  * @access public
  */
  
-class bp_Fermentables extends bp_Base {
+class bp_Yeasts extends bp_Base {
     /* Set Variables */
-    const menuName = 'beer-press-fermentables';
-    protected $view = 'fermentables';
+    const menuName = 'beer-press-yeasts';
+    protected $view = 'yeasts';
 
     /**
      * Displays the subpanel and processes user actions.
@@ -26,25 +26,25 @@ class bp_Fermentables extends bp_Base {
 
         switch ($_REQUEST['action']) {
             case 'trash':
-                $fermentable = $this->getOneRecord('fermentables', $_GET['id']);
-                /* translators: Message when fermentable is deleted - argument is the fermentable name. */
-                $this->message = sprintf(__('"%s" fermentable successfully deleted.', 'beer-press'), $fermentable->name);
-                $wpdb->update($this->tables['fermentables'], yarray('status'=>'trash'), array('id'=>$fermentable->id));
+                $yeast = $this->getOneRecord('yeasts', $_GET['id']);
+                /* translators: Message when yeast is deleted - argument is the yeast name. */
+                $this->message = sprintf(__('"%s" yeast successfully deleted.', 'beer-press'), $yeast->name);
+                $wpdb->update($this->tables['yeasts'], yarray('status'=>'trash'), array('id'=>$yeast->id));
                 break;
             case 'activate':
-                $fermentable = $this->getOneRecord('fermentables', $_GET['id']);
-                /* translators: Message when fermentable is activated - argument is the fermentable name. */
-                $this->message = sprintf(__('"%s" fermentable successfully activated.', 'beer-press'), $fermentable->name);
-                $wpdb->update($this->tables['fermentables'], array('status'=>'active'), array('id'=>$fermentable->id));
+                $yeast = $this->getOneRecord('yeasts', $_GET['id']);
+                /* translators: Message when yeast is activated - argument is the yeast name. */
+                $this->message = sprintf(__('"%s" yeast successfully activated.', 'beer-press'), $yeast->name);
+                $wpdb->update($this->tables['yeasts'], array('status'=>'active'), array('id'=>$yeast->id));
                 break;
             case 'update':
-                $results = $wpdb->update( $this->tables['fermentables'], $this->input(), array('id'=>$_POST['id']) );
-                /* translators: Message when fermentable is updated - argument is the recipe title. */
-                $this->message = sprintf(__('"%s" fermentable successfully updated.', 'beer-press'), $_POST['name']);
+                $results = $wpdb->update( $this->tables['yeasts'], $this->input(), array('id'=>$_POST['id']) );
+                /* translators: Message when yeast is updated - argument is the recipe title. */
+                $this->message = sprintf(__('"%s" yeast successfully updated.', 'beer-press'), $_POST['name']);
                 break;
             case 'edit':
-                $this->fermentable = $this->getOneRecord('fermentables', $_GET['id']);
-                $this->view ='edit_fermentable';
+                $this->yeast = $this->getOneRecord('yeasts', $_GET['id']);
+                $this->view ='edit_yeast';
                 break;
         }
 
@@ -52,7 +52,7 @@ class bp_Fermentables extends bp_Base {
     }
 
     /**
-     * Process the form POST input for fermentables.
+     * Process the form POST input for yeasts.
      *
      * @return array
      */
@@ -60,19 +60,19 @@ class bp_Fermentables extends bp_Base {
         global $current_user;
         get_currentuserinfo();
 
-        $slug = $this->slugify($_POST['slug'], $_POST['name'], 'fermentables');
+        $slug = $this->slugify($_POST['slug'], $_POST['name'], 'yeasts');
 
         if ($_POST['create-page']) {
             if (!$parent = $_POST['page']) {
-                $parent = $this->options['fermentable-parent'];
+                $parent = $this->options['yeast-parent'];
             }
 
             $bp_new_post = array(
                 'post_title'    => ucwords($_POST['name']),
-                'post_content'  => '[recipe-fermentables item=' . $slug . ' /]',
+                'post_content'  => '[recipe-yeasts item=' . $slug . ' /]',
                 'post_type'     => 'page',
                 'post_parent'   => $parent,
-                'post_status'   => $this->options['fermentable-parent-status'],
+                'post_status'   => $this->options['yeast-parent-status'],
                 'post_author'   => $current_user->ID
             );
 
@@ -90,74 +90,74 @@ class bp_Fermentables extends bp_Base {
     }
 
     /* Template Tags */
-    public function get_fermentable_id() {
-        return $this->fermentable->id;
+    public function get_yeast_id() {
+        return $this->yeast->id;
     }
 
-    public function fermentable_id() {
-        echo $this->get_fermentable_id();
+    public function yeast_id() {
+        echo $this->get_yeast_id();
     }
 
-    public function get_fermentable_name() {
-        return $this->fermentable->name;
+    public function get_yeast_name() {
+        return $this->yeast->name;
     }
 
-    public function fermentable_name() {
-        echo $this->get_fermentable_name();
+    public function yeast_name() {
+        echo $this->get_yeast_name();
     }
 
-    public function get_fermentable_slug() {
-        return $this->fermentable->slug;
+    public function get_yeast_slug() {
+        return $this->yeast->slug;
     }
 
-    public function fermentable_slug() {
-        echo $this->get_fermentable_slug();
+    public function yeast_slug() {
+        echo $this->get_yeast_slug();
     }
 
-    public function get_fermentable_page() {
-        return $this->fermentable->page;
+    public function get_yeast_page() {
+        return $this->yeast->page;
     }
 
-    public function fermentable_page() {
-        echo $this->get_fermentable_page();
+    public function yeast_page() {
+        echo $this->get_yeast_page();
     }
 
-    public function get_fermentable_url($link = false, $target='_blank') {
+    public function get_yeast_url($link = false, $target='_blank') {
         if ($link) {
-            return '<a href="' . esc_url($this->fermentable->url) . '" target="' . $target . '">' . $this->fermentable->url . '</a>';
+            return '<a href="' . esc_url($this->yeast->url) . '" target="' . $target . '">' . $this->yeast->url . '</a>';
         }
-        return $this->fermentable->url;
+        return $this->yeast->url;
     }
 
-    public function fermentable_url($link = false) {
-        echo $this->get_fermentable_url($link);
+    public function yeast_url($link = false) {
+        echo $this->get_yeast_url($link);
     }
 
-    public function get_fermentable_recipes($count = false) {
+    public function get_yeast_recipes($count = false) {
         if ($count) {
-            return count(explode(',', $this->fermentable->recipes));
+            return count(explode(',', $this->yeast->recipes));
         } else {
-            return $this->fermentable->recipes;
+            return $this->yeast->recipes;
         }
     }
 
-    public function fermentable_recipes($count = false) {
-        echo $this->get_fermentable_recipes($count);
+    public function yeast_recipes($count = false) {
+        echo $this->get_yeast_recipes($count);
     }
 
-    public function get_fermentable_status() {
-        return $this->fermentable->status;
+    public function get_yeast_status() {
+        return $this->yeast->status;
     }
 
-    public function fermentable_status() {
-        echo $this->get_fermentable_status();
+    public function yeast_status() {
+        echo $this->get_yeast_status();
     }
 
-    public function get_fermentable_modified($format = 'Y-m-d h:i:s') {
-        return date($format, strtotime($this->fermentable->modified));
+    public function get_yeast_modified($format = 'Y-m-d h:i:s') {
+        return date($format, strtotime($this->yeast->modified));
     }
 
-    public function fermentable_modified($format = 'Y-m-d h:i:s') {
-        echo $this->get_fermentable_modified($format);
+    public function yeast_modified($format = 'Y-m-d h:i:s') {
+        echo $this->get_yeast_modified($format);
     }
 }

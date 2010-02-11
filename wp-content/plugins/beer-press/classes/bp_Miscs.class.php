@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * bp_Fermentables.classes.php - Class for fermentable management
+ * bp_Miscs.classes.php - Class for misc management
  *
  * @package Beer Press
  * @subpackage classes
@@ -10,10 +10,10 @@
  * @access public
  */
  
-class bp_Fermentables extends bp_Base {
+class bp_Miscs extends bp_Base {
     /* Set Variables */
-    const menuName = 'beer-press-fermentables';
-    protected $view = 'fermentables';
+    const menuName = 'beer-press-miscs';
+    protected $view = 'miscs';
 
     /**
      * Displays the subpanel and processes user actions.
@@ -26,25 +26,25 @@ class bp_Fermentables extends bp_Base {
 
         switch ($_REQUEST['action']) {
             case 'trash':
-                $fermentable = $this->getOneRecord('fermentables', $_GET['id']);
-                /* translators: Message when fermentable is deleted - argument is the fermentable name. */
-                $this->message = sprintf(__('"%s" fermentable successfully deleted.', 'beer-press'), $fermentable->name);
-                $wpdb->update($this->tables['fermentables'], yarray('status'=>'trash'), array('id'=>$fermentable->id));
+                $misc = $this->getOneRecord('miscs', $_GET['id']);
+                /* translators: Message when misc is deleted - argument is the misc name. */
+                $this->message = sprintf(__('"%s" misc successfully deleted.', 'beer-press'), $misc->name);
+                $wpdb->update($this->tables['miscs'], yarray('status'=>'trash'), array('id'=>$misc->id));
                 break;
             case 'activate':
-                $fermentable = $this->getOneRecord('fermentables', $_GET['id']);
-                /* translators: Message when fermentable is activated - argument is the fermentable name. */
-                $this->message = sprintf(__('"%s" fermentable successfully activated.', 'beer-press'), $fermentable->name);
-                $wpdb->update($this->tables['fermentables'], array('status'=>'active'), array('id'=>$fermentable->id));
+                $misc = $this->getOneRecord('miscs', $_GET['id']);
+                /* translators: Message when misc is activated - argument is the misc name. */
+                $this->message = sprintf(__('"%s" misc successfully activated.', 'beer-press'), $misc->name);
+                $wpdb->update($this->tables['miscs'], array('status'=>'active'), array('id'=>$misc->id));
                 break;
             case 'update':
-                $results = $wpdb->update( $this->tables['fermentables'], $this->input(), array('id'=>$_POST['id']) );
-                /* translators: Message when fermentable is updated - argument is the recipe title. */
-                $this->message = sprintf(__('"%s" fermentable successfully updated.', 'beer-press'), $_POST['name']);
+                $results = $wpdb->update( $this->tables['miscs'], $this->input(), array('id'=>$_POST['id']) );
+                /* translators: Message when misc is updated - argument is the recipe title. */
+                $this->message = sprintf(__('"%s" misc successfully updated.', 'beer-press'), $_POST['name']);
                 break;
             case 'edit':
-                $this->fermentable = $this->getOneRecord('fermentables', $_GET['id']);
-                $this->view ='edit_fermentable';
+                $this->misc = $this->getOneRecord('miscs', $_GET['id']);
+                $this->view ='edit_misc';
                 break;
         }
 
@@ -52,7 +52,7 @@ class bp_Fermentables extends bp_Base {
     }
 
     /**
-     * Process the form POST input for fermentables.
+     * Process the form POST input for miscs.
      *
      * @return array
      */
@@ -60,19 +60,19 @@ class bp_Fermentables extends bp_Base {
         global $current_user;
         get_currentuserinfo();
 
-        $slug = $this->slugify($_POST['slug'], $_POST['name'], 'fermentables');
+        $slug = $this->slugify($_POST['slug'], $_POST['name'], 'miscs');
 
         if ($_POST['create-page']) {
             if (!$parent = $_POST['page']) {
-                $parent = $this->options['fermentable-parent'];
+                $parent = $this->options['misc-parent'];
             }
 
             $bp_new_post = array(
                 'post_title'    => ucwords($_POST['name']),
-                'post_content'  => '[recipe-fermentables item=' . $slug . ' /]',
+                'post_content'  => '[recipe-miscs item=' . $slug . ' /]',
                 'post_type'     => 'page',
                 'post_parent'   => $parent,
-                'post_status'   => $this->options['fermentable-parent-status'],
+                'post_status'   => $this->options['misc-parent-status'],
                 'post_author'   => $current_user->ID
             );
 
@@ -90,74 +90,74 @@ class bp_Fermentables extends bp_Base {
     }
 
     /* Template Tags */
-    public function get_fermentable_id() {
-        return $this->fermentable->id;
+    public function get_misc_id() {
+        return $this->misc->id;
     }
 
-    public function fermentable_id() {
-        echo $this->get_fermentable_id();
+    public function misc_id() {
+        echo $this->get_misc_id();
     }
 
-    public function get_fermentable_name() {
-        return $this->fermentable->name;
+    public function get_misc_name() {
+        return $this->misc->name;
     }
 
-    public function fermentable_name() {
-        echo $this->get_fermentable_name();
+    public function misc_name() {
+        echo $this->get_misc_name();
     }
 
-    public function get_fermentable_slug() {
-        return $this->fermentable->slug;
+    public function get_misc_slug() {
+        return $this->misc->slug;
     }
 
-    public function fermentable_slug() {
-        echo $this->get_fermentable_slug();
+    public function misc_slug() {
+        echo $this->get_misc_slug();
     }
 
-    public function get_fermentable_page() {
-        return $this->fermentable->page;
+    public function get_misc_page() {
+        return $this->misc->page;
     }
 
-    public function fermentable_page() {
-        echo $this->get_fermentable_page();
+    public function misc_page() {
+        echo $this->get_misc_page();
     }
 
-    public function get_fermentable_url($link = false, $target='_blank') {
+    public function get_misc_url($link = false, $target='_blank') {
         if ($link) {
-            return '<a href="' . esc_url($this->fermentable->url) . '" target="' . $target . '">' . $this->fermentable->url . '</a>';
+            return '<a href="' . esc_url($this->misc->url) . '" target="' . $target . '">' . $this->misc->url . '</a>';
         }
-        return $this->fermentable->url;
+        return $this->misc->url;
     }
 
-    public function fermentable_url($link = false) {
-        echo $this->get_fermentable_url($link);
+    public function misc_url($link = false) {
+        echo $this->get_misc_url($link);
     }
 
-    public function get_fermentable_recipes($count = false) {
+    public function get_misc_recipes($count = false) {
         if ($count) {
-            return count(explode(',', $this->fermentable->recipes));
+            return count(explode(',', $this->misc->recipes));
         } else {
-            return $this->fermentable->recipes;
+            return $this->misc->recipes;
         }
     }
 
-    public function fermentable_recipes($count = false) {
-        echo $this->get_fermentable_recipes($count);
+    public function misc_recipes($count = false) {
+        echo $this->get_misc_recipes($count);
     }
 
-    public function get_fermentable_status() {
-        return $this->fermentable->status;
+    public function get_misc_status() {
+        return $this->misc->status;
     }
 
-    public function fermentable_status() {
-        echo $this->get_fermentable_status();
+    public function misc_status() {
+        echo $this->get_misc_status();
     }
 
-    public function get_fermentable_modified($format = 'Y-m-d h:i:s') {
-        return date($format, strtotime($this->fermentable->modified));
+    public function get_misc_modified($format = 'Y-m-d h:i:s') {
+        return date($format, strtotime($this->misc->modified));
     }
 
-    public function fermentable_modified($format = 'Y-m-d h:i:s') {
-        echo $this->get_fermentable_modified($format);
+    public function misc_modified($format = 'Y-m-d h:i:s') {
+        echo $this->get_misc_modified($format);
     }
 }

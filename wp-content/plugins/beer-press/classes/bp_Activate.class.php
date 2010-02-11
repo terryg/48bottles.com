@@ -1,12 +1,12 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * bp_Activation.class.php - Class for plugin activation
+ * bp_Activate.class.php - Class for plugin activation
  *
- * @package Recipe Press
+ * @package Beer Press
  * @subpackage classes
- * @author GrandSlambert
- * @copyright 2009-2010
+ * @author TerryLorber
+ * @copyright 2010
  * @access public
  */
 
@@ -16,14 +16,14 @@ class bp_Activate extends bp_Base {
  * Activation function - creates required databases.
  */
     public function activate() {
-        if ($this->version >= '0.8') {
-            $this->upgrade08();
-        }
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $this->makeTable('recipes');
         $this->makeTable('categories');
-        $this->makeTable('ingredients');
+        $this->makeTable('fermentables');
+        $this->makeTable('yeasts');
+        $this->makeTable('hops');
+        $this->makeTable('miscs');
         $this->makeTable('options');
         $this->makeTable('comments');
 
