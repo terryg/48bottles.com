@@ -1,28 +1,28 @@
 <?php
-/* Widget for the Recipe Press Plugin */
+/* Widget for the Beer Press Plugin */
 
 /* Class Declaration */
-class rp_Widget_Category extends WP_Widget {
+class bp_Widget_Category extends WP_Widget {
     var $options    = array();
 
     /**
      * Constructor
      */
-    function rp_Widget_Category() {
+    function bp_Widget_Category() {
         /* translators: The description of the Category List widget on the Appearance->Widgets page. */
-        $widget_ops = array('description' => __('List recipe categories on your sidebar. By GrandSlambert.', 'recipe-press') );
+        $widget_ops = array('description' => __('List recipe categories on your sidebar. By TerryLorber.', 'beer-press') );
         /* translators: The title for the Category List widget. */
-        $this->WP_Widget('recipe_press_category_widget', __('Recipe Press &raquo; Categories', 'recipe-press'), $widget_ops);
+        $this->WP_Widget('beer_press_category_widget', __('Beer Press &raquo; Categories', 'beer-press'), $widget_ops);
 
         $this->pluginPath = WP_CONTENT_DIR . '/plugins/' . plugin_basename(dirname(__FILE__));
-        $this->options = get_option('recipe-press-options');
+        $this->options = get_option('beer-press-options');
     }
 
     /**
      * Widget code
      */
     function widget($args, $instance) {
-        global $RECIPEPRESSOBJ;
+        global $BEERPRESSOBJ;
 
         if ( isset($instance['error']) && $instance['error'] ) {
             return;
@@ -50,7 +50,7 @@ class rp_Widget_Category extends WP_Widget {
                 break;
         }
 
-        $categories = $RECIPEPRESSOBJ->getRecordsCascade('categories', $options);
+        $categories = $BEERPRESSOBJ->getRecordsCascade('categories', $options);
 
         if ($target = $instance['target']) {
             $options['target'] = $target;
@@ -58,15 +58,15 @@ class rp_Widget_Category extends WP_Widget {
 
         $options['show-icon'] = $instance['show-icon'];
         $options['icon-size'] = $instance['icon-size'];
-        $options['li_class'] = 'rp_widget_category_list_item';
+        $options['li_class'] = 'bp_widget_category_list_item';
         $page = get_page($this->options['submit-page']);
 
         print $before_widget;
         if ( $title )
             print $before_title . $title . $after_title;
 
-        print '<ul class="rp_widget_category_list">';
-        $object = new rp_Categories;
+        print '<ul class="bp_widget_category_list">';
+        $object = new bp_Categories;
         print $object->listCategories($categories, $options);
 
         if ($submitlink)
@@ -78,7 +78,7 @@ class rp_Widget_Category extends WP_Widget {
 
     /** @see WP_Widget::form */
     function form($instance) {
-        global $RECIPEPRESSOBJ;
+        global $BEERPRESSOBJ;
 
         if ($instance) {
             $title 	= esc_attr($instance['title']);
@@ -102,4 +102,4 @@ class rp_Widget_Category extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("rp_Widget_Category");'));
+add_action('widgets_init', create_function('', 'return register_widget("bp_Widget_Category");'));

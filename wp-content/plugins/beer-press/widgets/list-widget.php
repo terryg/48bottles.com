@@ -1,28 +1,28 @@
 <?php
-/* Recipe List Widget for the Recipe Press Plugin */
+/* Beer List Widget for the Beer Press Plugin */
 
 /* Class Declaration */
-class rp_Widget_List_Recipes extends WP_Widget {
+class bp_Widget_List_Recipes extends WP_Widget {
     var $options  = array();
 
     /**
      * Constructor
      */
-    function rp_Widget_List_Recipes() {
+    function bp_Widget_List_Recipes() {
         /* translators: The description of the Recpipe List widget on the Appearance->Widgets page. */
-        $widget_ops = array('description' => __('List recipes on your sidebar. By GrandSlambert.', 'recipe-press') );
+        $widget_ops = array('description' => __('List recipes on your sidebar. By TerryLorber.', 'beer-press') );
         /* translators: The title for the Recipe List widget. */
-        $this->WP_Widget('recipe_press_list_widget', __('Recipe Press &raquo; List', 'recipe-press'), $widget_ops);
+        $this->WP_Widget('beer_press_list_widget', __('Beer Press &raquo; List', 'beer-press'), $widget_ops);
 
         $this->pluginPath = WP_CONTENT_DIR . '/plugins/' . plugin_basename(dirname(__FILE__));
-        $this->options = get_option('recipe-press-options');
+        $this->options = get_option('beer-press-options');
     }
 
     /**
      * Widget code
      */
     function widget($args, $instance) {
-        global $RECIPEPRESSOBJ;
+        global $BEERPRESSOBJ;
 
         if ( isset($instance['error']) && $instance['error'] ) {
             return;
@@ -51,7 +51,7 @@ class rp_Widget_List_Recipes extends WP_Widget {
 
         $options['show-icon'] = $instance['show-icon'];
         $options['icon-size'] = $instance['icon-size'];
-        $options['li_class'] = 'rp_widget_list_item';
+        $options['li_class'] = 'bp_widget_list_item';
         $page = get_page($this->options['submit-page']);
 
         print $before_widget;
@@ -60,7 +60,7 @@ class rp_Widget_List_Recipes extends WP_Widget {
         }
 
         print '<ul class="recipe-widget-list">';
-        $recipesobj = new rp_Recipe_Base;
+        $recipesobj = new bp_Recipe_Base;
         print $recipesobj->listRecipes($recipes, $options);
 
         if ($submitlink)
@@ -99,4 +99,4 @@ class rp_Widget_List_Recipes extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("rp_Widget_List_Recipes");'));
+add_action('widgets_init', create_function('', 'return register_widget("bp_Widget_List_Recipes");'));

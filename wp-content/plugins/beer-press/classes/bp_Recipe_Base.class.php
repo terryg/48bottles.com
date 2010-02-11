@@ -23,7 +23,7 @@ class bp_Recipe_Base extends bp_Base {
         parent::__construct();
 
         add_filter('admin_head', array($this, 'add_tinymce'));
-        if (preg_match('/recipe-press/', $_SERVER['REQUEST_URI'])) {
+        if (preg_match('/beer-press/', $_SERVER['REQUEST_URI'])) {
             add_action( 'media_buttons_context' , array($this, 'media_buttons') );
         }
     }

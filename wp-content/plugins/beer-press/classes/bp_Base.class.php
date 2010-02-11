@@ -23,11 +23,11 @@ class bp_Base {
 
     /* Private Variables */
     protected $view = 'base';
-    protected $tablenames   = array('recipes', 'recipesmeta', 'categories', 'options', 'comments', 'fermentables');
+    protected $tablenames   = array('recipes', 'recipesmeta', 'categories', 'options', 'comments', 'fermentables', 'yeasts', 'hops', 'miscs');
     protected $table_prefix = 'bp_';
     protected $tables 	    = array();
     protected $roles        = array(8 => 'administrator', 5 => 'editor', 2=> 'author', 1 => 'contributor', 0 => 'subscriber');
-    protected $menus        = array('recipes','add-recipe','ingredients','comments','categories','tags','settings');
+    protected $menus        = array('recipes','add-recipe','fermentables','hops','yeasts','miscs','comments','categories','tags','settings');
 
     /* Form Field Names */
     protected $formFieldNames = array();
@@ -84,11 +84,10 @@ class bp_Base {
             'title'         => __('Beer Name'),
             'notes'         => __('Beer Notes'),
             'category'      => __('Category'),
-            'servings'      => __('Servings'),
-            'prep_time'     => __('Prep Time'),
-            'cook_time'     => __('Cook Time'),
-            'ingredients'   => __('Ingredients'),
-            'instructions'  => __('Instructions'),
+            'fermentables'  => __('Fermentables'),
+            'hops'          => __('Hops'),
+            'yeasts'        => __('Yeasts'),
+            'miscs'         => __('Miscs'),
             'recaptcha'     => __('Verify'),
             'submitter'     => __('Name'),
             'submitter_email'=> __('Email'),
@@ -100,7 +99,7 @@ class bp_Base {
         /* Get the settings */
 
         if (!$this->options['submit-title']) {
-            $this->options['submit-title'] = 'Submit A Beer';
+            $this->options['submit-title'] = 'Submit A Recipe';
         }
 
         if (!$this->options['default-category']) {
@@ -120,7 +119,7 @@ class bp_Base {
         }
 
         if (!$this->options['required-fields']) {
-            $this->options['required-fields'] = array('title', 'ingredients','instructions', 'submitter', 'submitter_email');
+          $this->options['required-fields'] = array('title', 'fermentables','hops', 'yeasts', 'submitter', 'submitter_email');
         }
 
         if (!$this->options['comment-form-title']) {
@@ -139,12 +138,36 @@ class bp_Base {
             $this->options['comments-date'] = 'F jS, Y';
         }
 
-        if (!$this->options['ingredients-fields']) {
-            $this->options['ingredients-fields'] = 5;
+        if (!$this->options['fermentables-fields']) {
+            $this->options['fermentables-fields'] = 5;
         }
 
-        if (!$this->options['ingredient-parent-status']) {
-            $this->options['ingredient-parent-status'] = 'draft';
+        if (!$this->options['fermentable-parent-status']) {
+            $this->options['fermentable-parent-status'] = 'draft';
+        }
+
+        if (!$this->options['hops-fields']) {
+            $this->options['hops-fields'] = 5;
+        }
+
+        if (!$this->options['hop-parent-status']) {
+            $this->options['hop-parent-status'] = 'draft';
+        }
+
+        if (!$this->options['yeasts-fields']) {
+            $this->options['yeasts-fields'] = 5;
+        }
+
+        if (!$this->options['yeast-parent-status']) {
+            $this->options['yeast-parent-status'] = 'draft';
+        }
+
+        if (!$this->options['miscs-fields']) {
+            $this->options['miscs-fields'] = 5;
+        }
+
+        if (!$this->options['misc-parent-status']) {
+            $this->options['misc-parent-status'] = 'draft';
         }
 
         if (!$this->options['category-template']) {
@@ -155,8 +178,8 @@ class bp_Base {
             $this->options['widget-icon-size'] = 25;
         }
 
-        if (!$this->options['beer-list-template']) {
-            $this->options['beer-list-template'] = 'standard';
+        if (!$this->options['recipe-list-template']) {
+            $this->options['recipe-list-template'] = 'standard';
         }
 
         if (!$this->options['display-limit']) {
@@ -237,7 +260,7 @@ class bp_Base {
                     $title = $_POST['name'] . ' Category Image';
                     break;
                 default:
-                    $title = $_POST['title'] . ' Beer Image';
+                    $title = $_POST['title'] . ' Recipe Image';
                     break;
             }
 
@@ -267,20 +290,20 @@ class bp_Base {
         }
     }
 
-    function get_beer_title() {
-        return esc_attr(stripslashes($this->beer->title));
+    function get_recipe_title() {
+        return esc_attr(stripslashes($this->recipe->title));
     }
 
-    function beer_title() {
-        echo $this->get_beer_title();
+    function recipe_title() {
+        echo $this->get_recipe_title();
     }
 
-    function get_beer_id() {
-        return $this->beer->id;
+    function get_recipe_id() {
+        return $this->recipe->id;
     }
 
-    function beer_id() {
-        echo $this->get_beer_id();
+    function recipe_id() {
+        echo $this->get_recipe_id();
     }
 
     /**
@@ -335,8 +358,8 @@ class bp_Base {
      * @return string       The display_name of the user.
      */
     function displayUser($id = NULL) {
-        if ($this->beer->submitter) {
-            echo $this->beer->submitter;
+        if ($this->recipe->submitter) {
+            echo $this->recipe->submitter;
         }
         elseif (is_null($id)) {
             global $current_user;
@@ -344,7 +367,7 @@ class bp_Base {
             echo $current_user->display_name;
         }
         elseif ($id == 0) {
-            /* translators: The name of the user when a beer is submitted by a non-member. */
+            /* translators: The name of the user when a recipe is submitted by a non-member. */
             return __('Non Member', 'beer-press');
         } else {
             $user_info = get_userdata($id);
@@ -363,7 +386,7 @@ class bp_Base {
     }
 
     function get_list_roles($menu, $selected, $attrs = array()) {
-        $output = '<select name="' . $this->optionsName . '[' . $menu . '-role]" id="beer_press_' . $menu . '_role" ';
+        $output = '<select name="' . $this->optionsName . '[' . $menu . '-role]" id="recipe_press_' . $menu . '_role" ';
 
         foreach ($attrs as $attr) {
             $output.= ' ' . $attr . '="' . $attr . '"';
@@ -492,47 +515,13 @@ class bp_Base {
     }
 
     /**
-     * Calculate the ready time for a beer.
-     *
-     * @param integer $prep     The prep time.
-     * @param integer $cook     The cook time.
-     * @return string           Formatted cooking time.
-     */
-    protected function readyTime($prep = NULL, $cook = NULL) {
-        if ( !isset($prep) ) $prep = $_POST['prep_time'];
-        if ( !isset($cook) ) $cook = $_POST['cook_time'];
-
-        $total = $prep + $cook;
-
-        if ($total > 60) {
-            $hours = floor($total / 60);
-
-            if ($hours > 1 and $this->options['plural-times'])
-                $hplural = 's';
-            else
-                $mplural = '';
-
-            $hours =  $hours . ' ' . $this->options['hour-text'] . $hplural . ', ';
-        }
-
-        $mins = $total -( $hours * 60);
-
-        if ($mins > 1 and $this->options['plural-times'])
-            $mplural = 's';
-        else
-            $mplural = '';
-
-        return $hours . $mins . ' ' . $this->options['minute-text'] . $mplural;
-    }
-
-    /**
      * Create a URL slug from any text.
      *
      * @param string $slug          The text to use to create the slug.
      * @param string $alternate     Text to use if slug is blank or NULL.
      * @return string               A formatted slug.
      */
-    function slugify($slug, $alternate, $table = 'beers', $allowduplicate = false) {
+    function slugify($slug, $alternate, $table = 'recipes', $allowduplicate = false) {
         global $wpdb;
 
         if (!$slug) {
@@ -554,28 +543,28 @@ class bp_Base {
     }
 
     /**
-     * Retrieve a beer from the database using the slug.
+     * Retrieve a recipe from the database using the slug.
      *
      * @global object $wpdb
-     * @param string $slug          The slug for the beer.
+     * @param string $slug          The slug for the recipe.
      * @param boolean $countview    True to count the read as a view.
      * @return object
      */
-    function getBeerFromSlug ($slug, $countview = false) {
+    function getRecipeFromSlug ($slug, $countview = false) {
         global $wpdb;
 
         if ( is_numeric($slug) )
-            $where = $this->tables['beers'] . '`.`id` = "' . $slug . '"';
+            $where = $this->tables['recipes'] . '`.`id` = "' . $slug . '"';
         else
-            $where = $this->tables['beers'] . '`.`slug` = "' . $slug . '"';
+            $where = $this->tables['recipes'] . '`.`slug` = "' . $slug . '"';
 
 
         $query = '
             select
-                    `' . $this->tables['beers'] . '`.*,
+                    `' . $this->tables['recipes'] . '`.*,
                     `' . $this->tables['categories'] . '`.`name` as `category_name`,
                     `' . $this->tables['categories'] . '`.`slug` as `category_slug`
-            from `' . $this->tables['beers'] . '`
+            from `' . $this->tables['recipes'] . '`
             left join `' . $this->tables['categories'] . '` on `' . $this->tables['categories'] . '`.`id` = `' . $this->tables['recipes'] . '`.`category`
             where `' . $where;
 

@@ -16,6 +16,7 @@ class bp_Activate extends bp_Base {
  * Activation function - creates required databases.
  */
     public function activate() {
+        error_log("bp_Activate::activate");
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $this->makeTable('recipes');
@@ -51,39 +52,6 @@ class bp_Activate extends bp_Base {
         }
         else {
             $this->updateTable($tableName, $fields);
-        }
-    }
-
-
-
-    public function upgrade08() {
-        $options = array(
-            'beer_press_default_category'     => 'default-category',
-            'beer_press_display_page'         => 'display-page',
-            'beer_press_submit_page'          => 'submit-page',
-            'beer_press_submit_location'      => 'submit-location',
-            'beer_press_submit_title'         => 'submit-title',
-            'beer_press_required_fields'      => 'required-fields',
-            'beer_press_custom_css'           => 'custom-css',
-            'beer_press_require_login'        => 'require_login',
-            'beer_press_widget_target'        => 'widget-target',
-            'beer_press_widget_items'         => 'widget-items',
-            'beer_press_force_recaptcha'      => 'force-recaptcha',
-            'beer_press_recaptcha_public'     => 'recaptcha-public',
-            'beer_press_recaptcha_private'    => 'recaptcha-private'
-        );
-
-        foreach ($options as $old=>$new) {
-            if ($this->options[$new] = get_option($old) ) {
-                delete_option($old);
-                $saveOptions = true;
-            }
-        }
-
-        if ($saveOptions) {
-            if ( !add_option($this->optionsName, $this->options) ) {
-                update_option($this->optionsName, $this->options);
-            }
         }
     }
 

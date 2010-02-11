@@ -64,7 +64,7 @@ class beerPress extends bp_Base {
 
         /* Load Langague Files */
         $langDir = dirname( plugin_basename(__FILE__) ) . '/lang';
-        load_plugin_textdomain( 'beer-press', false, $langDir, $langDir );
+        //load_plugin_textdomain( 'beer-press', false, $langDir, $langDir );
 
         /* Add Options Pages and Links */
         add_action('admin_menu', array(&$this, 'addAdminPages'));
@@ -177,7 +177,7 @@ class beerPress extends bp_Base {
      * Add items to the administration header.
      */
     public function adminHeader() {
-        if (preg_match('/recipe-press/', $_SERVER['REQUEST_URI'])) {
+        if (preg_match('/beer-press/', $_SERVER['REQUEST_URI'])) {
             $file = $this->getTemplate('recipe-press-admin', '.css', 'url');
             print '<link rel="stylesheet" media="screen" type="text/css" href="' . $file .'" />' . "\n";
             print '<script type="text/javascript" src="' . $this->pluginDir . '/js/jquery-autocomplete/jquery.autocomplete.js"></script>' . "\n";
@@ -318,21 +318,40 @@ class beerPress extends bp_Base {
     }
 } /* End Class Definition */
 
+error_log("HERE 0");
+
 /* Pre 2.6 Compatibility */
 if ( !defined('WP_CONTENT_DIR') )
     define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 
+error_log("HERE 1");
+
 /* Instantiate the Plugin */
-$RECIPEPRESSOBJ = new recipePress;
+$RECIPEPRESSOBJ = new beerPress;
+
+error_log("HERE 2");
 
 register_activation_hook(__FILE__, array(new bp_Activate, 'activate') );
+
+error_log("HERE 3");
+
 register_deactivation_hook(__FILE__, array(new bp_Deactivate, 'deactivate') );
+
+error_log("HERE 4");
 
 /* Login Requirement Check */
 if ($RECIPEPRESSOBJ->options['require-login']) {
     add_action('wp', array(new bp_Settings, 'requireLoginCheck'));
 }
 
+error_log("HERE 5");
+
+
 /* Include Widgets */
 include_once('widgets/list-widget.php');
+
+error_log("HERE 6");
+
 include_once('widgets/category-widget.php');
+
+error_log("HERE 7");
