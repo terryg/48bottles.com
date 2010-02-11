@@ -1,16 +1,16 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_importers.php - helper file for changing inflection of text.
+ * bp_importers.php - helper file for changing inflection of text.
  *
- * @package Recipe Press
+ * @package Beer Press
  * @subpackage helpers
- * @author GrandSlambert
- * @copyright 2009-2010
+ * @author TerryLorber
+ * @copyright 2010
  * @access public
  */
 
-class rp_importers {
+class bp_importers {
 
     public static function recipeml($file, $category, $table) {
 
