@@ -1,12 +1,12 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 /**
- * rp_ingredients_create.php - Create the rp_ingredients table.
+ * bp_fermentables_create.php - Create the bp_fermentables table.
  *
- * @package Recipe Press
+ * @package Beer Press
  * @subpackage classes
  * @subpackage sql
- * @author GrandSlambert
- * @copyright 2009-2010
+ * @author tgl@rideside.net
+ * @copyright 2010
  * @access public
  */
 
