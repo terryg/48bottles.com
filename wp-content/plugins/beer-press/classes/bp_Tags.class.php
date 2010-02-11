@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Tags.class.php - Class for tags moderation
+ * bp_Tags.class.php - Class for tags moderation
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
  
-class rp_Tags extends rp_Base {
+class bp_Tags extends bp_Base {
     /* Set Variables */
     const menuName = 'recipe-press-tags';
     protected $view = 'tags';

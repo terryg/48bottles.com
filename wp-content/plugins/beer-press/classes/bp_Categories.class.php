@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Categories.class.php - Class for category management
+ * bp_Categories.class.php - Class for category management
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
 
-class rp_Categories extends rp_Base {
+class bp_Categories extends bp_Base {
     /* Set Variables */
     const menuName = 'recipe-press-categories';
     protected $view = 'categories';
@@ -174,7 +174,7 @@ class rp_Categories extends rp_Base {
         }
 
         if (!$options['li_class']) {
-            $options['li_class'] = 'rp_category_list_item';
+            $options['li_class'] = 'bp_category_list_item';
         }
 
         if ($options['target']) {

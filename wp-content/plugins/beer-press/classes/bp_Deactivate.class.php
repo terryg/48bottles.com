@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Deactivate.class.php - Class for plugin de-activation
+ * bp_Deactivate.class.php - Class for plugin de-activation
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
 
-class rp_Deactivate extends rp_Base {
+class bp_Deactivate extends bp_Base {
 
     /**
      * Deactivation function - creates required databases.

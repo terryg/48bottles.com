@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Contributors.class.php - Class to dislay contributors
+ * bp_Contributors.class.php - Class to dislay contributors
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
  
-class rp_Contributors extends rp_Base {
+class bp_Contributors extends bp_Base {
     /* Set Variables */
     const menuName = 'recipe-press-contributors';
     protected $view = 'contributors';
@@ -50,7 +50,7 @@ class rp_Contributors extends rp_Base {
             echo '<li class="rp-contributor">';
         } elseif ($name == 'ITEM') {
             /* translators: Used on the Contributors list to denote what a person contributed. */
-            echo '<br><span class="rp_contributor_notes">' . __('Contributed: ', 'recipe-press');
+            echo '<br><span class="bp_contributor_notes">' . __('Contributed: ', 'recipe-press');
         }
 
         if ($name == 'URL') {

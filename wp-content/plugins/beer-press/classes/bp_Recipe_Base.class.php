@@ -80,7 +80,7 @@ class bp_Recipe_Base extends bp_Base {
                             $parent = $this->options['ingredient-parent'];
                         }
 
-                        $rp_new_post = array(
+                        $bp_new_post = array(
                             'post_title'    => ucwords($ingredient['item']),
                             'post_content'  => '[recipe-ingredients item=' . $this->slugify($ingredient['item'], NULL, 'ingredient') . ' /]',
                             'post_type'     => 'page',
@@ -89,7 +89,7 @@ class bp_Recipe_Base extends bp_Base {
                             'post_author'   => $current_user->ID
                         );
 
-                        $ingredients[$id]['page-link'] = wp_insert_post($rp_new_post);
+                        $ingredients[$id]['page-link'] = wp_insert_post($bp_new_post);
                         $ingredients[$id]['create-page'] = NULL;
                     }
                 }
@@ -99,7 +99,7 @@ class bp_Recipe_Base extends bp_Base {
         }
 
         if ($object) {
-            include('sql/rp_recipes_create.php');
+            include('sql/bp_recipes_create.php');
 
             foreach ($_POST as $field=>$value) {
 
@@ -508,7 +508,7 @@ class bp_Recipe_Base extends bp_Base {
         }
 
         if (!$options['li_class']) {
-            $options['li_class'] = 'rp_recipes_list_item';
+            $options['li_class'] = 'bp_recipes_list_item';
         }
 
         if ($options['icon-size']) {
@@ -625,7 +625,7 @@ class bp_Recipe_Base extends bp_Base {
         $notes = $this->recipe->notes;
 
         if ($attrs['length']) {
-            $notes = rp_inflector::trim_excerpt($notes, $attrs['length'], $attrs['allowed_tags']);
+            $notes = bp_inflector::trim_excerpt($notes, $attrs['length'], $attrs['allowed_tags']);
         }
 
         return stripslashes_deep($notes);
@@ -746,8 +746,8 @@ class bp_Recipe_Base extends bp_Base {
             if ($item['item'] == '') {
                 $item['item'] = $result[0];
                 $item['size'] = 'none';
-            } elseif ($this->getOptionIDByValue(rp_inflector::singular($result[0]), 'ingredient_size', 'value') == rp_inflector::singular($result[0])) {
-                $item['size'] = rp_inflector::singular($result[0]);
+            } elseif ($this->getOptionIDByValue(bp_inflector::singular($result[0]), 'ingredient_size', 'value') == bp_inflector::singular($result[0])) {
+                $item['size'] = bp_inflector::singular($result[0]);
             } else {
                 $item['notes'] = $item['item'];
                 $item['item'] = $result[0];
@@ -811,7 +811,7 @@ class bp_Recipe_Base extends bp_Base {
     public function recipe_ingredients($admin = false) {
         $ingredients = $this->get_recipe_ingredients($admin);
 
-        echo '<ul class="rp_ingredients">';
+        echo '<ul class="bp_ingredients">';
 
         foreach ($ingredients as $ingredient) {
             if ($ingredient['page-link']) {
@@ -841,18 +841,18 @@ class bp_Recipe_Base extends bp_Base {
                 $ingredient['total'] = $this->calculateIngredientSize($ingredient);
 
                 if ($ingredient['total'] <= 1) {
-                    $ingredient['size'] = rp_inflector::singular($ingredient['size']);
+                    $ingredient['size'] = bp_inflector::singular($ingredient['size']);
                 } else {
-                    $ingredient['size'] = rp_inflector::plural($ingredient['size']);
+                    $ingredient['size'] = bp_inflector::plural($ingredient['size']);
                 }
             }
 
             if ($ingredient['size'] == 'divider') {
-                echo '</ul><h4 class="recipe-section-title">' . $ingredient['item'] . '</h3><ul class="rp_ingredients">';
+                echo '</ul><h4 class="recipe-section-title">' . $ingredient['item'] . '</h3><ul class="bp_ingredients">';
             } elseif ($link) {
-                echo '<li class="rp_ingredient">' . $ingredient['quantity'] . ' ' . $ingredient['size'] . ' <a href="' . $link . '" target="' . $target . '">' . stripslashes_deep($ingredient['item']) . '</a> ' . $notes . '</li>';
+                echo '<li class="bp_ingredient">' . $ingredient['quantity'] . ' ' . $ingredient['size'] . ' <a href="' . $link . '" target="' . $target . '">' . stripslashes_deep($ingredient['item']) . '</a> ' . $notes . '</li>';
             } else {
-                echo '<li class="rp_ingredient">' . $ingredient['quantity'] . ' ' . $ingredient['size'] . ' ' . stripslashes_deep($ingredient['item']) . $notes. '</li>';
+                echo '<li class="bp_ingredient">' . $ingredient['quantity'] . ' ' . $ingredient['size'] . ' ' . stripslashes_deep($ingredient['item']) . $notes. '</li>';
             }
         }
 
@@ -992,7 +992,7 @@ class bp_Recipe_Base extends bp_Base {
 
                 switch ($field) {
                     case 'category':
-                        $output.= $this->listOptions(rp_inflector::plural($field), isset($this->recipe->category) ? $this->recipe->category : $this->options['default-category']);
+                        $output.= $this->listOptions(bp_inflector::plural($field), isset($this->recipe->category) ? $this->recipe->category : $this->options['default-category']);
                         break;
                     default:
                         if ($field == 'servings_size') {

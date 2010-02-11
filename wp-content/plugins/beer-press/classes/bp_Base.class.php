@@ -262,8 +262,8 @@ class bp_Base {
      */
     function showComments() {
         if (!$this->hideComments) {
-            $rp_Comments = new rp_Comments;
-            $rp_Comments->showComments($this->beer->id);
+            $bp_Comments = new bp_Comments;
+            $bp_Comments->showComments($this->beer->id);
         }
     }
 
@@ -1036,7 +1036,7 @@ class bp_Base {
         $ingredients = array();
 
         foreach ($recipes as $this->recipe) {
-            foreach (rp_Recipe_Base::get_recipe_ingredients() as $ingredient) {
+            foreach (bp_Recipe_Base::get_recipe_ingredients() as $ingredient) {
                 if ($ingredient['size'] and $ingredient['size'] != 'divider') {
                     $slug = $this->slugify(trim($ingredient['item']), NULL, 'ingredients', true);
 

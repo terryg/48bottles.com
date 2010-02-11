@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Activation.class.php - Class for plugin activation
+ * bp_Activation.class.php - Class for plugin activation
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
 
-class rp_Activate extends rp_Base {
+class bp_Activate extends bp_Base {
 
 /**
  * Activation function - creates required databases.
@@ -38,7 +38,7 @@ class rp_Activate extends rp_Base {
     public function makeTable($table) {
         global $wpdb;
         $tableName = $this->tables[$table];
-        $file = $this->pluginPath . '/classes/sql/rp_' . $table . '_create.php';
+        $file = $this->pluginPath . '/classes/sql/bp_' . $table . '_create.php';
 
         require_once($file);
 
@@ -58,19 +58,19 @@ class rp_Activate extends rp_Base {
 
     public function upgrade08() {
         $options = array(
-            'recipe_press_default_category'     => 'default-category',
-            'recipe_press_display_page'         => 'display-page',
-            'recipe_press_submit_page'          => 'submit-page',
-            'recipe_press_submit_location'      => 'submit-location',
-            'recipe_press_submit_title'         => 'submit-title',
-            'recipe_press_required_fields'      => 'required-fields',
-            'recipe_press_custom_css'           => 'custom-css',
-            'recipe_press_require_login'        => 'require_login',
-            'recipe_press_widget_target'        => 'widget-target',
-            'recipe_press_widget_items'         => 'widget-items',
-            'recipe_press_force_recaptcha'      => 'force-recaptcha',
-            'recipe_press_recaptcha_public'     => 'recaptcha-public',
-            'recipe_press_recaptcha_private'    => 'recaptcha-private'
+            'beer_press_default_category'     => 'default-category',
+            'beer_press_display_page'         => 'display-page',
+            'beer_press_submit_page'          => 'submit-page',
+            'beer_press_submit_location'      => 'submit-location',
+            'beer_press_submit_title'         => 'submit-title',
+            'beer_press_required_fields'      => 'required-fields',
+            'beer_press_custom_css'           => 'custom-css',
+            'beer_press_require_login'        => 'require_login',
+            'beer_press_widget_target'        => 'widget-target',
+            'beer_press_widget_items'         => 'widget-items',
+            'beer_press_force_recaptcha'      => 'force-recaptcha',
+            'beer_press_recaptcha_public'     => 'recaptcha-public',
+            'beer_press_recaptcha_private'    => 'recaptcha-private'
         );
 
         foreach ($options as $old=>$new) {

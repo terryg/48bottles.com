@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Recipes.classes.php - Class for recipes management
+ * bp_Recipes.classes.php - Class for recipes management
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
 
-class rp_Recipes extends rp_Recipe_Base {
+class bp_Recipes extends bp_Recipe_Base {
     /* Set Variables */
     const menuName = 'recipe-press-recipes';
     protected $view = 'recipes';
@@ -29,7 +29,7 @@ class rp_Recipes extends rp_Recipe_Base {
                 $this->view = 'import-recipe';
                 break;
             case 'import-action':
-                $recipes = rp_importers::recipeml($_FILES['import-file'], $_POST['import-category'], $this->tables['categories']);
+                $recipes = bp_importers::recipeml($_FILES['import-file'], $_POST['import-category'], $this->tables['categories']);
 
                 foreach ($recipes as $recipe) {
                     $recipe['user_id'] = $current_user->ID;

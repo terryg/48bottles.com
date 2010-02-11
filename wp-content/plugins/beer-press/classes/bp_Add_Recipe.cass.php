@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Add_Recipe.class.php - Class for adding recipes on the back end.
+ * bp_Add_Recipe.class.php - Class for adding recipes on the back end.
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
 
-class rp_Add_Recipe extends rp_Recipe_Base {
+class bp_Add_Recipe extends bp_Recipe_Base {
     /* Set Variables */
     const menuName = 'recipe-press-add-recipe';
     protected $view = 'add-recipe';

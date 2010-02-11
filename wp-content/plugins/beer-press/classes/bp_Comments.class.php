@@ -1,7 +1,7 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Comments.class.php - Class for comments moderation
+ * bp_Comments.class.php - Class for comments moderation
  *
  * @package Recipe Press
  * @subpackage classes
@@ -10,7 +10,7 @@
  * @access public
  */
 
-class rp_Comments extends rp_Base {
+class bp_Comments extends bp_Base {
     /* Set Variables */
     const menuName = 'recipe-press-comments';
     protected $view = 'comments';
@@ -345,7 +345,7 @@ class rp_Comments extends rp_Base {
         $link = $this->getRecipeLink() . '#comment-' . $this->comment->id;
 
         if ($full) {
-            return '<a title="Direct link to this comment" href="' . $link . '" class="rp_comment-permalink">Permalink</a>';
+            return '<a title="Direct link to this comment" href="' . $link . '" class="bp_comment-permalink">Permalink</a>';
         } else {
             return $link;
         }
