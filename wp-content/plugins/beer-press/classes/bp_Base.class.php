@@ -1,30 +1,30 @@
 <?php if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 /**
- * rp_Base.class.php - Class base for all other classes
+ * bp_Base.class.php - Class base for all other classes
  *
- * @package Recipe Press
+ * @package Beer Press
  * @subpackage classes
- * @author GrandSlambert
- * @copyright 2009-2010
+ * @author tgl@rideside.net
+ * @copyright 2010
  * @access public
  */
 
-class rp_Base {
+class bp_Base {
     /* Plugin Settings */
-    const menuName = 'recipe-press-base';
-    const pluginName = 'Recipe Press';
-    public $version = '0.9.8';
-    var $optionsName	= 'recipe-press-options';
+    const menuName = 'beer-press-base';
+    const pluginName = 'Beer Press';
+    public $version = '0.0.1';
+    var $optionsName	= 'beer-press-options';
     var $pagination = array();
 
     /* Private Variables */
-    var $is_text		= array('title', 'name', 'slug', 'notes', 'instructions', 'description');
+    var $is_text		= array('title', 'name', 'slug', 'fermentables', 'hops', 'yeasts', 'miscs');
 
     /* Private Variables */
     protected $view = 'base';
-    protected $tablenames   = array('recipes', 'recipesmeta', 'categories', 'options', 'comments', 'ingredients');
-    protected $table_prefix = 'rp_';
+    protected $tablenames   = array('recipes', 'recipesmeta', 'categories', 'options', 'comments', 'fermentables');
+    protected $table_prefix = 'bp_';
     protected $tables 	    = array();
     protected $roles        = array(8 => 'administrator', 5 => 'editor', 2=> 'author', 1 => 'contributor', 0 => 'subscriber');
     protected $menus        = array('recipes','add-recipe','ingredients','comments','categories','tags','settings');
@@ -36,11 +36,11 @@ class rp_Base {
      * Base Constructor
      */
     function __construct() {
-        /* translators: The name of the plugin, should be a translation of "Recipe Press" only! */
-        $this->pluginName = __('Recipe Press', 'recipe-press');
+        /* translators: The name of the plugin, should be a translation of "Beer Press" only! */
+        $this->pluginName = __('Beer Press', 'beer-press');
         $this->viewsPath = WP_CONTENT_DIR . '/plugins/' . basename(dirname(dirname(__FILE__))) . '/views/';
         $this->templatesPath = WP_CONTENT_DIR . '/plugins/' . basename(dirname(dirname(__FILE__))) . '/templates/';
-        $this->templatesURL = get_option('siteurl') . '/wp-content/plugins/recipe-press/templates/';
+        $this->templatesURL = get_option('siteurl') . '/wp-content/plugins/beer-press/templates/';
         $this->pluginPath = WP_CONTENT_DIR . '/plugins/' . basename(dirname(dirname(__FILE__)));
         $this->pluginDir = get_option('siteurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__)));
         $this->questionMark = $this->pluginDir . '/icons/question.jpg';
@@ -61,18 +61,18 @@ class rp_Base {
         global $wp_query;
 
         if ($this->options['custom-css']) {
-            echo '<link rel="stylesheet" media="screen" type="text/css" href="' . $this->getTemplate('recipe-press', '.css', 'url') .'" />' . "\n";
-            echo '<link rel="stylesheet" media="screen" type="text/css" href="' . $this->getTemplate('recipe-press-list', '.css', 'url') .'" />' . "\n";
+            echo '<link rel="stylesheet" media="screen" type="text/css" href="' . $this->getTemplate('beer-press', '.css', 'url') .'" />' . "\n";
+            echo '<link rel="stylesheet" media="screen" type="text/css" href="' . $this->getTemplate('beer-press-list', '.css', 'url') .'" />' . "\n";
         }
 
-        /* Add the recipe template style sheet */
-        $this->recipe = $this->getRecipeFromSlug($wp_query->get('recipe'), false);
-        if ($this->recipe->template) {
-            $file = $this->getTemplate('recipe-display/' . $this->recipe->template, '.css', 'url');
+        /* Add the beer template style sheet */
+        $this->beer = $this->getBeerFromSlug($wp_query->get('beer'), false);
+        if ($this->beer->template) {
+            $file = $this->getTemplate('beer-display/' . $this->beer->template, '.css', 'url');
             echo '<link rel="stylesheet" media="screen" type="text/css" href="' . $file .'" />' . "\n";
         }
 
-        echo '<script type="text/javascript" src="' . $this->pluginDir . '/js/recipe-form.js"></script>' . "\n";
+        echo '<script type="text/javascript" src="' . $this->pluginDir . '/js/beer-form.js"></script>' . "\n";
 
     }
 
@@ -81,8 +81,8 @@ class rp_Base {
      */
     function loadSettings() {
         $this->formFieldNames = array(
-            'title'         => __('Recipe Name'),
-            'notes'         => __('Recipe Notes'),
+            'title'         => __('Beer Name'),
+            'notes'         => __('Beer Notes'),
             'category'      => __('Category'),
             'servings'      => __('Servings'),
             'prep_time'     => __('Prep Time'),
@@ -100,15 +100,15 @@ class rp_Base {
         /* Get the settings */
 
         if (!$this->options['submit-title']) {
-            $this->options['submit-title'] = 'Submit A Recipe';
+            $this->options['submit-title'] = 'Submit A Beer';
         }
 
         if (!$this->options['default-category']) {
             $this->options['default-category'] = 1;
         }
 
-        if (!$this->options['recipe-template']) {
-            $this->options['recipe-template'] = 'standard';
+        if (!$this->options['beer-template']) {
+            $this->options['beer-template'] = 'standard';
         }
 
         if (!$this->options['submit-location']) {
@@ -155,20 +155,20 @@ class rp_Base {
             $this->options['widget-icon-size'] = 25;
         }
 
-        if (!$this->options['recipe-list-template']) {
-            $this->options['recipe-list-template'] = 'standard';
+        if (!$this->options['beer-list-template']) {
+            $this->options['beer-list-template'] = 'standard';
         }
 
         if (!$this->options['display-limit']) {
             $this->options['display-limit'] = 10;
         }
 
-        if (!$this->options['new-recipe-status']) {
-            $this->options['new-recipe-status'] = 'pending';
+        if (!$this->options['new-beer-status']) {
+            $this->options['new-beer-status'] = 'pending';
         }
 
-        if (!$this->options['new-recipe-template']) {
-            $this->options['new-recipe-template'] = 'standard';
+        if (!$this->options['new-beer-template']) {
+            $this->options['new-beer-template'] = 'standard';
         }
 
         if (!$this->options['form-type']) {
@@ -198,7 +198,7 @@ class rp_Base {
      * @param string $slug
      * @return integer
      */
-    public function processImage($slug = NULL, $type = 'recipe') {
+    public function processImage($slug = NULL, $type = 'beer') {
         $folder = wp_upload_dir();
 
         switch ($_FILES['image']['type']) {
@@ -237,7 +237,7 @@ class rp_Base {
                     $title = $_POST['name'] . ' Category Image';
                     break;
                 default:
-                    $title = $_POST['title'] . ' Recipe Image';
+                    $title = $_POST['title'] . ' Beer Image';
                     break;
             }
 
@@ -258,29 +258,29 @@ class rp_Base {
     }
 
     /**
-     * Show the recipe comments box
+     * Show the beer comments box
      */
     function showComments() {
         if (!$this->hideComments) {
             $rp_Comments = new rp_Comments;
-            $rp_Comments->showComments($this->recipe->id);
+            $rp_Comments->showComments($this->beer->id);
         }
     }
 
-    function get_recipe_title() {
-        return esc_attr(stripslashes($this->recipe->title));
+    function get_beer_title() {
+        return esc_attr(stripslashes($this->beer->title));
     }
 
-    function recipe_title() {
-        echo $this->get_recipe_title();
+    function beer_title() {
+        echo $this->get_beer_title();
     }
 
-    function get_recipe_id() {
-        return $this->recipe->id;
+    function get_beer_id() {
+        return $this->beer->id;
     }
 
-    function recipe_id() {
-        echo $this->get_recipe_id();
+    function beer_id() {
+        echo $this->get_beer_id();
     }
 
     /**
@@ -335,8 +335,8 @@ class rp_Base {
      * @return string       The display_name of the user.
      */
     function displayUser($id = NULL) {
-        if ($this->recipe->submitter) {
-            echo $this->recipe->submitter;
+        if ($this->beer->submitter) {
+            echo $this->beer->submitter;
         }
         elseif (is_null($id)) {
             global $current_user;
@@ -344,8 +344,8 @@ class rp_Base {
             echo $current_user->display_name;
         }
         elseif ($id == 0) {
-            /* translators: The name of the user when a recipe is submitted by a non-member. */
-            return __('Non Member', 'recipe-press');
+            /* translators: The name of the user when a beer is submitted by a non-member. */
+            return __('Non Member', 'beer-press');
         } else {
             $user_info = get_userdata($id);
             return $user_info->display_name;
@@ -363,7 +363,7 @@ class rp_Base {
     }
 
     function get_list_roles($menu, $selected, $attrs = array()) {
-        $output = '<select name="' . $this->optionsName . '[' . $menu . '-role]" id="recipe_press_' . $menu . '_role" ';
+        $output = '<select name="' . $this->optionsName . '[' . $menu . '-role]" id="beer_press_' . $menu . '_role" ';
 
         foreach ($attrs as $attr) {
             $output.= ' ' . $attr . '="' . $attr . '"';
@@ -492,7 +492,7 @@ class rp_Base {
     }
 
     /**
-     * Calculate the ready time for a recipe.
+     * Calculate the ready time for a beer.
      *
      * @param integer $prep     The prep time.
      * @param integer $cook     The cook time.
@@ -532,7 +532,7 @@ class rp_Base {
      * @param string $alternate     Text to use if slug is blank or NULL.
      * @return string               A formatted slug.
      */
-    function slugify($slug, $alternate, $table = 'recipes', $allowduplicate = false) {
+    function slugify($slug, $alternate, $table = 'beers', $allowduplicate = false) {
         global $wpdb;
 
         if (!$slug) {
@@ -554,28 +554,28 @@ class rp_Base {
     }
 
     /**
-     * Retrieve a recipe from the database using the slug.
+     * Retrieve a beer from the database using the slug.
      *
      * @global object $wpdb
-     * @param string $slug          The slug for the recipe.
+     * @param string $slug          The slug for the beer.
      * @param boolean $countview    True to count the read as a view.
      * @return object
      */
-    function getRecipeFromSlug ($slug, $countview = false) {
+    function getBeerFromSlug ($slug, $countview = false) {
         global $wpdb;
 
         if ( is_numeric($slug) )
-            $where = $this->tables['recipes'] . '`.`id` = "' . $slug . '"';
+            $where = $this->tables['beers'] . '`.`id` = "' . $slug . '"';
         else
-            $where = $this->tables['recipes'] . '`.`slug` = "' . $slug . '"';
+            $where = $this->tables['beers'] . '`.`slug` = "' . $slug . '"';
 
 
         $query = '
             select
-                    `' . $this->tables['recipes'] . '`.*,
+                    `' . $this->tables['beers'] . '`.*,
                     `' . $this->tables['categories'] . '`.`name` as `category_name`,
                     `' . $this->tables['categories'] . '`.`slug` as `category_slug`
-            from `' . $this->tables['recipes'] . '`
+            from `' . $this->tables['beers'] . '`
             left join `' . $this->tables['categories'] . '` on `' . $this->tables['categories'] . '`.`id` = `' . $this->tables['recipes'] . '`.`category`
             where `' . $where;
 
