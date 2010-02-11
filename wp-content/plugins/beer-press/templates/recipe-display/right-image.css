@@ -1,0 +1,153 @@
+/* 
+    Document   : standard
+    Created on : Dec 23, 2009, 11:50:57 AM
+    Author     : grandslambert
+    Description: This is the style sheet for the standard recipe template.
+*/
+
+.recipe-press-image {
+    float: right;
+    padding: 0 8px 8px 0;
+}
+
+.recipe-about {
+    float: left;
+    width: 70%;
+}
+
+h3.recipe-title {
+    color: #666;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #666;
+}
+h4.recipe-author {
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0px 0px 5px;
+}
+blockquote.recipe-notes {
+    margin: 5px 0px;
+}
+
+div.recipe-content {
+    clear: both;
+}
+
+div.recipe-section {
+    clear: both;
+}
+
+div.recipe-section-title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+div.recipe-details {
+    display: none;
+}
+
+ul.recipe-details {
+    border-top: 1px dotted #CCCCCC;
+    border-bottom: 1px dotted #CCCCCC;
+    display: inline-table;
+    margin: 0 0 10px;
+    padding: 5px 0;
+    width: 100%;
+}
+
+ul.recipe-details li {
+    list-style: none;
+    float: left;
+    width: auto;
+    text-align: center;
+    padding: 0;
+    padding-left: 0;
+    width: 33%;
+    margin: 0;
+    font-size: 12px;
+    background-image: none;
+}
+
+li.recipe-prep, li.recipe-cook {
+    border-right: 1px dotted #CCCCCC;
+}
+
+span.details-header {
+    font-weight: bold;
+    color: #666666;
+    font-size: 12px;
+}
+
+div.recipe-servings {
+    border-bottom: 1px dotted #CCCCCC;
+    padding: 5px 0;
+}
+
+div.recipe-ingredients {
+    border-bottom: 1px dotted #CCCCCC;
+}
+
+div.recipe-instructions {
+    border-bottom: 1px dotted #CCCCCC;
+}
+
+ul.recipe-ingredients {
+    margin: 0 0 5px;
+    padding: 0;
+}
+ul.recipe-ingredients li {
+    list-style-type: none;
+    margin: 0;
+    background-image: none;
+}
+ol.recipe-instructions li {
+    list-style-type: decimal;
+    background-image: none;
+}
+
+/* Comments Settings */
+.rp-comment-list {
+    padding: 0;
+    margin: 0;
+}
+.rp-comment-list li {
+    list-style-type: none !important;
+    clear:both;
+}
+
+.rp-comment {
+    border-top: solid 1px #666666;
+    padding: 8px 0;
+}
+.rp-avatar {
+    float:right;
+}
+.rp-name {
+    display:block;
+}
+.rp-date {
+    font-size: smaller;
+}
+.rp-perma {
+    font-size: smaller;
+}
+.rp-comment-entry {
+    clear: both;
+}
+
+.rp-comment-status {
+    padding: 5px;
+    background: #FFFFCC;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.rp-comment-spam {
+    padding: 5px;
+    background: #FF3333;
+    color: #FFFFFF;
+    font-style: italic;
+    margin-bottom: 8px;
+    border: solid 1px #666666;
+}

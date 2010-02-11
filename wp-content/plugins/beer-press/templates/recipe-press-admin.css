@@ -1,0 +1,115 @@
+@charset "UTF-8";
+/* Recipe Press CSS Document for Administration */
+
+/**
+ * This file can not be moved to your theme folder - it is used only for the
+ * administration screens.
+*/
+
+.attachment-32x32 {
+    float: left;
+    padding-right: 3px;
+}
+
+.row-actions {
+    clear: both;
+}
+
+#recipe-form .checkbox {
+    width: inherit;
+}
+
+#icon-recipe-press {
+    background: transparent url(../icons/large_icon.gif) no-repeat scroll;
+}
+
+table.recipe-press-overview td {
+    padding: 5px;
+    font-size: 14px;
+}
+
+td.text {
+    font-size: 12px;
+}
+
+table#rp_ingredients tr {
+    padding: 2px 0;
+    border: solid 1px #333333;
+    margin: 5px 0;
+}
+td.approved a.approved {
+    color: green;
+}
+td.pending a.pending {
+    color: #E66F00;
+}
+
+tr.pending {
+    background-color: #FFFFE0;
+}
+
+td.spam a.spam {
+    color: red;
+}
+
+tr.spam {
+    background-color: #F66;
+    color: white;
+}
+
+tr.spam  a {
+    color: #EBEBEB;
+}
+span.rp_contributor_notes {
+    font-size: 10px;
+    padding-left: 20px;
+}
+
+div.overDiv {
+    border: 1px solid #666666;
+    padding: 8px;
+    background: #EBEBEB;
+    font-size: 12px;
+}
+
+tr.rp_size_type_divider {
+    background: #ebebeb;
+}
+
+td.rp_summary {
+    text-align: left;
+    color: #666;
+    font-size: 11px;
+    margin: 8px 0 5px;
+}
+
+td.rp_summary li {
+    float: left;
+    margin: 8px 0 5px;
+    font-size: 11px;
+}
+
+td.rp_pagination {
+    text-align: right;
+    color: #666;
+    font-size: 11px;
+    margin: 8px 0 5px;
+}
+
+span.displaying-num {
+    font-style: italic;
+}
+
+a.rp_active_page_link {
+    margin-right: 3px;
+    border: #E3E3E3 solid 1px;
+    background: #EEEEEE;
+    padding: 3px 6px;
+}
+
+span.rp_inactive_page_link {
+    margin-right: 3px;
+    border: #E3E3E3 solid 1px;
+    background: #D3D3D3;
+    padding: 3px 6px;
+}

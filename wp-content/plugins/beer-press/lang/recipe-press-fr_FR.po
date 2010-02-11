@@ -1,0 +1,1271 @@
+# Translation of the WordPress plugin Recipe Press 0.9.4 by GrandSlambert.
+# Copyright (C) 2010 GrandSlambert
+# This file is distributed under the same license as the Recipe Press package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Recipe Press 0.9.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/recipe-press\n"
+"POT-Creation-Date: 2010-01-29 04:23+0000\n"
+"PO-Revision-Date: 2010-02-05 15:17-0600\n"
+"Last-Translator: Shane Lambert <shane@grandslambert.com>\n"
+"Language-Team: MoOx <dev@moox.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. translators: This is the error message when the recipe title field is left blank in the form.
+#: classes/rp_Add_Recipe.class.php:33
+msgid "The Recipe Name field was left blank, could not create a blank recipe"
+msgstr "La recette doit obligatoirement avoir un nom pour être créer"
+
+#. translators: Recipe added on the back end, argument is the recipe title.
+#: classes/rp_Add_Recipe.class.php:41
+#, php-format
+msgid "\"%s\" recipe successfully added."
+msgstr "La recette \"%s\" a bien été ajouté"
+
+#. translators: General error when trying to save a recipe
+#: classes/rp_Add_Recipe.class.php:46
+msgid "There was an error trying to save the recipe. Perhaps you forgot to make any changes. Try again later, OK?"
+msgstr "Un erreur est survenue durant la sauvegarde de la recette. Vous n'avez peut rien modifier. Essayer plus tard ok ?"
+
+#. #-#-#-#-#  plugin.pot (Recipe Press 0.9.4)  #-#-#-#-#
+#. translators: The name of the plugin, should be a translation of "Recipe Press" only!
+#. #-#-#-#-#  plugin.pot (Recipe Press 0.9.4)  #-#-#-#-#
+#. Plugin Name of an extension
+#: classes/rp_Base.class.php:36
+msgid "Recipe Press"
+msgstr "Recipe Press"
+
+#. translators: The name of the user when a recipe is submitted by a non-member.
+#. translators: Displayed when a recipe is submitted by a non-member.
+#: classes/rp_Base.class.php:305
+#: classes/rp_Recipe_Base.class.php:527
+msgid "Non Member"
+msgstr "Invité"
+
+#. translators: Message when a category is deleted - argument is the number of recipes moved to default category.
+#: classes/rp_Categories.class.php:31
+#, php-format
+msgid "Category deleted. %d recipes were moved to the default category."
+msgstr "Catégorie supprimée. %d recettes ont été déplacés dans la catégorie par défaut."
+
+#. translators: Message when a category is updated - argument is the category name
+#: classes/rp_Categories.class.php:40
+#, php-format
+msgid "Category \"%s\" updated."
+msgstr "Catégorie \"%s\" mise à jour."
+
+#. translators: General error when a category cannot be saved
+#: classes/rp_Categories.class.php:43
+msgid "There was an error trying to save the category. Perhaps you forgot to make any changes. Try again later, OK?"
+msgstr "Un erreur est survenue durant la sauvegarde de la catégorie. Vous n'avez peut rien modifier. Essayer plus tard ok ?"
+
+#. translators: Error when a category name field is left blank on add category.
+#: classes/rp_Categories.class.php:52
+msgid "Category name field was left blank, category could not be created."
+msgstr "La catégorie doit obligatoirement avoir un nom pour être créer"
+
+#. translators: Message when a category is created - argument is the category name.
+#: classes/rp_Categories.class.php:60
+#, php-format
+msgid "Category \"%s\" created."
+msgstr "Catégorie \"%s\" créée."
+
+#. translators: General error when a category cannot be created.
+#: classes/rp_Categories.class.php:63
+msgid "There was an error trying to create the category. Try again later, OK?"
+msgstr "Un erreur est survenue durant la création de la catégorie. Essayer plus tard ok ?"
+
+#. translators: Message when a comment is deleted. First argument is the comment author, second is the recipe title
+#: classes/rp_Comments.class.php:41
+#, php-format
+msgid "Comment from %1$s for %2$s recipe successfully deleted"
+msgstr "Commentaire %1$s pour la recette %2$s correctement supprimé"
+
+#. translators: Message when a comment is updated - argument is the comment author.
+#: classes/rp_Comments.class.php:50
+#, php-format
+msgid "Comment from \"%s\" successfully updated."
+msgstr "Commentaire \"%s\" bien mis à jour."
+
+#. translators: General error message when a comment could not be saved.
+#: classes/rp_Comments.class.php:53
+msgid "There was an error trying to save the comment. Perhaps you forgot to make any changes. Try again later, OK?"
+msgstr "Un erreur est survenue durant la sauvegarde du commentaire. Vous n'avez peut rien modifier. Essayer plus tard ok ?"
+
+#. translators: Message displayed with comment when it is awaiting moderation.
+#: classes/rp_Comments.class.php:209
+msgid "Your comment is currently awaiting moderation."
+msgstr "Votre commentaire est en attente de modération."
+
+#. translators: Message displayed with comment when it has been marked as spam.
+#: classes/rp_Comments.class.php:214
+msgid "Your comment has been marked as spam."
+msgstr "Votre commentaire a été marqué comme spam."
+
+#. translators: Message displayed when the contributors list cannot be accessed.
+#: classes/rp_Contributors.class.php:32
+msgid "There was an error getting the list. Try again later."
+msgstr "Une erreur est survenue lors de la récupération de la liste. Essayez plus tard."
+
+#. translators: Used on the Contributors list to denote what a person contributed.
+#: classes/rp_Contributors.class.php:53
+msgid "Contributed: "
+msgstr "Contribué:"
+
+#. translators: Message when ingredient is deleted - argument is the ingredient name.
+#: classes/rp_Ingredients.class.php:31
+#, php-format
+msgid "\"%s\" ingredient successfully deleted."
+msgstr "\"%s\" ingrédient correctement supprimé."
+
+#. translators: Message when ingredient is updated - argument is the recipe title.
+#: classes/rp_Ingredients.class.php:37
+#, php-format
+msgid "\"%s\" ingredient successfully updated."
+msgstr "\"%s\" ingrédient correctement mis à jour."
+
+#. translators: Title of the "prep time" field on recipe display pages.
+#: classes/rp_Recipe_Base.class.php:558
+#: views/recipe-form-public.php:61
+#: views/recipe-form.php:56
+#: views/settings.php:104
+msgid "Prep Time"
+msgstr "Temps de préparation"
+
+#. translators: Title of the "cook time" on recipe display pages.
+#: classes/rp_Recipe_Base.class.php:583
+#: views/recipe-form-public.php:70
+#: views/recipe-form.php:61
+#: views/settings.php:105
+msgid "Cook Time"
+msgstr "Temps de cuisson"
+
+#. translators: Title of the "ready time" field on recipe display pages.
+#: classes/rp_Recipe_Base.class.php:608
+msgid "Ready In"
+msgstr "Prêt en"
+
+#. translators: Displayed before serving information on recipe display pages.
+#: classes/rp_Recipe_Base.class.php:632
+#: views/recipe-form-public.php:47
+#: views/recipe-form.php:49
+#: views/settings.php:103
+msgid "Servings"
+msgstr "Portions"
+
+#: classes/rp_Recipe_Base.class.php:675
+#: views/ingredients.php:3
+#: views/overview.php:57
+#: views/recipe-form-public.php:81
+#: views/recipe-form.php:211
+msgid "Ingredients"
+msgstr "Ingrédients"
+
+#. translators: This message is displayed when an old version of a recipe is being converted to the format added in version 0.9 of the plugin.
+#: classes/rp_Recipe_Base.class.php:693
+msgid "<strong>NOTICE:</strong> This recipe is being converted. Please verify the settings below match the older list."
+msgstr "<strong>REMARQUE:</strong> Cette recette est en cours de conversion. Veuillez vérifiez que les paramètres ci-dessous correspondent à l'ancienne liste."
+
+#. translators: Message when recipe is deleted - argument is the recipe title.
+#: classes/rp_Recipes.class.php:31
+#, php-format
+msgid "\"%s\" recipe successfully deleted."
+msgstr "\"%s\" recette correctement supprimé."
+
+#. translators: Message when recipe is updated - argument is the recipe title.
+#: classes/rp_Recipes.class.php:40
+#, php-format
+msgid "\"%s\" recipe successfully updated."
+msgstr "\"%s\" recette correctement mise à jour."
+
+#. translators: Message whenuser does not have permission to edit a recipe.
+#: classes/rp_Recipes.class.php:56
+msgid "Sorry, you do not have permission to edit that recipe."
+msgstr "Désolé, vous n'avez pas la permission d'éditer cette recette."
+
+#: recipe-press.php:240
+#: views/overview.php:103
+msgid "Settings"
+msgstr "Paramètres"
+
+#: recipe-press.php:242
+#: views/overview.php:3
+msgid "Overview"
+msgstr "Aperçu"
+
+#: templates/recipe-submit.php:23
+msgid "Submit Recipe"
+msgstr "Proposer la recette"
+
+#: views/add-recipe.php:3
+#: views/overview.php:87
+#: views/settings.php:248
+msgid "Add Recipe"
+msgstr "Ajouter une recette"
+
+#: views/categories.php:3
+#: views/overview.php:42
+#: views/overview.php:91
+msgid "Categories"
+msgstr "Catégories"
+
+#: views/categories.php:14
+msgid "Existing Categories"
+msgstr "Catégories existantes"
+
+#: views/categories.php:18
+#: views/categories.php:25
+#: views/settings.php:109
+msgid "Name"
+msgstr "Nom"
+
+#: views/categories.php:19
+#: views/categories.php:26
+#: views/ingredients.php:24
+#: views/ingredients.php:34
+#: views/recipes.php:34
+#: views/recipes.php:47
+msgid "Slug"
+msgstr "Identifiant"
+
+#: views/categories.php:20
+#: views/categories.php:27
+#: views/ingredients.php:27
+#: views/ingredients.php:37
+#: views/overview.php:12
+#: views/overview.php:83
+#: views/recipes.php:3
+msgid "Recipes"
+msgstr "Recettes"
+
+#: views/categories.php:45
+#: views/comments.php:47
+#: views/edit_comment.php:46
+#: views/ingredients.php:52
+#: views/recipe-form.php:133
+#: views/recipes.php:68
+msgid "Edit"
+msgstr "Editer"
+
+#: views/categories.php:50
+#, php-format
+msgid "Warning: You are about to delete the \"%1$s\" category. Any recipes in this category will be moved to the default category. Are you sure?"
+msgstr "Attention: Vous allez supprimer la catégorie \"%1$s\" . Toutes les recettes dans cette catégorie seront déplacées vers la catégorie par défaut. Etes-vous sûr?"
+
+#: views/categories.php:51
+#: views/comments.php:51
+#: views/edit_comment.php:56
+#: views/ingredients.php:56
+#: views/recipe-form.php:149
+#: views/recipes.php:73
+msgid "Delete"
+msgstr "Supprimer"
+
+#: views/categories.php:55
+msgid "Default"
+msgstr "Défaut"
+
+#: views/categories.php:70
+msgid "Add Recipe Category"
+msgstr "Ajouter une catégorie de recette"
+
+#: views/categories.php:80
+#: views/edit_category.php:16
+msgid "Category name"
+msgstr "Nom de la catégorie"
+
+#: views/categories.php:84
+#: views/edit_category.php:20
+msgid "Category slug"
+msgstr "Identifiant de la catégorie"
+
+#: views/categories.php:86
+#: views/edit_category.php:24
+#: views/edit_ingredient.php:25
+msgid "The \"slug\" is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens."
+msgstr "L&rsquo;identifiant est la version normalisée du nom. Il ne contient généralement que des lettres minuscules non accentuées, des chiffres et des traits d&rsquo;unions."
+
+#: views/categories.php:89
+#: views/edit_category.php:28
+msgid "Image File"
+msgstr "Fichier image"
+
+#: views/categories.php:93
+msgid "Parent"
+msgstr "Parent"
+
+#: views/categories.php:98
+msgid "Categories have a hierarchy that you create."
+msgstr "Les catégories ont une hiérarchie que vous créez."
+
+#: views/categories.php:101
+#: views/edit_category.php:56
+msgid "Description (optional)"
+msgstr "Description (facultatif)"
+
+#: views/categories.php:110
+msgid "Add Category"
+msgstr "Ajouter une catégorie"
+
+#: views/comments.php:3
+#: views/overview.php:19
+#: views/overview.php:95
+#: views/recipes.php:39
+#: views/recipes.php:52
+msgid "Comments"
+msgstr "Commentaires"
+
+#: views/comments.php:20
+#: views/ingredients.php:19
+#: views/recipes.php:27
+msgid "Filter"
+msgstr "Filtrer"
+
+#: views/comments.php:24
+#: views/comments.php:31
+#: views/edit_comment.php:71
+msgid "Author"
+msgstr "Auteur"
+
+#: views/comments.php:25
+#: views/comments.php:32
+msgid "Comment"
+msgstr "Commentaire"
+
+#: views/comments.php:26
+#: views/comments.php:33
+msgid "In Response To"
+msgstr "En réponse à"
+
+#: views/comments.php:50
+#, php-format
+msgid "Warning: You are about to delete the comment by \"%1$s\" on the \"%2$s\" recipe. Are you sure you want to do this?"
+msgstr "Avertissement: Vous êtes sur le point de supprimer le commentaire de \"%1$s\" sur la recette \"%2$s\". Êtes-vous sûr de vouloir faire cela?"
+
+#: views/contributors.php:3
+msgid "Contributors"
+msgstr "Contributeurs"
+
+#: views/contributors.php:4
+msgid "This page includes a list of Recipe Press users who have contributed time or money to the development of this plugin."
+msgstr "Cette page comprend la liste des utilisateurs de Recipe Press qui ont contribué avec du temps ou de l'argent au développement de ce plugin."
+
+#: views/contributors.php:8
+msgid "Major Contributors"
+msgstr "Principaux contributeurs"
+
+#: views/contributors.php:14
+msgid "Additional Contributors"
+msgstr "Autres contributeurs"
+
+#: views/edit_category.php:3
+msgid "Edit Category"
+msgstr "Modifier la catégorie"
+
+#: views/edit_category.php:31
+msgid "Leave this field blank to keep the existing image"
+msgstr "Laissez ce champ vide pour conserver l'image existante"
+
+#: views/edit_category.php:34
+#: views/recipe-form.php:25
+msgid "Delete existing image?"
+msgstr "Supprimer l'image existante?"
+
+#: views/edit_category.php:47
+msgid ">Category Parent"
+msgstr ">Catégorie mère"
+
+#: views/edit_comment.php:3
+msgid "Edit Comment"
+msgstr "Modifier le commentaire"
+
+#: views/edit_comment.php:13
+#: views/recipe-form.php:79
+#: views/recipes.php:37
+#: views/recipes.php:50
+msgid "Status"
+msgstr "État"
+
+#: views/edit_comment.php:24
+#: views/recipe-form.php:87
+msgid "View Comment"
+msgstr "Afficher le commentaire"
+
+#. translators: comment type radio button
+#: views/edit_comment.php:33
+#: views/recipe-form.php:112
+msgctxt "adjective"
+msgid "Approved"
+msgstr "Approuvé"
+
+#. translators: comment type radio button
+#: views/edit_comment.php:34
+#: views/recipe-form.php:109
+msgctxt "adjective"
+msgid "Pending"
+msgstr "En attente de relecture"
+
+#. translators: comment type radio button
+#: views/edit_comment.php:35
+msgctxt "adjective"
+msgid "Spam"
+msgstr "Spam"
+
+#. translators: Publish box date formt, see http://php.net/date
+#. translators: Publish box date formt, see http://php.net/date
+#: views/edit_comment.php:41
+#: views/recipe-form.php:125
+msgid "M j, Y @ G:i"
+msgstr "j F Y \\à G \\h i \\m\\i\\n"
+
+#: views/edit_comment.php:42
+#, php-format
+msgid "Submitted on: <b>%1$s</b>"
+msgstr "Envoyé le : <b>%1$s</b>"
+
+#: views/edit_comment.php:56
+msgid ""
+"You are about to delete this comment. \n"
+" 'Cancel' to stop, 'OK' to delete."
+msgstr "Vous êtes sur le point de supprimer ce commentaires."
+
+#: views/edit_comment.php:59
+msgid "Update Comment"
+msgstr "Mettre à jour le commentaire"
+
+#: views/edit_comment.php:76
+msgid "Name:"
+msgstr "Nom :"
+
+#: views/edit_comment.php:83
+#, php-format
+msgid "E-mail (%s):"
+msgstr "E-mail (%s):"
+
+#: views/edit_comment.php:85
+msgid "E-mail:"
+msgstr "E-mail:"
+
+#: views/edit_comment.php:94
+msgid "visit site"
+msgstr "Visitez le site"
+
+#: views/edit_comment.php:95
+#, php-format
+msgid "URL (%s):"
+msgstr "URL (%s):"
+
+#: views/edit_comment.php:97
+msgid "URL:"
+msgstr "URL:"
+
+#: views/edit_comment.php:102
+msgid "Recipe"
+msgstr "Recette"
+
+#: views/edit_ingredient.php:3
+msgid "Edit Ingredient"
+msgstr "Modifier l'ingrédient"
+
+#: views/edit_ingredient.php:17
+msgid "Ingredient name"
+msgstr "Ingrédient"
+
+#: views/edit_ingredient.php:21
+msgid "Ingredient slug"
+msgstr "Identifiant de l'ingrédient"
+
+#: views/edit_ingredient.php:29
+msgid ">Ingredient Page"
+msgstr ">Page de l'ingrédient"
+
+#: views/edit_ingredient.php:32
+msgid "Create New Page"
+msgstr "Créer un nouvelle page"
+
+#: views/edit_ingredient.php:36
+msgid "Ingredient URL"
+msgstr "URL de l'ingrédient"
+
+#: views/edit_recipe.php:3
+msgid "Edit Recipe"
+msgstr "Modifier la recette"
+
+#: views/footer.php:3
+msgid "Credits"
+msgstr "Crédits"
+
+#: views/footer.php:6
+#, php-format
+msgid "Thank you for trying the %1$s plugin - I hope you find it useful. For the latest updates on this plugin, vist the %2$s. If you have problems with this plugin, please use our %3$s"
+msgstr "Merci d'avoir essayer le plugin %1$s - J'espère que vous l'avez trouver utile.Pour les dernières mises à jour de ce plugin, visitez le %2$s. Si vous avez rencontré des problèmes, veuillez utiliser notre %3$s"
+
+#: views/footer.php:8
+msgid "official site"
+msgstr "Site officiel"
+
+#: views/footer.php:9
+#: views/overview.php:108
+msgid "Support Forum"
+msgstr "Forum d'entraide"
+
+#: views/footer.php:13
+#, php-format
+msgid "This plugin is &copy; %1$s by %2$s and is released under the %3$s"
+msgstr "Ce plugin est &copy; %1$s par %2$s et est diffusé sous la %3$s"
+
+#: views/footer.php:16
+msgid "GNU General Public License"
+msgstr "GNU General Public License"
+
+#: views/footer.php:22
+msgid "Donate"
+msgstr "Faire un don"
+
+#: views/footer.php:25
+#, php-format
+msgid "If you find this plugin useful, please consider supporting this and our other great %1$s."
+msgstr "Si vous trouvez ce plugin utile, pensez à nous soutenir, ainsi que nos autres %1$s."
+
+#: views/footer.php:25
+msgid "plugins"
+msgstr "extensions"
+
+#: views/footer.php:26
+msgid "Donate a few bucks!"
+msgstr "Faites don d'un peu d'argent!"
+
+#: views/ingredients.php:23
+#: views/ingredients.php:33
+msgid "Ingredient Name"
+msgstr "Nom de l'ingrédient"
+
+#: views/ingredients.php:25
+#: views/ingredients.php:35
+msgid "Page"
+msgstr "Page"
+
+#: views/ingredients.php:26
+#: views/ingredients.php:36
+msgid "URL"
+msgstr "URL"
+
+#: views/ingredients.php:55
+#, php-format
+msgid "Warning: You are about to delete the \"%1$s\" ingredient. This will only delete this from the ingredients table and not from individual recipes. Note: This ingredient could be added back to this list when the ingredient list regnerates. Are you sure?"
+msgstr "Attention: Vous allez supprimer l'ingrédient \"%1$s\". Cela ne fera que supprimer celui-ci du tableau des ingrédients et non des recettes individuelles. Note: Cet ingrédient peut être rajouté à cette liste lorsque la listes des ingrédients se régénère. Etes-vous sûr?"
+
+#: views/overview.php:5
+msgid "At A Glance"
+msgstr "En un coup d'œil"
+
+#: views/overview.php:27
+msgid "Recipes Pending Review"
+msgstr "Recettes en attente de relecture"
+
+#: views/overview.php:34
+msgid " Approved"
+msgstr " Approuvé"
+
+#: views/overview.php:49
+#: views/settings.php:205
+msgid "Pending"
+msgstr "En attente"
+
+#: views/overview.php:64
+msgid "Spam"
+msgstr "Indésirable"
+
+#: views/overview.php:76
+msgid "About"
+msgstr "A propos"
+
+#: views/overview.php:78
+msgid "You are using"
+msgstr "Vous utilisez"
+
+#: views/overview.php:80
+msgid "Quick Navigation"
+msgstr "Navigation rapide"
+
+#: views/overview.php:99
+#: views/tags.php:3
+msgid "Tags"
+msgstr "Mots-clés"
+
+#: views/recipe-form-public.php:12
+#: views/recipes.php:33
+#: views/recipes.php:46
+msgid "Recipe Name"
+msgstr "Nom de la Recette"
+
+#: views/recipe-form-public.php:17
+msgid "Recipe Name is required"
+msgstr "Le nom de la recette est obligatoire"
+
+#: views/recipe-form-public.php:23
+#: views/recipe-form.php:200
+#: views/settings.php:99
+msgid "Notes"
+msgstr "Notes"
+
+#: views/recipe-form-public.php:28
+msgid "Notes are required"
+msgstr "Les notes sont obligatoires"
+
+#: views/recipe-form-public.php:34
+#: views/recipe-form.php:41
+#: views/recipes.php:36
+#: views/recipes.php:49
+#: views/settings.php:100
+msgid "Category"
+msgstr "Catégorie"
+
+#: views/recipe-form-public.php:41
+msgid "A category is required"
+msgstr "Une catégorie est obligatoire"
+
+#: views/recipe-form-public.php:55
+msgid "Servings are required"
+msgstr "Les portions sont obligatoires"
+
+#: views/recipe-form-public.php:66
+msgid "Prep time is required"
+msgstr "Le temps de préparation est obligatoire"
+
+#: views/recipe-form-public.php:75
+msgid "Cook time is required"
+msgstr "Le temps de cuisson est obligatoire"
+
+#: views/recipe-form-public.php:87
+#: views/recipe-form.php:222
+msgid "Quantity"
+msgstr "Quantité"
+
+#: views/recipe-form-public.php:88
+#: views/recipe-form.php:223
+msgid "Size"
+msgstr "Taille"
+
+#: views/recipe-form-public.php:89
+#: views/recipe-form.php:224
+msgid "Ingredient"
+msgstr "Ingrédient"
+
+#: views/recipe-form-public.php:126
+#: views/recipe-form.php:285
+msgid "Add Ingredient"
+msgstr "Ajouter un ingrédient"
+
+#: views/recipe-form-public.php:126
+#: views/recipe-form.php:285
+msgid "Add Divider"
+msgstr "Ajouter un diviseur"
+
+#: views/recipe-form-public.php:128
+msgid "Ingredients are required"
+msgstr "Les ingrédients sont obligatoires"
+
+#: views/recipe-form-public.php:138
+#: views/recipe-form.php:290
+#: views/settings.php:108
+msgid "Instructions"
+msgstr "Instructions"
+
+#: views/recipe-form-public.php:143
+msgid "Instructions are required"
+msgstr "Les instructions sont obligatoires"
+
+#: views/recipe-form-public.php:155
+msgid "Please enter the words above."
+msgstr "Veuillez entrer les mots ci-dessous."
+
+#: views/recipe-form-public.php:160
+#, fuzzy
+msgid "Thank you for entering valid captcha text."
+msgstr "Nous vous remercions de la saisie de texte valide."
+
+#: views/recipe-form-public.php:170
+msgid "Your Name"
+msgstr "Votre nom"
+
+#: views/recipe-form-public.php:174
+msgid "Please enter your name."
+msgstr "Veuillez entrer votre nom"
+
+#: views/recipe-form-public.php:179
+msgid "Your Email"
+msgstr "Votre Email"
+
+#: views/recipe-form-public.php:183
+msgid "Please enter your email address."
+msgstr "Veuillez entrer votre adresse email"
+
+#: views/recipe-form.php:5
+msgid "Recipe Image"
+msgstr "Image de la recette"
+
+#: views/recipe-form.php:19
+msgid "Upload a New Image"
+msgstr "Envoyer un nouvelle image"
+
+#: views/recipe-form.php:36
+msgid "Details"
+msgstr "Détails"
+
+#: views/recipe-form.php:66
+msgid "Allow Comments"
+msgstr "Autoriser les commentaires"
+
+#: views/recipe-form.php:70
+msgid "Featured?"
+msgstr "Mise en avant?"
+
+#. translators: comment type radio button
+#: views/recipe-form.php:106
+msgctxt "adjective"
+msgid "Draft"
+msgstr "Brouillon"
+
+#. translators: comment type radio button
+#: views/recipe-form.php:115
+msgctxt "adjective"
+msgid "Hidden"
+msgstr "Caché"
+
+#. translators: Displays the date submitted - argument is formatted date.
+#: views/recipe-form.php:127
+#, php-format
+msgid "Submitted on: <strong>%1$s</strong>"
+msgstr "Soumis le : <strong>%1$s</strong>"
+
+#. translators: Format of who submitted the recipe - argument is the name of the author.
+#: views/recipe-form.php:129
+#, php-format
+msgid "Submitted by: <strong>%1$s</strong>"
+msgstr "Soumis par : <strong>%1$s</strong>"
+
+#: views/recipe-form.php:149
+#, fuzzy
+msgid ""
+"You are about to delete this recipe. \n"
+" 'Cancel' to stop, 'OK' to delete."
+msgstr "Vous êtes sur le point de supprimer la recette."
+
+#: views/recipe-form.php:152
+msgid "Save Recipe"
+msgstr "Enregistrer la recette"
+
+#: views/recipe-form.php:164
+msgid "Information"
+msgstr "Information"
+
+#: views/recipe-form.php:169
+msgid "Title:"
+msgstr "Titre:"
+
+#: views/recipe-form.php:174
+msgid "Slug:"
+msgstr "Idnetifiant:"
+
+#: views/recipe-form.php:177
+msgid "The \"slug\" is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens. Leave this blank for an auto generated slug based on the title"
+msgstr "L&rsquo;identifiant est la version normalisée du nom. Il ne contient généralement que des lettres minuscules non accentuées, des chiffres et des traits d&rsquo;unions. Laissez le vide pour une génération automatique basée sur le titre"
+
+#: views/recipe-form.php:182
+msgid "Author:"
+msgstr "Auteur:"
+
+#: views/recipe-form.php:191
+msgid "Template: "
+msgstr "Modèle"
+
+#: views/recipe-form.php:214
+msgid "Check this box to turn off the default header for the Ingredients display: "
+msgstr "Cochez cette case pour désactiver l'en-tête par défaut pour l'affichage des ingrédients:"
+
+#: views/recipe-form.php:225
+msgid "Link to page"
+msgstr "Lier à la page"
+
+#: views/recipe-form.php:238
+#: views/recipe-form.php:261
+msgid "Ingredient Notes:"
+msgstr "Notes pour l'ingrédient:"
+
+#: views/recipe-form.php:242
+#: views/recipe-form.php:277
+msgid "Checking this box will create a new page for this ingredient. Are you sure you want to do this?"
+msgstr "Cochez cette case pour créer une nouvelle page pour cet ingrédient. Êtes-vous sûr de vouloir faire cela?"
+
+#: views/recipe-form.php:242
+#: views/recipe-form.php:277
+msgid "Create a new page?"
+msgstr "Créez une nouvelle page?"
+
+#: views/recipes.php:35
+#: views/recipes.php:48
+msgid "Contributor"
+msgstr "Contributeur"
+
+#: views/recipes.php:38
+#: views/recipes.php:51
+msgid "Views"
+msgstr "Vues"
+
+#: views/recipes.php:40
+#: views/recipes.php:53
+msgid "Date"
+msgstr "Date"
+
+#: views/recipes.php:69
+msgid "View"
+msgstr "Vue"
+
+#: views/recipes.php:70
+msgid "Quick Edit"
+msgstr "Edition rapide"
+
+#: views/recipes.php:73
+#, fuzzy, php-format
+msgid "Warning: You are about to delete the \"%1$s\" recipe. Any posts or pages with short codes for this recipe will now appear blank. Are you sure?"
+msgstr "Attention: Vous allez supprimer la recette \"%1$s\". Tous les billets ou pages avec les shortcodes pour cette recette vont maintenant apparaître vide. Etes-vous sûr?"
+
+#: views/settings.php:5
+msgid "Plugin Settings"
+msgstr "Paramètres de l'extension"
+
+#: views/settings.php:10
+msgid "Display Settings"
+msgstr "Paramètres d'affichage"
+
+#: views/settings.php:16
+msgid "Recipe List Page"
+msgstr "Page de la liste des recettes"
+
+#: views/settings.php:19
+msgid "Remember to add the [recipe-list] short code to this page. This requirement may be removed in future versions."
+msgstr "N'oubliez pas d'ajouter le shortcode [recipe-list] sur cette page. Cette exigence sera peut être enlevée dans les versions futures."
+
+#: views/settings.php:23
+msgid "Use Plugin CSS?"
+msgstr "Utilisez la CSS du plugin?"
+
+#: views/settings.php:26
+msgid "Click this option to include the CSS from the plugin."
+msgstr "Cliquez sur cette option pour inclure la CSS du plugin."
+
+#: views/settings.php:30
+msgid "\"Hours\" Text"
+msgstr "Texte des \"Heures\""
+
+#: views/settings.php:33
+#: views/settings.php:40
+#, fuzzy
+msgid "This is the text that will be used in the \"ready time\" box if more than 60 minutes is required. Leave as a singular word."
+msgstr "Ceci est le texte qui sera utilisé dans la case \"ready time\" si plus de 60 minutes sont nécessaires. Laissez un seul mot."
+
+#: views/settings.php:37
+msgid "\"Minutes\" Text"
+msgstr "Texte des \"Minutes\""
+
+#: views/settings.php:50
+msgid "Recipe Form Settings"
+msgstr "Paramètres du formulaire de recette"
+
+#: views/settings.php:55
+msgid "User Submit Page"
+msgstr "Page d'envoye utilisateur"
+
+#: views/settings.php:58
+msgid "Note: The user form will be added to this page automatically, no code needed."
+msgstr "Remarque: Le formulaire utilisateur sera ajouté à cette page de manière automatique, aucun code nécessaire."
+
+#: views/settings.php:62
+msgid "Where to add the form"
+msgstr "Où ajouter le formulaire"
+
+#: views/settings.php:65
+msgid "Before the Content"
+msgstr "Avant le contenu"
+
+#: views/settings.php:66
+msgid "After the Content"
+msgstr "Après le contenu"
+
+#: views/settings.php:67
+msgid "Replace all Content with Form"
+msgstr "Remplacer l'ensemble du Contenu avec le Formulaire"
+
+#: views/settings.php:72
+msgid "User Submit Link Title"
+msgstr "Utilisateur"
+
+#: views/settings.php:75
+#, fuzzy
+msgid "Used in the widgets when adding a link to the submit form."
+msgstr "Utilisé dans les widgets pour ajouter un lien vers le formulaire."
+
+#: views/settings.php:79
+#, fuzzy
+msgid "Require login for submit form?"
+msgstr "Exiger d'être connecter pour envoyer le formulaire?"
+
+#: views/settings.php:82
+msgid "If checked will require all users to be logged in before they can submit a recipe."
+msgstr "Si elle est cochée, il faudra tous les utilisateurs à être connecté avant de pouvoir présenter une recette."
+
+#: views/settings.php:86
+msgid "Number of ingredients fields on blank form"
+msgstr "Nombre d'ingrédients sur les champs de formulaire vierge"
+
+#: views/settings.php:89
+msgid "How many initial ingredients input lines to display on a blank form."
+msgstr "Combien de lignes d'ingrédients initiaux de saisie pour afficher sur un formulaire vierge."
+
+#: views/settings.php:93
+msgid "Required Form Fields"
+msgstr "Champs requis"
+
+#: views/settings.php:98
+msgid "Title"
+msgstr "Titre"
+
+#: views/settings.php:109
+#: views/settings.php:110
+msgid "Only displayed when a user is not logged in"
+msgstr "Afficher seulement si l'utilisateur n'est pas connecté"
+
+#: views/settings.php:110
+msgid "Email"
+msgstr "Email"
+
+#: views/settings.php:123
+msgid "Widget Settings"
+msgstr "Paramètres di Widget"
+
+#: views/settings.php:127
+msgid "Default Items to Display"
+msgstr "Fichiers à afficher par défaut"
+
+#: views/settings.php:135
+msgid "Default for new widgets."
+msgstr "Par défaut pour les nouveaux widgets."
+
+#: views/settings.php:139
+msgid "Default List Widget Type"
+msgstr "Gadget de liste par défaut Type"
+
+#: views/settings.php:142
+#: widgets/list-form.php:21
+msgid "Newest Recipes"
+msgstr "Recettes récentes"
+
+#: views/settings.php:143
+#: widgets/list-form.php:22
+msgid "Random Recipes"
+msgstr "Recettes aléatoires"
+
+#: views/settings.php:144
+#: widgets/list-form.php:23
+msgid "Most Popular"
+msgstr "Les plus populaires"
+
+#: views/settings.php:145
+#: widgets/list-form.php:24
+msgid "Featured"
+msgstr "Mises en avant"
+
+#: views/settings.php:146
+msgid "Redently Updated"
+msgstr "Mises à jour récemment"
+
+#: views/settings.php:148
+#: views/settings.php:158
+#: views/settings.php:170
+msgid "Default link target when adding a new widget."
+msgstr "La cible par défaut lorsque vous ajoutez un nouveau widget."
+
+#: views/settings.php:152
+#, fuzzy
+msgid "Default List Widget Sort"
+msgstr "Liste de tri par défatut pour Widget"
+
+#: views/settings.php:155
+#: widgets/list-form.php:33
+msgid "Ascending"
+msgstr "Ascendant"
+
+#: views/settings.php:156
+#: widgets/list-form.php:34
+msgid "Descending"
+msgstr "Descending"
+
+#: views/settings.php:163
+msgid "Default Link Target"
+msgstr "Cible par défaut du lien"
+
+#: views/settings.php:180
+msgid "Management Settings"
+msgstr "Paramètres de gestion"
+
+#: views/settings.php:185
+msgid "Default Category"
+msgstr "Catégorie par défaut"
+
+#: views/settings.php:190
+msgid "Default category for adding recipes. Also, when deleting a category, all affected recipes will be moved to this category."
+msgstr "Catégorie par défaut pour l'ajout de recettes. Aussi, lorsque vous supprimez une catégorie, toutes les recettes affectées seront déplacés dans cette catégorie."
+
+#: views/settings.php:194
+#, fuzzy
+msgid "New Ingredient Page Parent"
+msgstr "Nouvel ingrédient page principale"
+
+#: views/settings.php:197
+msgid "This page will be used as the parent page for any ingredient pages automatically created by the recipe editor."
+msgstr "Cette page sera utilisée comme la page principale pour toutes les pages d'ingrédients automatiquement créés par l'éditeur de recette."
+
+#: views/settings.php:201
+#, fuzzy
+msgid "New page status"
+msgstr "Nouvelle page d'état"
+
+#: views/settings.php:204
+msgid "Draft"
+msgstr "Brouillon"
+
+#: views/settings.php:206
+msgid "Published"
+msgstr "Publié"
+
+#: views/settings.php:212
+#, fuzzy
+msgid "Remove Data on Deactivate?"
+msgstr "Supprimer les données lors de la désactivation?"
+
+#: views/settings.php:215
+msgid "Warning: If you deactivate the plugin while this option is checked, all data and options will be removed from the database. Make sure you backup your data before you deactivate the plugin as there is no way to recover from this operation. Are you sure you want to do this?"
+msgstr "Attention: Si vous désactivez l'extension alors que cette option est cochée, toutes les données et les options seront supprimées de la base. Assurez-vous de sauvegarder vos données avant de désactiver le plugin puisqu'il n'existe aucun moyen de s'annuler cette opération. Êtes-vous sûr de vouloir faire cela?"
+
+#: views/settings.php:218
+msgid "By checking this box, all data and options will be removed when the plugin is deactivated."
+msgstr "En cochant cette case, toutes les données et les options seront supprimées lorsque le plugin est désactivé."
+
+#: views/settings.php:226
+msgid "Access Settings"
+msgstr "Paramètres d'accès"
+
+#: views/settings.php:231
+msgid "These settings determine the minimum user level allowed to view different menus. Administrators and Editors see all items on menus, lower levels see only their own contributions."
+msgstr "Ces paramètres déterminent le niveau minimum autorisé d'un 'utilisateur pour afficher les différents menus. Les administrateurs et les rédacteurs veront tous les articles sur les menus les niveaux plus bas ne verront que leurs propres contributions."
+
+#: views/settings.php:234
+msgid "Overview Menu"
+msgstr "Présentation des menus"
+
+#: views/settings.php:237
+msgid "This setting will default to the lowest level required for any of the menus below as it is required for creating other menus."
+msgstr "Ce paramètre prend par défaut le niveau le plus bas requis pour tous les menus ci-dessous car il est nécessaire afin de créer d'autres menus."
+
+#: views/settings.php:241
+msgid "Recipe List"
+msgstr "Liste des recettes"
+
+#: views/settings.php:244
+msgid "User level required to view the Recipe List. Only Admins and Editors will see all recipes while lower levels see only their recipes."
+msgstr "Niveau d'utilisateur requis pour voir la liste des recettes. Seulement les Admins et Editeurs veront toutes les recelltes alors que les niveaux plus faibles ne veront que les leurs."
+
+#: views/settings.php:251
+msgid "User level required to view the add recipe page."
+msgstr "Niveau d'utilisateur requis pour voir la page d'ajout des recettes."
+
+#: views/settings.php:255
+msgid "Ingredients Menu"
+msgstr "Menu des ingrédients"
+
+#: views/settings.php:258
+msgid "User level required to view the add ingredients menu."
+msgstr "Niveau d'utilisateur requis pour voir le menu d'ajout des ingédients."
+
+#: views/settings.php:262
+msgid "Comments Menu"
+msgstr "Menu des commentaires"
+
+#: views/settings.php:265
+msgid "User level required to view the comments menu."
+msgstr "Niveau d'utilisateur requis pour voir le menu des commentaires"
+
+#: views/settings.php:269
+msgid "Categories Menu"
+msgstr "Menu des catégories"
+
+#: views/settings.php:272
+msgid "User level required to view the categories menu. <strong>Warning</strong>: Users will see all categories and can edit and delete all categories. This may change in a future version, but for now, only allow users who you want this access!"
+msgstr "Niveau d'utilisateur requis pour voir le menu des catégories. <strong>Attention</ strong>: Les utilisateurs verront toutes les catégories et pourront éditer et supprimer toutes les catégories. Cela pourra changer dans une version future, mais pour l'instant, autorisez uniquement les utilisateurs que vous souhaitez!"
+
+#: views/settings.php:276
+msgid "Tags Menu"
+msgstr "Menu des mots-clés"
+
+#: views/settings.php:279
+msgid "User level required to view the tags menu. <strong>Warning</strong>: Users will see all tags and can edit and delete all tags. This may change in a future version, but for now, only allow users who you want this access!"
+msgstr "Niveau d'utilisateur requis pour voir le menu de mots-clés. <strong>Attention</ strong>: Les utilisateurs verront tous les mots-clés et pourront éditer et supprimer tous les mots-clés. Cela pourra changer dans une version future, mais pour l'instant, autorisez uniquement les utilisateurs que vous souhaitez!"
+
+#: views/settings.php:287
+msgid "reCaptcha Settings"
+msgstr "Paramètre reCaptcha"
+
+#: views/settings.php:292
+msgid "To use reCaptcha on the public form, enter your public and private keys here."
+msgstr "Pour utiliser le service reCaptcha dans le formulaire publique, entrez ici vos clés publique et privé."
+
+#: views/settings.php:293
+#, fuzzy
+msgid "Get Keys"
+msgstr "Récupérer les clés"
+
+#: views/settings.php:297
+#, fuzzy
+msgid "Force for All Users?"
+msgstr "Forcer pour tous les utilisateurs ?"
+
+#: views/settings.php:300
+msgid "If checked, logged in users will see the reCaptcha."
+msgstr "Si elle est cochée, les utilisateurs connectés verront le reCaptcha."
+
+#: views/settings.php:304
+msgid "Public Key"
+msgstr "Clé public"
+
+#: views/settings.php:308
+msgid "Private Key"
+msgstr "Clé privée"
+
+#: views/settings.php:315
+msgid "Comment Settings"
+msgstr "Paramètres des commentaires"
+
+#: views/settings.php:320
+msgid "Form Title"
+msgstr "Titre du formulaire"
+
+#: views/settings.php:326
+msgid "Must be logged in to comment"
+msgstr "Vous devez être connecté pour poster un commentaire"
+
+#: views/settings.php:329
+msgid "By checking this box, visitors must log in before leaving a comment on a recipe."
+msgstr "En cochant cette case, les visiteurs doivent se connecter avant de laisser un commentaire sur une recette."
+
+#: views/settings.php:333
+#, fuzzy
+msgid "Show Gravatar?"
+msgstr "Afficher les Gravatars?"
+
+#: views/settings.php:336
+msgid "By checking this box, visitors Gravatar will be displayed along with their comment."
+msgstr "En cochant cette case, les Gravatar des visiteurs s'affichent avec leur commentaire."
+
+#: views/settings.php:351
+msgid "Save Settings"
+msgstr "Enregistrer les paramètres"
+
+#: widgets/category-form.php:3
+#: widgets/list-form.php:3
+msgid "Widget Title (optional):"
+msgstr "Titre du Widget (optionnel):"
+
+#: widgets/category-form.php:8
+msgid "How many items would you like to display?"
+msgstr "Combien d'articles voulez-vous afficher?"
+
+#: widgets/category-form.php:18
+#: widgets/list-form.php:48
+msgid "Link Target:"
+msgstr "Cible du lien:"
+
+#: widgets/category-form.php:21
+#: widgets/list-form.php:51
+#, fuzzy
+msgid "None"
+msgstr "Aucun"
+
+#: widgets/category-form.php:22
+#: widgets/list-form.php:52
+msgid "New Window"
+msgstr "Nouvelle fenêtre"
+
+#: widgets/category-form.php:23
+#: widgets/list-form.php:53
+#, fuzzy
+msgid "Top Window"
+msgstr "Fenêtre en avant plan"
+
+#. translators: The description of the Category List widget on the Appearance->Widgets page.
+#: widgets/category-widget.php:13
+msgid "List recipe categories on your sidebar. By GrandSlambert."
+msgstr "Liste des catégories de recette sur votre barre latérale. Par GrandSlambert."
+
+#. translators: The title for the Category List widget.
+#: widgets/category-widget.php:15
+msgid "Recipe Press &raquo; Categories"
+msgstr "Recipe Press &raquo; Catégories"
+
+#: widgets/list-form.php:18
+msgid "Display Type:"
+msgstr "Type d'affichage:"
+
+#: widgets/list-form.php:25
+msgid "Recently Updated"
+msgstr "Récemment mises à jour"
+
+#: widgets/list-form.php:30
+msgid "Sort Order:"
+msgstr "Ordre de tri:"
+
+#: widgets/list-form.php:39
+msgid "Recipe Category:"
+msgstr "Catégorie de recette"
+
+#: widgets/list-form.php:42
+msgid "Show All Categories"
+msgstr "Afficher Toutes les catégories"
+
+#: widgets/list-form.php:57
+msgid "Add link to Submit form?"
+msgstr "Ajouter un lien au formulaire ?"
+
+#. translators: The description of the Recpipe List widget on the Appearance->Widgets page.
+#: widgets/list-widget.php:13
+msgid "List recipes on your sidebar. By GrandSlambert."
+msgstr "Liste des recettes sur votre barre latérale. Par GrandSlambert."
+
+#. translators: The title for the Recipe List widget.
+#: widgets/list-widget.php:15
+msgid "Recipe Press &raquo; List"
+msgstr "Recipe Press &raquo; List"
+
+#. Plugin URI of an extension
+msgid "http://wordpress.grandslambert.com/plugins/recipe_press.html"
+msgstr "http://wordpress.grandslambert.com/plugins/recipe_press.html"
+
+#. Description of an extension
+msgid "Turn your Wordpress site into a full fledged recipe sharing system. Allow users to submit recipes, organize recipes in hierarchal categories, make comments, and embed recipes in posts and pages."
+msgstr "Transformer votre Wordpress en véritable livres de recettes intéractif. Autoriser des utilisateurs à proposer leurs recettes, à les organiser dans des catégories hiérarchisés, à poster des commentaires et à insérer les recettes dans des pages et des billets."
+
+#. Author of an extension
+msgid "GrandSlambert"
+msgstr "GrandSlambert"
+
+#. Author URI of an extension
+msgid "http://www.grandslambert.com/"
+msgstr "http://www.grandslambert.com/"
+

@@ -1,0 +1,41 @@
+@charset "UTF-8";
+/* Recipe Press Lsiting CSS Document */
+
+/**
+ * You can create a file named recipe-press-list.css or you can copy this file to your theme folder and make changes.
+ * BOTH your custom file and the file included with the plugin will be added to the HTML code for your site
+ * if you enable the Custom CSS option in th plugin settings page.
+ */
+
+ .cleared {
+     clear: both;
+ }
+
+ div.recipe-list-block {
+     border-bottom: dashed 1px #666666;
+     margin-bottom: 5px;
+ }
+ h3.recipe-list-title {
+     margin: 0;
+     font-size: 14px;
+ }
+
+ h3.recipe-list-title a {
+     font-size: 14px;
+     text-decoration: none;
+ }
+
+ h4.recipe-list-author {
+     margin: 0;
+     font-size: 10px;
+ }
+
+.recipe-press-align-left {
+     margin: 0 1em 1em 0 !important;
+     float: left;
+ }
+
+ .recipe-press-align-left img {
+     margin: 0;
+     padding: 0;
+ }
