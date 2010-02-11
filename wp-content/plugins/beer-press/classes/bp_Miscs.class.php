@@ -29,7 +29,7 @@ class bp_Miscs extends bp_Base {
                 $misc = $this->getOneRecord('miscs', $_GET['id']);
                 /* translators: Message when misc is deleted - argument is the misc name. */
                 $this->message = sprintf(__('"%s" misc successfully deleted.', 'beer-press'), $misc->name);
-                $wpdb->update($this->tables['miscs'], yarray('status'=>'trash'), array('id'=>$misc->id));
+                $wpdb->update($this->tables['miscs'], array('status'=>'trash'), array('id'=>$misc->id));
                 break;
             case 'activate':
                 $misc = $this->getOneRecord('miscs', $_GET['id']);

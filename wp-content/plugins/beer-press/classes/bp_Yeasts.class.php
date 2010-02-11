@@ -29,7 +29,7 @@ class bp_Yeasts extends bp_Base {
                 $yeast = $this->getOneRecord('yeasts', $_GET['id']);
                 /* translators: Message when yeast is deleted - argument is the yeast name. */
                 $this->message = sprintf(__('"%s" yeast successfully deleted.', 'beer-press'), $yeast->name);
-                $wpdb->update($this->tables['yeasts'], yarray('status'=>'trash'), array('id'=>$yeast->id));
+                $wpdb->update($this->tables['yeasts'], array('status'=>'trash'), array('id'=>$yeast->id));
                 break;
             case 'activate':
                 $yeast = $this->getOneRecord('yeasts', $_GET['id']);
