@@ -1,32 +1,28 @@
 <?php
-/** 
+/**
  * The base configurations of the WordPress.
  *
- **************************************************************************
- * Do not try to create this file manually. Read the README.txt and run the 
- * web installer.
- **************************************************************************
- *
  * This file has the following configurations: MySQL settings, Table Prefix,
- * Secret Keys, WordPress Language, and ABSPATH. You can find more information by
- * visiting {@link http://codex.wordpress.org/Editing_wp-config.php Editing
+ * Secret Keys, WordPress Language, and ABSPATH. You can find more information
+ * by visiting {@link http://codex.wordpress.org/Editing_wp-config.php Editing
  * wp-config.php} Codex page. You can get the MySQL settings from your web host.
  *
  * This file is used by the wp-config.php creation script during the
- * installation.
+ * installation. You don't have to use the web site, you can just copy this file
+ * to "wp-config.php" and fill in the values.
  *
  * @package WordPress
  */
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'wordpress');
+define('DB_NAME', 'database_name_here');
 
 /** MySQL database username */
-define('DB_USER', 'username');
+define('DB_USER', 'username_here');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'password');
+define('DB_PASSWORD', 'password_here');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -36,34 +32,25 @@ define('DB_CHARSET', 'utf8');
 
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
-define('VHOST', 'VHOSTSETTING'); 
-$base = 'BASE';
-define('DOMAIN_CURRENT_SITE', 'current_site_domain' );
-define('PATH_CURRENT_SITE', 'current_site_path' );
-define('SITE_ID_CURRENT_SITE', 1);
-define('BLOGID_CURRENT_SITE', '1' );
-
-/* Uncomment to allow blog admins to edit their users. See http://trac.mu.wordpress.org/ticket/1169 */
-//define( "EDIT_ANY_USER", true );
-/* Uncomment to enable post by email options. See http://trac.mu.wordpress.org/ticket/1084 */
-//define( "POST_BY_EMAIL", true );
 
 /**#@+
- * Authentication Unique Keys.
+ * Authentication Unique Keys and Salts.
  *
  * Change these to different unique phrases!
- * You can generate these using the {@link http://api.wordpress.org/secret-key/1.1/wpmu/salt WordPress.org secret-key service}
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
  * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
  *
  * @since 2.6.0
  */
-define('AUTH_KEY', 'put your unique phrase here');
-define('SECURE_AUTH_KEY', 'put your unique phrase here');
-define('LOGGED_IN_KEY', 'put your unique phrase here');
-define('NONCE_KEY', 'put your unique phrase here');
-define('AUTH_SALT', 'put your unique phrase here');
-define('LOGGED_IN_SALT', 'put your unique phrase here');
+define('AUTH_KEY',         'put your unique phrase here');
+define('SECURE_AUTH_KEY',  'put your unique phrase here');
+define('LOGGED_IN_KEY',    'put your unique phrase here');
+define('NONCE_KEY',        'put your unique phrase here');
+define('AUTH_SALT',        'put your unique phrase here');
 define('SECURE_AUTH_SALT', 'put your unique phrase here');
+define('LOGGED_IN_SALT',   'put your unique phrase here');
+define('NONCE_SALT',       'put your unique phrase here');
+
 /**#@-*/
 
 /**
@@ -84,29 +71,14 @@ $table_prefix  = 'wp_';
  */
 define ('WPLANG', '');
 
-// double check $base
-if( $base == 'BASE' )
-	die( 'Problem in wp-config.php - $base is set to BASE when it should be the path like "/" or "/blogs/"! Please fix it!' );
-
-// uncomment this to enable WP_CONTENT_DIR/sunrise.php support
-//define( 'SUNRISE', 'on' );
-
-// uncomment to move wp-content/blogs.dir to another relative path
-// remember to change WP_CONTENT too.
-// define( "UPLOADBLOGSDIR", "fileserver" );
-
-// If VHOST is 'yes' uncomment and set this to a URL to redirect if a blog does not exist or is a 404 on the main blog. (Useful if signup is disabled)
-// For example, the browser will redirect to http://examples.com/ for the following: define( 'NOBLOGREDIRECT', 'http://example.com/' );
-// Set this value to %siteurl% to redirect to the root of the site
-// define( 'NOBLOGREDIRECT', '' );
-// On a directory based install you must use the theme 404 handler.
-
-// Location of mu-plugins
-// define( 'WPMU_PLUGIN_DIR', '' );
-// define( 'WPMU_PLUGIN_URL', '' );
-// define( 'MUPLUGINDIR', 'wp-content/mu-plugins' );
-
-define( "WP_USE_MULTIPLE_DB", false );
+/**
+ * For developers: WordPress debugging mode.
+ *
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
+ */
+define('WP_DEBUG', false);
 
 /* That's all, stop editing! Happy blogging. */
 

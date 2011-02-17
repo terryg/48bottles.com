@@ -48,10 +48,16 @@ require_once(ABSPATH . 'wp-admin/includes/user.php');
 /** WordPress Update Administration API */
 require_once(ABSPATH . 'wp-admin/includes/update.php');
 
-// MU specific
-require_once(ABSPATH . 'wp-admin/includes/mu.php');
-
 /** WordPress Registration API */
 require_once(ABSPATH . WPINC . '/registration.php');
+
+/** WordPress Deprecated Administration API */
+require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
+
+/** WordPress Multi-Site support API */
+if ( is_multisite() ) {
+	require_once(ABSPATH . 'wp-admin/includes/ms.php');
+	require_once(ABSPATH . 'wp-admin/includes/ms-deprecated.php');
+}
 
 ?>

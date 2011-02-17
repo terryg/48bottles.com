@@ -31,9 +31,9 @@ function get_preferred_from_update_core() {
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge( array('available' => true, 'dismissed' => false ), $options );
-	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed = get_site_option( 'dismissed_update_core' );
 	if ( !is_array( $dismissed ) ) $dismissed = array();
-	$from_api = get_transient( 'update_core' );
+	$from_api = get_site_transient( 'update_core' );
 	if ( empty($from_api) )
 		return false;
 	if ( !isset( $from_api->updates ) || !is_array( $from_api->updates ) ) return false;
@@ -57,21 +57,21 @@ function get_core_updates( $options = array() ) {
 }
 
 function dismiss_core_update( $update ) {
-	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed = get_site_option( 'dismissed_update_core' );
 	$dismissed[ $update->current.'|'.$update->locale ] = true;
-	return update_option( 'dismissed_update_core', $dismissed );
+	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
 function undismiss_core_update( $version, $locale ) {
-	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed = get_site_option( 'dismissed_update_core' );
 	$key = $version.'|'.$locale;
 	if ( !isset( $dismissed[$key] ) ) return false;
 	unset( $dismissed[$key] );
-	return update_option( 'dismissed_update_core', $dismissed );
+	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
 function find_core_update( $version, $locale ) {
-	$from_api = get_transient( 'update_core' );
+	$from_api = get_site_transient( 'update_core' );
 	if ( !is_array( $from_api->updates ) ) return false;
 	$updates = $from_api->updates;
 	foreach($updates as $update) {
@@ -82,9 +82,10 @@ function find_core_update( $version, $locale ) {
 }
 
 function core_update_footer( $msg = '' ) {
-	if( !is_site_admin() )
+	if ( is_multisite() && !current_user_can('update_core') )
 		return false;
-	if ( !current_user_can('manage_options') )
+
+	if ( !current_user_can('update_core') )
 		return sprintf( __( 'Version %s' ), $GLOBALS['wp_version'] );
 
 	$cur = get_preferred_from_update_core();
@@ -103,10 +104,8 @@ function core_update_footer( $msg = '' ) {
 	break;
 
 	case 'upgrade' :
-		if ( current_user_can('manage_options') ) {
-			return sprintf( '<strong>'.__( '<a href="%1$s">Get Version %2$s</a>' ).'</strong>', 'update-core.php', $cur->current);
-			break;
-		}
+		return sprintf( '<strong>'.__( '<a href="%1$s">Get Version %2$s</a>' ).'</strong>', 'update-core.php', $cur->current);
+	break;
 
 	case 'latest' :
 	default :
@@ -117,8 +116,9 @@ function core_update_footer( $msg = '' ) {
 add_filter( 'update_footer', 'core_update_footer' );
 
 function update_nag() {
-	if( !is_site_admin() )
+	if ( is_multisite() && !current_user_can('update_core') )
 		return false;
+
 	global $pagenow;
 
 	if ( 'update-core.php' == $pagenow )
@@ -129,23 +129,24 @@ function update_nag() {
 	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
 		return false;
 
-	if ( current_user_can('manage_options') )
-		$msg = sprintf( __('WordPress MU %1$s is available! Please <a href="%2$s">update</a>.'), $cur->current, 'update-core.php' );
+	if ( current_user_can('update_core') )
+		$msg = sprintf( __('<a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> is available! <a href="%2$s">Please update now</a>.'), $cur->current, 'update-core.php' );
 	else
-		$msg = sprintf( __('WordPress MU %1$s is available! Please notify the site administrator.'), $cur->current );
+		$msg = sprintf( __('<a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> is available! Please notify the site administrator.'), $cur->current );
 
-	echo "<div id='update-nag'>$msg</div>";
+	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
-	if( !is_site_admin() )
+	if ( is_multisite() && !current_user_can('update_core') )
 		return false;
+
 	$cur = get_preferred_from_update_core();
 
-	$msg = sprintf( __('You are using <span class="b">WordPress MU %s</span>.'), $GLOBALS['wp_version'] );
-	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('manage_options') )
+	$msg = sprintf( __('You are using <span class="b">WordPress %s</span>.'), $GLOBALS['wp_version'] );
+	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('update_core') )
 		$msg .= " <a href='update-core.php' class='button'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 
 	echo "<span id='wp-version-message'>$msg</span>";
@@ -154,7 +155,7 @@ function update_right_now_message() {
 function get_plugin_updates() {
 	$all_plugins = get_plugins();
 	$upgrade_plugins = array();
-	$current = get_transient( 'update_plugins' );
+	$current = get_site_transient( 'update_plugins' );
 	foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 		if ( isset( $current->response[ $plugin_file ] ) ) {
 			$upgrade_plugins[ $plugin_file ] = (object) $plugin_data;
@@ -166,7 +167,10 @@ function get_plugin_updates() {
 }
 
 function wp_plugin_update_rows() {
-	$plugins = get_transient( 'update_plugins' );
+	if ( !current_user_can('update_plugins' ) )
+		return;
+
+	$plugins = get_site_transient( 'update_plugins' );
 	if ( isset($plugins->response) && is_array($plugins->response) ) {
 		$plugins = array_keys( $plugins->response );
 		foreach( $plugins as $plugin_file ) {
@@ -177,9 +181,7 @@ function wp_plugin_update_rows() {
 add_action( 'admin_init', 'wp_plugin_update_rows' );
 
 function wp_plugin_update_row( $file, $plugin_data ) {
-	if( !is_site_admin() )
-		return;
-	$current = get_transient( 'update_plugins' );
+	$current = get_site_transient( 'update_plugins' );
 	if ( !isset( $current->response[ $file ] ) )
 		return false;
 
@@ -204,9 +206,6 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 }
 
 function wp_update_plugin($plugin, $feedback = '') {
-	if( !is_site_admin() )
-		return;
-
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
@@ -217,7 +216,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 function get_theme_updates() {
 	$themes = get_themes();
-	$current = get_transient('update_themes');
+	$current = get_site_transient('update_themes');
 	$update_themes = array();
 
 	foreach ( $themes as $theme ) {
@@ -232,9 +231,6 @@ function get_theme_updates() {
 }
 
 function wp_update_theme($theme, $feedback = '') {
-	if( !is_site_admin() )
-		return;
-
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
@@ -245,9 +241,6 @@ function wp_update_theme($theme, $feedback = '') {
 
 
 function wp_update_core($current, $feedback = '') {
-	if( !is_site_admin() )
-		return;
-
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
@@ -262,12 +255,12 @@ function maintenance_nag() {
 	if ( ! isset( $upgrading ) )
 		return false;
 
-	if ( current_user_can('manage_options') )
+	if ( current_user_can('update_core') )
 		$msg = sprintf( __('An automated WordPress update has failed to complete - <a href="%s">please attempt the update again now</a>.'), 'update-core.php' );
 	else
 		$msg = __('An automated WordPress update has failed to complete! Please notify the site administrator.');
 
-	echo "<div id='update-nag'>$msg</div>";
+	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'maintenance_nag' );
 
