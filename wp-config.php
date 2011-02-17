@@ -108,6 +108,8 @@ if( $base == 'BASE' )
 
 define( "WP_USE_MULTIPLE_DB", false );
 
+define( 'NONCE_SALT', 'G4%C]=n(d3#-0;J:-0@k5<|mb=t?L782Y,,&63ac8x&Kd]5 LHrC3lf]-ILDfj@K' );
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
