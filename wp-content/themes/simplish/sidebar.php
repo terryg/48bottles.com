@@ -1,66 +1,38 @@
-		<div id="sidebar">
-<script type="text/javascript"><!--
-google_ad_client = "pub-7789131984925279";
-/* 200x200, created 2/3/10 */
-google_ad_slot = "9264205972";
-google_ad_width = 200;
-google_ad_height = 200;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-  <div>&nbsp;</div>
+		<div id="sidebar" role="complementary">
 			<ul>
-			<?php if ( function_exists('dynamic_sidebar') && dynamic_sidebar(1) ) : else : ?>
+			<?php if (!dynamic_sidebar('widget-right-sidebar')): //If no widget sidebar, output default sidebar. ?>
+
 				<li id="search" class="search">
-				<?php get_search_form(); ?>
-				</li>
-				
-				<li><h2 class="sidebar-title"><?php _e('Pages', 'simplish') ?></h2>
-				<?php
-				$args = array(
-						'echo' => true,
-						'link_before' => '',
-						'link_after' => '',
-						'menu_class' => 'pagenav',
-						'show_home' => '0',
-						'sort_column' => 'menu_order',
-						);
-				wp_page_menu($args);
-				?>
+				    <?php the_widget('WP_Widget_Search', 'title='); ?>
 				</li>
 
-				<li id="categories"><h2 class="sidebar-title"><?php _e('Categories', 'simplish') ?></h2>
-					<ul>
-					<?php wp_list_categories('sort_column=name&optioncount=0&hierarchical=1&title_li='); ?>
-					</ul>
+				<li role="navigation"><h2 class="sidebar-title"><?php _e('Navigation', 'simplish') ?></h2>
+					<?php /* wp_nav_menu falls back to wp_page_menu if user has no menu setup/assigned. */
+					wp_nav_menu( array(
+									 'sort_column' => 'menu_order',
+									 'container_class' => 'pagenav',
+									 'theme_location' => 'nowidget-right-sidebar'
+									 )
+								);
+					?>
 				</li>
 
-				<li id="archives"><h2 class="sidebar-title"><?php _e('Archives', 'simplish') ?></h2>
-					<ul>
-					<?php wp_get_archives('type=monthly&show_post_count=0'); ?>
-					</ul>
+				<li id="categories">
+					<?php the_widget('WP_Widget_Categories', 'count=24&dropdown=0&hierarchical=1'); ?>
+				</li>
+
+				<li id="archives">
+					<?php the_widget('WP_Widget_Archives', 'count=24&dropdown=0'); ?>
 				</li>
 
 				<?php wp_list_bookmarks(); ?>
 
-				<li id="syndicate"><h2 class="sidebar-title"><?php _e('Syndicate', 'simplish') ?></h2>
-					<ul>
-						<li>
-						<a href="<?php bloginfo('rss2_url'); ?>" title="<?php bloginfo('name'); ?> <?php _e('Articles RSS', 'simplish'); ?>" rel="alternate" type="application/rss+xml"><?php _e( 'Articles Feed', 'simplish' ) ?></a>
-						</li>
-						<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php bloginfo('name'); ?> <?php _e('Comments RSS', 'simplish'); ?>" rel="alternate" type="application/rss+xml"><?php _e( 'Comments Feed', 'simplish' ) ?></a></li>
-					</ul>
+				<li id="meta">
+					<?php the_widget('WP_Widget_Meta') ?>
 				</li>
 
-				<li id="meta"><h2 class="sidebar-title"><?php _e('Meta', 'simplish') ?></h2>
-					<ul>
-						<?php wp_register(); ?>
-						<li><?php wp_loginout(); ?></li>
-						<?php wp_meta(); ?>
-					</ul>
-				</li>
+				<?php wp_meta(); ?>
+
 			<?php endif; ?>
 			</ul>
 		</div><!-- #sidebar -->

@@ -6,7 +6,7 @@ Template Name: Archives
 
 <?php get_header(); ?>
 
-		<div id="content">
+		<div id="content" role="main">
 					<h1 class="archive-title"><?php the_title() ?></h1>
 
 					<ul id="sitemap-list">

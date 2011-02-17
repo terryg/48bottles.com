@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="content">
+	<div id="content" role="main">
 
 <?php the_post() ?>
 <?php if(is_day()): ?>
@@ -18,7 +18,7 @@
 <?php elseif(is_tag()): ?>
 				<h1 class="archive-title"><?php _e('Tag:', 'simplish') ?> <span class="archive-subtitle"><?php single_tag_title(); ?></span></h1>
 <?php elseif(isset($_GET['paged']) && !empty($_GET['paged'])): ?>
-				<h1 class="archive-title"><?php _e('Archives', 'simplish') ?> <?php printf(__('%1$s Archives', 'simplish'), wp_specialchars(get_the_title(), 'double') ) ?></h1>
+				<h1 class="archive-title"><?php _e('Archives', 'simplish') ?> <?php printf(__('%1$s Archives', 'simplish'), esc_html(get_the_title())) ?></h1>
 <?php endif; ?>
 <?php rewind_posts() ?>
 
@@ -26,17 +26,17 @@
 	<?php while(have_posts()): the_post(); ?>
 
 		<div id="article-<?php the_ID(); ?>" <?php post_class(); ?>>
-<?php include(TEMPLATEPATH . '/hentryhead.php'); ?>
+<?php get_template_part('hentryhead') ?>
 			<br class="clear" />	
 			<div class="entry-content">
-					<?php the_content('<span class="readmore">'.__('More&hellip;', 'simplish').'</span>'); ?>
+				<?php the_content(sp_readmore_text()); ?>
 			</div>
-<?php include(TEMPLATEPATH . '/hentrymeta.php'); ?>
+<?php get_template_part('hentrymeta') ?>
 		</div><!--#hentry-->
 
 	<?php endwhile; ?>
 
-<?php include(TEMPLATEPATH . '/prevnextnav.php'); ?>
+<?php get_template_part('prevnextnav') ?>
 	
 <?php else: ?>
 

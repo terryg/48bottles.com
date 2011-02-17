@@ -2,16 +2,32 @@
 THEME NAME: Simplish
 THEME URI: http://simplish.pomfolio.com
 DESCRIPTION: Simplish is a WordPress variant of the Scribbish theme for blogs.
-TAGS: two-columns, fixed-width, right-sidebar, threaded-comments, sticky-post, microformats, white, light
-VERSION: 2.2.3
+TAGS: two-columns, fixed-width, right-sidebar, custom-header, custom-background, custom-menu, threaded-comments, sticky-post, translation-ready, microformats, white, light
+VERSION: 2.6
 AUTHOR: <a href="http://labs.utopian.net">Utopian.net Labs</a>, <a href="http://pittcrew.net/geekblog/">K. Pitt</a>, <a href="http://quotedprintable.com">J. Hardy</a>
 AUTHOR URI:
+LICENSE: GNU General Public License v3.0
+LICENSE URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
+
+/*
+ * Reset. Adapted from Eric Meyer, via CSS Boilerplate.
+ * Uses different bracket/spacing style to ease comparing with source. 
+ */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+:focus { outline: 0; }
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
 
 /*
  * #container
  * 	#header
- * 	#page
+ * 	#content-wrapper
  * 		#content
  * 			#article-n (.hentry)
  * 				.entry-title
@@ -23,7 +39,7 @@ AUTHOR URI:
  */
 
 body{
-	background: #fff url(img/background.png) repeat-x left top;
+	background: #fff;
 	font: normal .75em "lucida grande", "liberation sans", verdana, arial, helvetica, sans-serif;
 	margin: 0;
 	padding: 0.6em 1em 1em;
@@ -41,7 +57,8 @@ body{
 	margin: 0 -0.5px 12px 0;
 	padding: 0;
 }
-#page{
+#content-wrapper{
+	background: #fff;
 }
 #content{
 	float: left;
@@ -100,8 +117,7 @@ h3{
 	margin: 1.2em 0 0.3em;
 }
 h4{
-	border-bottom: 1px dotted #bbb;
-	font-size: 1.6em;
+	font-size: 1.5em;
 	margin: 1.2em 0 0.3em;
 }
 h5{
@@ -141,9 +157,16 @@ h1.archive-title span.archive-subtitle{
 p{
 	margin: 1.2em 0;
 }
-ul, ol{
+ol, ul{
+	margin-bottom: 1.5em;
 	margin-left: 1em;
 	padding:0;
+}
+ol ol, ol ul, ul ol, ul ul{
+	margin-bottom: 0;
+}
+ol{
+	list-style-type: decimal;
 }
 ul{
 	list-style-type: square;
@@ -166,6 +189,9 @@ blockquote{
 	border-left: 5px solid #ccc;
 	margin: 1.3em 1em;
 	padding: 0 1em;
+}
+small{
+	font-size: 70%;
 }
 code{
 	font: normal 1em "bitstream vera sans mono", monaco, "lucida console", "courier new", courier, serif;
@@ -194,7 +220,18 @@ th{
 .hentry{
 	margin: 0 0 3em 0;
 }
+.sticky{
+	background: #F2F7FC;
+	border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	-webkit-border-radius: 0 0 4px 4px;
+	border-top: 3px solid #000;
+}
+.sticky .meta{
+	background: #ddd;
+}
 .entry-title{
+	clear: both;
 	font-size: 2.5em;
 	letter-spacing: -1.5px;
 	line-height: 99%;
@@ -233,9 +270,26 @@ h2.page-title{
 br.downpad{
 	margin: 0 0 33px;
 }
+.admin-edit{
+    clear: both;
+}
+.pgnum-link{
+	font-weight: bold;
+	margin: 1.2em 0;
+}
+.pgnum-link a:link, .pgnum-link a:visited{
+	background: #ddd;
+	font-weight: normal;
+}
+.pgnum-link a:hover, .pgnum-link a:active{
+	background: #000;
+}
 .meta{
 	background: #eee;
 	border: 1px solid #ddd;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 	clear: both;
 	font-size: .85em;
 	list-style-type: none;
@@ -255,13 +309,22 @@ br.downpad{
 .meta a:hover, .meta a:active{
 	color: #fff;
 }
-ol.comments{
+.nocomments, .nopassword{
+	display: none;
+}
+#comments{
+	clear: both;
+}
+ol.commentlist{
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 li.comment, li.trackback, li.pingback{
 	border-left: 1px dashed #bbb;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 	list-style-type: none;
 	margin-bottom: 1.5em;
 	padding-bottom: 1em;
@@ -304,26 +367,28 @@ a.comment-permalink{
 .comment p{
 	margin-right: 2em;
 }
-form.comments{
+#commentform{
 	background: #f2f2f2;
-	border-top: 1px solid #ddd;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 	padding: 1em 0.5em;
 }
-.comments fieldset{
+#commentform fieldset{
 	border: none;
 }
-.comments legend{
+#commentform legend{
 	display: none;
 }
-.comments label{
+#commentform label{
 	font-weight: bold;
 }
-.comments textarea{
+#commentform textarea{
 	height: 150px;
 	padding: 3px;
 	width: 90%;
 }
-.readmore{
+.more-link{
 	font-style: italic;
 }
 .navigation{
@@ -368,10 +433,6 @@ form.comments{
 #sidebar ul li li li{
 	list-style-type: square;
 	margin-left: 1.5em;
-}
-#sidebar ul li li li li{
-	list-style-type: disc;
-	margin-left : 1.5em;
 }
 #sidebar em{
 	font-style: normal;
@@ -481,6 +542,9 @@ span.caps{
 .wp-caption{
 	background-color: #eeeeee;
 	border: 1px solid #ddd;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 	margin: 10px;
 	padding-top: 4px;
 	text-align: center;
@@ -495,6 +559,30 @@ span.caps{
 	padding: 1em 4px 0 5px;
 }
 
+/* WordPress image gallery */
+.gallery{
+	margin: auto;
+}
+.gallery .gallery-item{
+	float: left;
+	margin-top: 0;
+	text-align: center;
+	width: 33%;
+}
+.gallery .gallery-caption{
+	font-size: 0.8em;
+	margin: 0 0 12px;
+}
+.gallery dl{
+	margin: 0;
+}
+.gallery img{
+	border: 5px solid #eee;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
 /* Shared between search and sitemap templates archive listings. */
 .archive-index .entry-title a:link,
 .archive-index .entry-title a:visited{
@@ -505,7 +593,7 @@ span.caps{
 	background: #000 none repeat scroll 0 0;
 	color: #fff;
 }
-/* Sitemap template restyles.entry-title as list item. */
+/* Sitemap template restyles .entry-title as list item. */
 #sitemap-list .hentry{
 	margin: 0 0 0 1em;
 }
@@ -521,6 +609,11 @@ span.caps{
 .search-results .entry-title{
 	font-size: 1.7em;
 	letter-spacing: -1px;
+}
+/* Post thumbnails on search results. */
+.attachment-post-thumbnail{
+	float: left;
+	margin: 4px 10px 10px 2px;
 }
 
 @media print{

@@ -1,19 +1,19 @@
 <?php get_header(); ?>
 
-		<div id="content">
+		<div id="content" role="main">
 
 <?php if(have_posts()): while(have_posts()): the_post(); ?>
 
 			<div id="article-<?php the_ID(); ?>" <?php post_class(); ?>>
-<?php include(TEMPLATEPATH . '/hentryhead.php'); ?>
+<?php get_template_part('hentryhead') ?>
 				<br class="clear" />	
 				<div class="entry-content">
 					<?php the_content(); ?>
-					<?php wp_link_pages('<p><strong>' . __('Pages:', 'simplish') . '</strong> ', '</p>', 'number'); ?>
+					<?php wp_link_pages( array( 'before' => '<div class="pgnum-link">' . __( 'Pages:', 'simplish' ), 'after' => '</div>' ) ); ?>
 				</div><!--#entry-content-->
 <?php edit_post_link(__('Edit&hellip;', 'simplish'),'<p class="admin-edit">&#91; ',' &#93;</p>') ?>
 
-<?php include(TEMPLATEPATH . '/hentrymeta.php'); ?>
+<?php get_template_part('hentrymeta') ?>
 			</div><!--#hentry-->
 
 		<?php comments_template(); ?>

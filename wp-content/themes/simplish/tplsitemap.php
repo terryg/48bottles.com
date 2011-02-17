@@ -5,7 +5,7 @@ Template Name: Sitemap
 ?>
 <?php get_header() ?>
 
-			<div id="content" class="archive-index">
+			<div id="content" class="archive-index" role="main">
 
 <?php the_post() ?>
 
@@ -37,7 +37,7 @@ Template Name: Sitemap
 <?php $post_archives = new wp_query('showposts=1000'); 
 while ( $post_archives->have_posts() ) : $post_archives->the_post(); ?>
 								<li <?php post_class(); ?>>
-									<span class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf(__( 'Permalink to %s', 'simplish' ), wp_specialchars( get_the_title(), 1 ) ) ?>" rel="bookmark"><?php the_title(); ?></a></span>
+									<span class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf(__( 'Permalink to %s', 'simplish' ), esc_html( get_the_title() ) ) ?>" rel="bookmark"><?php the_title(); ?></a></span>
 								</li>
 <?php endwhile; ?>
 							</ul>

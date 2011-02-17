@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="content" class="widecolumn">
+	<div id="content" class="widecolumn" role="main">
 
 <?php if(have_posts()): while(have_posts()): the_post(); ?>
 
@@ -14,7 +14,7 @@
 			<br class="clear" />	
 			
 			<div class="entry">
-				<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>"><?php echo wp_get_attachment_image( $post->ID, 'medium' ); ?></a></p>
+				<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>"><?php echo wp_get_attachment_image( $post->ID, 'large' ); ?></a></p>
                 <div class="caption"><?php if(!empty($post->post_excerpt)) the_excerpt(); // this is the "caption" ?></div>
 
 				<?php the_content(); ?>
@@ -25,7 +25,6 @@
 				</div>
 				<br class="clear" />
 			</div>
-<?php include(TEMPLATEPATH . '/hentrymeta.php'); ?>
 		</div>
 
 	<?php comments_template(); ?>

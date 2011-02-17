@@ -5,21 +5,18 @@ msgstr ""
 "POT-Creation-Date: 2010-08-10 19:37-0700\n"
 "PO-Revision-Date: 2011-01-18 02:41-0800\n"
 "Last-Translator: Josh Wood <josh@utopian.net>\n"
-"Language-Team: Utopian.net Laboratories <josh@labs.utopian.net>\n"
+"Language-Team: Sgibnev Michael <msgibnev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: PORTUGAL\n"
-"X-Poedit-SourceCharset: utf-8\n"
 
 #: 404.php:4
 msgid "Error 404 &ndash; Not Found"
-msgstr "Erro 404 &ndash; Não encontrado"
+msgstr "Error 404 &ndash; Страница не найдена"
 
 #: archive.php:7
 msgid "Day:"
-msgstr "Dia:"
+msgstr "День:"
 
 #: archive.php:7
 msgid "l, F j\\, Y"
@@ -27,7 +24,7 @@ msgstr "l, F j\\, Y"
 
 #: archive.php:9
 msgid "Month:"
-msgstr "Mês:"
+msgstr "Месяц:"
 
 #: archive.php:9
 msgid "F Y"
@@ -35,7 +32,7 @@ msgstr "F Y"
 
 #: archive.php:11
 msgid "Year:"
-msgstr "Ano:"
+msgstr "Год:"
 
 #: archive.php:11
 msgid "Y"
@@ -43,30 +40,30 @@ msgstr "Y"
 
 #: archive.php:13
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Автор:"
 
 #: archive.php:17
 #: hentrymeta.php:3
 msgid "Category:"
-msgstr "Categoria:"
+msgstr "Категория:"
 
 #: archive.php:19
 msgid "Tag:"
-msgstr "Etiqueta:"
+msgstr "Тэг:"
 
 #: archive.php:21
 msgid "Archives"
-msgstr "Arquivos"
+msgstr "Архивы"
 
 #: archive.php:21
 #, php-format
 msgid "%1$s Archives"
-msgstr "%1$s Arquivos"
+msgstr "%1$s Архивов"
 
 #: archive.php:43
 #: index.php:24
 msgid "Not Found"
-msgstr "Não encontrado"
+msgstr "Не найдено"
 
 #: comments.php:14
 msgid "Enter the password to view comments."
@@ -74,21 +71,21 @@ msgstr ""
 
 #: comments.php:30
 msgid "0 Comments"
-msgstr "0 Comentários"
+msgstr "Нет комментариев"
 
 #: comments.php:30
 #: hentrymeta.php:8
 msgid "1 Comment"
-msgstr "1 Comentário"
+msgstr "Один комментарий"
 
 #: comments.php:30
 #: hentrymeta.php:8
 msgid "% Comments"
-msgstr "% Comentários"
+msgstr "% Комментариев"
 
 #: comments.php:30
 msgid "on"
-msgstr "em"
+msgstr "в"
 
 #: comments.php:34
 #: comments.php:45
@@ -102,23 +99,24 @@ msgstr ""
 
 #: comments.php:57
 msgid "Closed"
-msgstr "Fechado"
+msgstr "Закрыто"
 
 #: footer.php:8
 msgid "WordPress Engine"
-msgstr "Motor WordPress"
+msgstr "WordPress Engine"
 
 #: footer.php:10
 msgid "Simplish Style"
-msgstr "Estilo Simplish"
+msgstr "Simplish Style"
 
 #: footer.php:11
 msgid "from"
-msgstr "de"
+msgstr "от"
 
 #: functions.php:28
+#, fuzzy
 msgid "(Non-widget) Sidebar Menu"
-msgstr ""
+msgstr "Боковое меню"
 
 #: functions.php:43
 msgid "Right Sidebar"
@@ -134,28 +132,28 @@ msgstr ""
 
 #: functions.php:148
 msgid "More posts by"
-msgstr "Mais artigos por"
+msgstr "Больше постов от"
 
 #: functions.php:178
 msgid "home page"
-msgstr "página inicial"
+msgstr "домашняя страница"
 
 #: header.php:5
 msgid "Error 404 - Not Found"
-msgstr "Erro 404 - Não encontrado"
+msgstr "Error 404 - Не найдено"
 
 #: header.php:5
 msgid "Search"
-msgstr "Pesquisar"
+msgstr "Поиск"
 
 #: hentryhead.php:9
 #: image.php:11
 msgid "Posted by"
-msgstr "Publicado por"
+msgstr "Опубликовано"
 
 #: hentrymeta.php:6
 msgid "Tags: "
-msgstr "Etiquetas:"
+msgstr "Тэги:"
 
 #: hentrymeta.php:8
 msgid "Leave a reply"
@@ -164,157 +162,151 @@ msgstr ""
 #: hentrymeta.php:8
 #, fuzzy
 msgid "Comments Closed"
-msgstr "Feeds de comentários"
+msgstr "Отслеживать комментарии"
 
 #: image.php:34
 msgid "Sorry, no attachments matched your criteria."
-msgstr "Lamentamos, mas a sua pesquisa não obteve resultados"
+msgstr "Простите, нет файлов, соответствующих заданному критерию."
 
 #: index.php:13
 #: page.php:11
 #: single.php:12
 msgid "Pages:"
-msgstr "Páginas:"
+msgstr "Страниц:"
 
 #: page.php:17
 #: single.php:14
 #: tplarchives.php:31
 #: tpllinks.php:17
 msgid "Edit&hellip;"
-msgstr "Editar&hellip;"
+msgstr "Редактировать&hellip;"
 
 #: prevnextnav.php:2
 msgid "&laquo; Previous"
-msgstr "&laquo; Anterior"
+msgstr "&laquo; Предыдущая"
 
 #: prevnextnav.php:3
 msgid "Next &raquo;"
-msgstr "Seguinte &raquo;"
+msgstr "Следующая &raquo;"
 
 #: search.php:7
 msgid "Results for"
-msgstr "Resultados para"
+msgstr "Результатов для"
 
 #: search.php:29
 msgid "No results for"
-msgstr "Nenhum resultado para"
+msgstr "Нет результатов для"
 
 #: sidebar.php:9
 msgid "Navigation"
-msgstr ""
+msgstr "Навигация"
 
 #: tplarchives.php:14
 #: tplsitemap.php:52
 msgid "Archives by Category"
-msgstr "Arquivos por categoria"
+msgstr "Архивы по категориям"
 
 #: tplarchives.php:20
 #: tplsitemap.php:46
 msgid "Archives by Month"
-msgstr "Arquivos por mês"
+msgstr "Архивы по месяцам"
 
 #: tplarchives.php:26
 #: tplsitemap.php:58
 msgid "Archives by Tag"
-msgstr "Arquivos por etiqueta"
+msgstr "Архивы по тэгам"
 
 #: tplsitemap.php:19
 msgid "All Pages"
-msgstr "Todas as páginas"
+msgstr "Всего страниц"
 
 #: tplsitemap.php:35
 msgid "All Posts"
-msgstr "Todos os artigos"
+msgstr "Всего постов"
 
 #: tplsitemap.php:40
 #, php-format
 msgid "Permalink to %s"
-msgstr "Link permanente para %s"
+msgstr "Ссылок  %s"
 
 #: tplsitemap.php:63
 msgid "Pages: "
-msgstr "Páginas:"
+msgstr "Страниц:"
 
 #~ msgid "More&hellip;"
-#~ msgstr "Mais&hellip;"
+#~ msgstr "Далее&hellip;"
 
 #~ msgid "Feed"
-#~ msgstr "Feed"
+#~ msgstr "Отслеживать"
 
 #~ msgid "Categories"
-#~ msgstr "Categorias"
+#~ msgstr "Категорий"
 
 #~ msgid "Syndicate"
-#~ msgstr "Sindicação"
+#~ msgstr "Объединений"
 
 #~ msgid "Articles RSS"
-#~ msgstr "Artigos por RSS"
+#~ msgstr "Статей в RSS"
 
 #~ msgid "Articles Feed"
-#~ msgstr "Feeds de artigos"
+#~ msgstr "Отслеживать статью"
 
 #~ msgid "Comments RSS"
-#~ msgstr "Comentários por RSS"
+#~ msgstr "Комментариев в RSS"
 
 #~ msgid "Meta"
-#~ msgstr "Meta"
+#~ msgstr "Мета"
 
 #~ msgid "Not labeled for individual sale."
-#~ msgstr "Não permitida a venda particular."
+#~ msgstr "Не помечен для индивидуальной продажи."
 
 #~ msgid "Log in"
-#~ msgstr "Iniciar Sessão"
+#~ msgstr "Войти"
 
 #~ msgid "to respond"
-#~ msgstr "para responder"
+#~ msgstr "в ответ"
 
 #~ msgid "Respond"
-#~ msgstr "Responder"
+#~ msgstr "Ответ"
 
 #~ msgid "&laquo; Older Comments"
-#~ msgstr "&laquo; Comentários antigos"
+#~ msgstr "&laquo; Старые комментарии"
 
 #~ msgid "Newer Comments &raquo;"
-#~ msgstr "Comentários recentes &raquo;"
+#~ msgstr "Новые комментарии &raquo;"
 
 #~ msgid "Respond to %s"
-#~ msgstr "Responder a %s"
+#~ msgstr "Ответов на %s"
 
 #~ msgid "Comments"
-#~ msgstr "Comentários"
+#~ msgstr "Комментарии"
 
 #~ msgid "Logged in as"
-#~ msgstr "Ligado como"
+#~ msgstr "Вы известны как"
 
 #~ msgid "Log out of this account"
-#~ msgstr "Encerrar esta sessão"
+#~ msgstr "Выйти из этого аккаунта"
 
 #~ msgid "Log out"
-#~ msgstr "Encerrar sessão"
+#~ msgstr "Выйти"
 
 #~ msgid "Name:"
-#~ msgstr "Nome:"
+#~ msgstr "Имя:"
 
 #~ msgid "(required)"
-#~ msgstr "(obrigatório)"
+#~ msgstr "(обязательно)"
 
 #~ msgid "Email:"
 #~ msgstr "Email:"
 
 #~ msgid "(will not be published)"
-#~ msgstr "(não será divulgado)"
+#~ msgstr "(не отображается)"
 
 #~ msgid "URL:"
-#~ msgstr "Site:"
+#~ msgstr "URL:"
 
 #~ msgid "You can use these tags:"
-#~ msgstr "Pode usar as seguintes etiquetas:"
+#~ msgstr "Вы можете использовать следующие тэги:"
 
 #~ msgid "Submit"
-#~ msgstr "Submeter"
-
-#~ msgid "Trackback"
-#~ msgstr "Trackback"
-
-#~ msgid "Pages"
-#~ msgstr "Páginas"
+#~ msgstr "Отправить"
